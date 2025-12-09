@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2025-12-03'
+lastmod: '2025-12-09'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -152,7 +152,7 @@ boxplot(fb25$lz ~ fb25$fach_klin,
         main="Lebenszufriedenheit je nach Interesse")
 ```
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-4-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-20-1.png)<!-- -->
 
 Die Werte in den Gruppen lassen sich auch durch *Deskriptivstatistiken* vergleichen, ein übliches Vorgehen ist die Darstellung der Verteilungskennwerte (Mittelwerte, Standardabweichungen u.a.) in den Gruppen. Diese lassen sich komfortabel über die Funktion `describeBy()` des `psych`-Pakets erzeugen. Das Paket muss installiert sein und mit `library()` geladen werden. 
 
@@ -168,7 +168,7 @@ describeBy(x = fb25$lz, group = fb25$fach_klin)        # beide Gruppen im Vergle
 ## group: nicht klinisch
 ##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 113 5.06 1.25    5.2    5.16 1.19   1   7     6 -0.72        0 0.12
-## -------------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------ 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 93 4.73 1.35      5    4.86 1.48   1   7     6 -0.78    -0.08 0.14
@@ -244,7 +244,7 @@ curve(dnorm(x,
 qqPlot(lz_nichtKlin)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 54 19
@@ -280,7 +280,7 @@ curve(dnorm(x,
 qqPlot(lz_Klin)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 67 17
@@ -415,9 +415,9 @@ Fällt der Wert für $d$ negativ aus, interpretieren wir den Betrag. Die Funktio
 
 
 
-Wir haben untersucht, ob sich klinisch und nicht klinisch interessierte Studierende im Wert Ihrer Verträglichkeit unterscheiden. Tatsächlich findet sich deskriptiv ein nur geringer Unterschied: Nicht klinisch interessierte Studierende weisen einen durchschnittlichen Wert von 5.064 (*SD* = 1.248) auf, während klinisch interessierte Studierende einen Wert von 4.727 (*SD* = 1.343) aufweisen. Dies entspricht nach Cohens Konvention (1988) einem sehr kleinen Effekt ($d$= 0.26).
+Wir haben untersucht, ob sich klinisch und nicht klinisch interessierte Studierende im Wert Ihrer Lebeszufriedenheit unterscheiden. Tatsächlich findet sich deskriptiv ein nur geringer Unterschied: Nicht klinisch interessierte Studierende weisen einen durchschnittlichen Wert von 5.064 (*SD* = 1.248) auf, während klinisch interessierte Studierende einen Wert von 4.727 (*SD* = 1.343) aufweisen. Dies entspricht nach Cohens Konvention (1988) einem sehr kleinen Effekt ($d$= 0.26).
 
-Zur Beantwortung der Fragestellung haben wir - nachdem wir sowohl die Normalverteilungsannahme als auch die Homoskedastizitätsannahme gepüft haben - einen $t$-Test durchgeführt. Der Gruppenunterschied ist nicht bedeutsam ($t_{df = 204} = 1.854$, $p = 0.065$) - wir behalten die Nullhypothese also bei. Klinisch und nicht klinisch interessierte Studierende unterscheiden sich im Testwert für Verträglichkeit nicht bedeutsam.
+Zur Beantwortung der Fragestellung haben wir - nachdem wir sowohl die Normalverteilungsannahme als auch die Homoskedastizitätsannahme gepüft haben - einen $t$-Test durchgeführt. Der Gruppenunterschied ist nicht bedeutsam ($t_{df = 204} = 1.854$, $p = 0.065$) - wir behalten die Nullhypothese also bei. Klinisch und nicht klinisch interessierte Studierende unterscheiden sich im Testwert für Lebenszufriedenheit nicht bedeutsam.
 
 ***
 
@@ -429,7 +429,7 @@ Wir widmen uns nun der 2. Fragestellung. Dazu prüfen wir, ob klinisch interessi
 
 Wir beginnen damit uns, wie oben, erst einmal grafisch anzusehen, wie die gute Stimmung `gs_pre` in beiden Gruppen aussieht. Dafür beginnen wir dieses mal mit einem Boxplot:
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-15-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-31-1.png)<!-- -->
 
 Hier können wir direkt (als dicke Linie eingezeichnet) die beiden Gruppenmediane sehen - diese unterscheiden sich nicht, in der Grafik liegen die Linien auf der gleichen Höhe. Die Verteilung der klinischen Gruppe liegt aber im unteren Bereich sichtlich niedriger, d.h. bezogen auf die unteren Quartile. Für mehr Details nutzen wir wieder die Deskriptivstatistik aus der `describeBy` Funktion:
 
@@ -444,7 +444,7 @@ describeBy(fb25$gs_pre, fb25$fach_klin) # beide Gruppen im Vergleich
 ## group: nicht klinisch
 ##    vars   n mean   sd median trimmed  mad  min max range skew kurtosis   se
 ## X1    1 113 3.46 0.56    3.5    3.55 0.37 1.25   4  2.75 -1.7     3.17 0.05
-## -------------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------ 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 93 3.25 0.69    3.5    3.33 0.74   1   4     3 -1.09     0.58 0.07
@@ -461,7 +461,7 @@ Wie schon der $t$-Test, hat auch der Wilcoxon-Test vier Voraussetzungen. Die ers
 3.  das untersuchte Merkmal ist stetig (mindestens singulär-ordinal skaliert) 
 4.  das Merkmal folgt in beiden Gruppen der gleichen Verteilung
 
-Stetige Variablen haben theoretisch unendlich viele mögliche Ausprägungen. Dabei sind die Konsequenzen dieser Annahme jedoch nicht binär. Je mehr Ausprägungen eine Variable hat, desto besser funktioniert der Test. In unserem Fall ist die Variable `lz` ein Skalenwert, der sich als der Mittelwert von fünf Items mit jeweils sieben Antwortkategorien ergibt. Insgesamt sind das also 29 mögliche Abstufungen. Wir beschließen an dieser Stelle, dass 29 nah genug an unendlich dran ist, um von einer stetigen Variable zu sprechen.
+Stetige Variablen haben theoretisch unendlich viele mögliche Ausprägungen. Dabei sind die Konsequenzen dieser Annahme jedoch nicht binär. Je mehr Ausprägungen eine Variable hat, desto besser funktioniert der Test. In unserem Fall ist die Variable `gs_pre` ein Skalenwert, der sich als der Mittelwert von vier Items mit jeweils vier Antwortkategorien ergibt. Insgesamt sind das also 13 mögliche Abstufungen. Wir beschließen an dieser Stelle, dass 13 nah genug an unendlich dran ist, um von einer stetigen Variable zu sprechen.
 
 Für den Vergleich der Verteilungen in beiden Gruppen, schauen wir uns die Histogramme für die beiden Gruppen an:
 
@@ -477,7 +477,7 @@ hist(gs_klinisch, xlim=c(1,4), ylim=c(0,.9), main="Gute Stimmung (klin.)", xlab=
 curve(dnorm(x, mean=mean(gs_klinisch, na.rm=T), sd=sd(gs_klinisch, na.rm=T)), col="blue", lwd=2, add=T)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
 
 Wir sehen hier die vermutete Schiefe der Verteilung in beiden Gruppen. Diese fällt in der zweiten Gruppe schwächer aus, wodurch sich die Verteilungen sichtlich unterscheiden. Dieser Unterschied wird auch in der oben dargestellten mittleren absoluten Abweichung sichtbar. Es sei an dieser Stelle gesagt, dass unter diesen Voraussetzungen ein $t$-Test auch funktionieren würde, weil die beiden Verteilungen nicht dramatisch von der Normalität abweichen und die beiden Stichproben jeweils relativ groß sind. Dennoch nutzen wir im die Daten im Folgenden für den den Wilcoxon-Test nutzen, um den Vergleich der Rangsummen zu demonstrieren.
 
