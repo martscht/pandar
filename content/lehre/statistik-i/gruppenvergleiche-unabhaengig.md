@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2025-12-09'
+lastmod: '2025-12-11'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -79,9 +79,9 @@ fb25$wohnen <- factor(fb25$wohnen,
 
 # Rekodierung invertierter Items
 fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf3_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf9_r <- -1 * (fb25$mdbf4 - 5)
+fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 5)
+fb25$mdbf3_r <- -1 * (fb25$mdbf3 - 5)
+fb25$mdbf9_r <- -1 * (fb25$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
 fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
@@ -152,7 +152,7 @@ boxplot(fb25$lz ~ fb25$fach_klin,
         main="Lebenszufriedenheit je nach Interesse")
 ```
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-20-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-4-1.png)<!-- -->
 
 Die Werte in den Gruppen lassen sich auch durch *Deskriptivstatistiken* vergleichen, ein übliches Vorgehen ist die Darstellung der Verteilungskennwerte (Mittelwerte, Standardabweichungen u.a.) in den Gruppen. Diese lassen sich komfortabel über die Funktion `describeBy()` des `psych`-Pakets erzeugen. Das Paket muss installiert sein und mit `library()` geladen werden. 
 
@@ -168,7 +168,7 @@ describeBy(x = fb25$lz, group = fb25$fach_klin)        # beide Gruppen im Vergle
 ## group: nicht klinisch
 ##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 113 5.06 1.25    5.2    5.16 1.19   1   7     6 -0.72        0 0.12
-## ------------------------------------------------------------------------------------ 
+## --------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 93 4.73 1.35      5    4.86 1.48   1   7     6 -0.78    -0.08 0.14
@@ -244,7 +244,7 @@ curve(dnorm(x,
 qqPlot(lz_nichtKlin)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 54 19
@@ -280,7 +280,7 @@ curve(dnorm(x,
 qqPlot(lz_Klin)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 67 17
@@ -429,7 +429,7 @@ Wir widmen uns nun der 2. Fragestellung. Dazu prüfen wir, ob klinisch interessi
 
 Wir beginnen damit uns, wie oben, erst einmal grafisch anzusehen, wie die gute Stimmung `gs_pre` in beiden Gruppen aussieht. Dafür beginnen wir dieses mal mit einem Boxplot:
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-31-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-15-1.png)<!-- -->
 
 Hier können wir direkt (als dicke Linie eingezeichnet) die beiden Gruppenmediane sehen - diese unterscheiden sich nicht, in der Grafik liegen die Linien auf der gleichen Höhe. Die Verteilung der klinischen Gruppe liegt aber im unteren Bereich sichtlich niedriger, d.h. bezogen auf die unteren Quartile. Für mehr Details nutzen wir wieder die Deskriptivstatistik aus der `describeBy` Funktion:
 
@@ -442,12 +442,14 @@ describeBy(fb25$gs_pre, fb25$fach_klin) # beide Gruppen im Vergleich
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars   n mean   sd median trimmed  mad  min max range skew kurtosis   se
-## X1    1 113 3.46 0.56    3.5    3.55 0.37 1.25   4  2.75 -1.7     3.17 0.05
-## ------------------------------------------------------------------------------------ 
+##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis
+## X1    1 113 3.41 0.56    3.5    3.49 0.37 1.25   4  2.75 -1.56     3.03
+##      se
+## X1 0.05
+## --------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 93 3.25 0.69    3.5    3.33 0.74   1   4     3 -1.09     0.58 0.07
+## X1    1 93  3.2 0.67   3.25    3.28 0.74   1   4     3 -0.97     0.48 0.07
 ```
 
 Wir sehen auch hier identische Mediane, aber einen höheren Mittelwert in der klinisch interessierten Gruppe im Vergleich zu den klinisch interessierten Studierenden. Die stärkere Streuung der klinischen Gruppe unterhalb des Medians wird in der größeren *Mittleren absoluten Abweichung* (`mad`, median absolute deviation) sichtbar.
@@ -477,7 +479,7 @@ hist(gs_klinisch, xlim=c(1,4), ylim=c(0,.9), main="Gute Stimmung (klin.)", xlab=
 curve(dnorm(x, mean=mean(gs_klinisch, na.rm=T), sd=sd(gs_klinisch, na.rm=T)), col="blue", lwd=2, add=T)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 Wir sehen hier die vermutete Schiefe der Verteilung in beiden Gruppen. Diese fällt in der zweiten Gruppe schwächer aus, wodurch sich die Verteilungen sichtlich unterscheiden. Dieser Unterschied wird auch in der oben dargestellten mittleren absoluten Abweichung sichtbar. Es sei an dieser Stelle gesagt, dass unter diesen Voraussetzungen ein $t$-Test auch funktionieren würde, weil die beiden Verteilungen nicht dramatisch von der Normalität abweichen und die beiden Stichproben jeweils relativ groß sind. Dennoch nutzen wir im die Daten im Folgenden für den den Wilcoxon-Test nutzen, um den Vergleich der Rangsummen zu demonstrieren.
 
@@ -524,7 +526,7 @@ wilcox.test(fb25$gs_pre ~ fb25$fach_klin,     # abhängige Variable ~ unabhängi
 ## 	Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  fb25$gs_pre by fb25$fach_klin
-## W = 6182, p-value = 0.01306
+## W = 6253, p-value = 0.008689
 ## alternative hypothesis: true location shift is greater than 0
 ```
 Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe insgesamt weniger als 50 Personen umfasst und keine Rangbindungen vorliegen. Bei größeren Stichproben folgt die Rangsumme aufgrund des zentralen Grenzwertsatzes ausreichend gut der Normalverteilung und es wird ein $z$-Test der Rangsumme durchgeführt. Weil die Rangsumme allerdings nur ganze Zahlen annehmen kann ist diese Approximation ein wenig ungenau (insbesondere dann, wenn die Stichprobe noch relativ klein ist). Per Voreinstellung wird daher in R eine Kontinuitätskorrektur durchgeführt (mit dem Argument `correct = TRUE`), sodass Sie nicht den gleichen Wert erhalten, den Sie bekommen, wenn Sie den Test händisch durchführen würden. Wenn Sie diese Korrektur ausschalten (`correct = FALSE`) erhalten Sie den gleichen Wert.
@@ -536,7 +538,7 @@ Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe i
 
 
 
-Wir haben untersucht, ob nicht klinisch interessierte Studierende höhere Werte in der aktuellen Stimmung erreichen als  klinisch interessierte Studierende. Deskriptiv sind Unterschiede sichtbar, auch wenn sich beide Gruppen im Median nicht unterscheiden ($Md_\text{nicht klinisch}$ = 3.5 und $Md_\text{klinisch}$ = 3.5). Die Mittelwerte ($M_\text{nicht klinisch}$ = 3.46 und $M_\text{klinisch}$ = 3.25) und die unteren Quantile ($Q_\text{1 nicht klinisch}$ = 3.25 und $Q_\text{1 klinisch}$ = 3) weisen in die erwartete Richtung. Zur Überprüfung der Hypothese wurde ein Wilcoxon-Test durchgeführt. Der Gruppenunterschied ist demnach statistisch bedeutsam ($W = 6182$, $p = 0.013$). Somit wird die Nullhypothese verworfen: Nicht klinisch interessierte Studierende erreichen zu Beginn ihres ersten Statistik Seminars höheren Werte in der aktuellen guten Stimmung als klinisch interessierte Studierende.
+Wir haben untersucht, ob nicht klinisch interessierte Studierende höhere Werte in der aktuellen Stimmung erreichen als  klinisch interessierte Studierende. Deskriptiv sind Unterschiede sichtbar, auch wenn sich beide Gruppen im Median nicht unterscheiden ($Md_\text{nicht klinisch}$ = 3.5 und $Md_\text{klinisch}$ = 3.25). Die Mittelwerte ($M_\text{nicht klinisch}$ = 3.41 und $M_\text{klinisch}$ = 3.2) und die unteren Quantile ($Q_\text{1 nicht klinisch}$ = 3.25 und $Q_\text{1 klinisch}$ = 2.75) weisen in die erwartete Richtung. Zur Überprüfung der Hypothese wurde ein Wilcoxon-Test durchgeführt. Der Gruppenunterschied ist demnach statistisch bedeutsam ($W = 6253$, $p = 0.009$). Somit wird die Nullhypothese verworfen: Nicht klinisch interessierte Studierende erreichen zu Beginn ihres ersten Statistik Seminars höheren Werte in der aktuellen guten Stimmung als klinisch interessierte Studierende.
 
 ***
 
