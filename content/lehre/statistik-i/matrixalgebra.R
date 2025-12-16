@@ -95,7 +95,7 @@ M <- matrix(c(2, 2, 3, 4), ncol = 2, nrow = 2, byrow = TRUE)
 M
 det(M)
 M[1,1]*M[2,2] - M[1,2]*M[2,1] # Determinante mit Hand
-K <- matrix(c(M[2,2], -M[1,2], M[2,1], M[1,1]), byrow = TRUE, ncol = 2, nrow = 2)
+K <- matrix(c(M[2,2], -M[1,2], -M[2,1], M[1,1]), byrow = TRUE, ncol = 2, nrow = 2)
 K # Kofaktorenmatrix
 1/(M[1,1]*M[2,2] - M[1,2]*M[2,1])*K # Inverse von M
 solve(M) # Inverse von M

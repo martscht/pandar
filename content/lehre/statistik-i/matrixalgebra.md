@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In dieser Sitzung werden die Grundlagen der Matrixalgebra erklärt und ihr Anwendungszweck für die Deskriptivstatistik ausgeführt. Die Grundlagen umfassen dabei Rechenoperationen auf Vektoren und Matrizen, sowie die Bestimmung von Determinanten und Inversen.' 
 authors: [irmer, liu, sajjad] 
 weight: 10.5
-lastmod: '2025-11-21'
+lastmod: '2025-12-16'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -68,14 +68,15 @@ y <- c(10, 8, 6)
 
 Vektoren werden meistens als sogenannte Spaltenvektoren (dazu später mehr) dargestellt. `x` und `y` sehen also so aus
 
-
-$$x=\begin{pmatrix}4\\2\\3 \end{pmatrix}, \qquad y=\begin{pmatrix}10\\8\\6 \end{pmatrix}.$$
-
+{{< math >}}
+$$x=\begin{pmatrix}4\\ 2\\ 3 \end{pmatrix}, \qquad y=\begin{pmatrix}10\\ 8\\ 6 \end{pmatrix}.$$
+{{</ math >}}
 
 Die Elemente werden mit der jeweiligen Position im Vektor nummeriert. Das Element $x_1$ ist also das 1. Element von $x$, nämlich 4. Dies kann auch so dargestellt werden:
 
-
-$$x=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}=\begin{pmatrix}4\\2\\3 \end{pmatrix}, \qquad y=\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}10\\8\\6 \end{pmatrix}.$$
+{{< math >}}
+$$x=\begin{pmatrix} x_1 \\ x_2\\ x_3 \end{pmatrix}=\begin{pmatrix} 4 \\ 2\\ 3 \end{pmatrix}, \qquad y=\begin{pmatrix} y_1 \\ y_2\\ y_3 \end{pmatrix}=\begin{pmatrix} 10 \\ 8\\ 6 \end{pmatrix}.$$
+{{</ math >}}
 
 ***
 
@@ -125,11 +126,12 @@ y[c(1,3)]
 
 Die Addition von Vektoren funktioniert elementenweise. Das bedeutet, dass das 1. Element des 1. Vektors und das 1. Element des 2. Vektors miteinander addiert werden und das 2. Element des 1. Vektors mit dem 2. Element des 2. Vektors miteinander addiert werden, etc. 
 
+{{< math >}}
 \begin{equation*}
 \small
 x+y=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}+\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}x_1+y_1\\x_2+y_2\\x_3+y_3 \end{pmatrix}=\begin{pmatrix}4\\2\\3 \end{pmatrix}+\begin{pmatrix}10\\8\\6 \end{pmatrix}=\begin{pmatrix}4+10\\2+8\\3+6 \end{pmatrix}=\begin{pmatrix}14\\10\\9 \end{pmatrix}.
 \end{equation*}
-
+{{</ math >}}
 
 Elementeweise Additionen funktionieren super simpel, indem wir `x` und `y` einfach mit `+` verknüpfen. 
 
@@ -168,7 +170,10 @@ length(x)
 
 Analog zur Addition erfolgt auch die Subtraktion von Vektoren elementenweise. Wollen wir $y - x$ berechnen, so würden wir entsprechend zur Addition das 1. Element von $y$ verrechnen mit dem 1. Element von $x$ usw. und erhalten folgendes Resultat:
 
+{{< math >}}
 $$y-x=\begin{pmatrix} y_1\\ y_2\\ y_3 \end{pmatrix} - \begin{pmatrix}x_1\\ x_2\\ x_3 \end{pmatrix}=\begin{pmatrix}y_1-x_1\\ y_2-x_2\\ y_3-x_3 \end{pmatrix} =\begin{pmatrix}10-4\\ 8-2\\ 6-3 \end{pmatrix}=\begin{pmatrix}6\\ 6\\ 3 \end{pmatrix}.$$
+{{</ math >}}
+
 
 ``` r
 y-x
@@ -182,15 +187,15 @@ y-x
 
 Bezüglich der Multiplikation und Division bei Vektoren wird unterschieden zwischen zwei Rechenoperationen: (1) Die Multiplikation bzw. Division eines Vektors mit einer Zahl, also einem Skalar, und (2) die Multiplikation zweier Vektoren. Zunächst befassen wir uns mit der ersten Variante. Wenn wir einen Vektor mit einer Zahl bzw. einem Skalar multiplizieren, so bewirkt dies eine elementenweise Multiplikation mit dieser Zahl. Wenn wir beispielsweise $k$ mit $x$ multiplizieren wollen, so erhalten wir:
 
-
+{{< math >}}
 $$kx=k\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}=\begin{pmatrix}kx_1\\kx_2\\kx_3 \end{pmatrix}.$$
-
+{{</ math >}}
 
 Für $k=3$ erhalten wir bspw.
 
-
+{{< math >}}
 $$kx=3\begin{pmatrix}4\\2\\3 \end{pmatrix}=\begin{pmatrix}3\cdot 4\\3\cdot2\\3\cdot3 \end{pmatrix}=\begin{pmatrix}12\\6\\9 \end{pmatrix}.$$
-
+{{</ math >}}
 
 In `R` sieht das so aus
 
@@ -232,18 +237,21 @@ Ein Vektor ist eine eindimensionale Sammlung von Zahlen. Die Elemente werden ein
 
 Würden wir die beiden Vektoren $x$ und $y$ aneinander "kleben", erhalten wir eine Matrix $A$, welche 3 Zeilen und 2 Spalten enthält. 
 
-
+{{< math >}}
 $$A=\begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\\a_{31} & a_{32}  \end{pmatrix} = \begin{pmatrix} 4 & 10 \\ 2& 8 \\ 3 & 6 \end{pmatrix}$$
+{{</ math >}}
+
 Analog zu Vektoren ist die Position in einer Matrix auch über Indizes definiert, wobei nun zwei Laufnummern vergeben werden für jedes Element $a_{ij}$. Der erste Index $i = 1,2,...,n$ bezieht sich auf die Zeile, in welchem sich das Element befindet und der zweite Index $j=1,...,m$ die Spalte. Demnach beschreibt $a_{32}$ das Matrixelement in der 3. Zeile (1. Index) und 2. Spalte (2. Index). Für die Matrix $A$ entspricht dies dem Wert 6. Das allgemeine Format einer Matrix kann über ihre Typangaben beschrieben werden: Auch hier wird zuerst die Anzahl der Zeilen der Matrix angegeben und dann ihre Spalten, sprich in der Form $z \times s$. Bei Matrix $A$ handelt es sich also um eine Matrix vom Typ $3 \times 2$ (3 Zeilen und 2 Spalten). Im Folgenden sind ein paar weitere Beispiele aufgelistet:
 
 
-Typ $4\times2$: $\begin{pmatrix} 2 & 4 \\ 5 & 1 \\ -2 & 3\\ 1 & 2 \end{pmatrix}$
+Typ $4\times2$: {{< math >}} $$\begin{pmatrix} 2 & 4 \\ 5 & 1 \\ -2 & 3\\ 1 & 2 \end{pmatrix}$$ {{</ math >}}
 
-Typ $2\times3$: $\begin{pmatrix} 5 & 7 & 9 \\ 1 & 9 & 4\end{pmatrix}$
+Typ $2\times3$: {{< math >}} $$\begin{pmatrix} 5 & 7 & 9 \\ 1 & 9 & 4\end{pmatrix}$$ {{</ math >}}
 
-Typ $3\times1$ (sog. Spaltenvektor): $\begin{pmatrix} 4 \\ 2 \\ 3 \end{pmatrix}$
+Typ $3\times1$ (sog. Spaltenvektor): {{< math >}} $$\begin{pmatrix} 4 \\ 2 \\ 3 \end{pmatrix}$$ {{</ math >}}
 
-Typ $1\times3$ (sog. Zeilenvektor): $\begin{pmatrix} 2 & 5 & 7 \end{pmatrix}$
+Typ $1\times3$ (sog. Zeilenvektor): {{< math >}} $$\begin{pmatrix} 2 & 5 & 7 \end{pmatrix}$$ {{</ math >}}
+
 
 Die gerade behandelten Vektoren können wir ganz leicht zu einer Matrix machen, indem wir den Befehl `as.matrix` bspw. auf `x` anwenden. Dieser Befehl erzeugt  eine $3\times1$ Matrix - also aus mathematischer Sicht einen Spaltenvektor.
 
@@ -414,26 +422,36 @@ Wie bereits im Abschnitt zur [Multiplikation und Division bei Vektoren] angedeut
 
 Konkret werden bei der Matrixmultiplikation die Zeilen der ersten Matrix $A$ mit den Spalten der zweiten Matrix $B$ elementenweise multipliziert und diese Elemente werden anschließend addiert. Die resultierende Matrix hat dann so viele Zeilen wie die erste Matrix und so viele Spalten wie die zweite. Das resultierende Format der neuen Matrix ist also $p\times r$.
 
-
+{{< math >}}
 \begin{align*}
-AB = \begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\\a_{31} & a_{32}\\ \end{pmatrix} \begin{pmatrix}b_{11} & b_{12} & b_{13}\\ b_{21} & b_{22} & b_{23} \end{pmatrix}\\
-&= \begin{pmatrix} 
-a_{11}b_{11}+a_{12}b_{21} &  
-a_{11}b_{12}+a_{12}b_{22}&  
-a_{11}b_{13}+a_{12}b_{23}\\ 
-a_{21}b_{11}+a_{22}b_{21} & 
-a_{21}b_{12}+a_{22}b_{22} & 
+AB &= \begin{pmatrix}
+a_{11} & a_{12}\\
+a_{21} & a_{22}\\
+a_{31} & a_{32}
+\end{pmatrix}
+\begin{pmatrix}
+b_{11} & b_{12} & b_{13}\\
+b_{21} & b_{22} & b_{23}
+\end{pmatrix}\\
+&= \begin{pmatrix}
+a_{11}b_{11}+a_{12}b_{21} &
+a_{11}b_{12}+a_{12}b_{22} &
+a_{11}b_{13}+a_{12}b_{23}\\
+a_{21}b_{11}+a_{22}b_{21} &
+a_{21}b_{12}+a_{22}b_{22} &
 a_{21}b_{13}+a_{22}b_{23}\\
-a_{31}b_{11}+a_{32}b_{21} & 
-a_{31}b_{12}+a_{32}b_{22}& 
-a_{31}b_{13}+a_{32}b_{23}\end{pmatrix}.
+a_{31}b_{11}+a_{32}b_{21} &
+a_{31}b_{12}+a_{32}b_{22} &
+a_{31}b_{13}+a_{32}b_{23}
+\end{pmatrix}.
 \end{align*}
-
+{{</ math >}}
 
 Für unseren Fall entsteht eine neue Matrix der Dimension $3\times 3$. 
 
 Drehen wir das Ganze um, erhalten wir
 
+{{< math >}}
 \begin{align*}
 BA &=  \begin{pmatrix}b_{11} & b_{12} & b_{13}\\ b_{21} & b_{22} & b_{23} \end{pmatrix} \begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\\a_{31} & a_{32}\\ \end{pmatrix}\\
 &= \begin{pmatrix} 
@@ -442,7 +460,7 @@ b_{11}a_{12}+b_{12}a_{22} + b_{13}a_{32} \\
 b_{21}a_{11}+b_{22}a_{21} + b_{23}a_{31} &  
 b_{21}a_{12}+b_{22}a_{22} + b_{23}a_{32}  \end{pmatrix}.
 \end{align*}
-
+{{</ math >}}
 
 Hier entsteht eine Matrix vom Format $2\times 2$. Wir sehen deutlich, dass Matrixmultiplikation im Allgemeinen nicht kommutativ ist, also $AB \neq BA$.
 
@@ -470,11 +488,11 @@ B %*% A # Matrixprodukt B*A
 ## y 74 200
 ```
 
-An den Ergebnissen erkennen wir auch, dass Matrixprodukte nicht kommutativ sind, also die Reihenfolge, in der multipliziert wird, wichtig ist. Analog zur Multiplikation zweier Matrizen kann man zwei Vektoren miteinander multiplizieren. Einen Exkurs hierfür finden Sie im Appendix.
+An den Ergebnissen erkennen wir erneut, dass Matrixprodukte nicht kommutativ sind, also die Reihenfolge, in der multipliziert wird, wichtig ist. Analog zur Multiplikation zweier Matrizen kann man zwei Vektoren miteinander multiplizieren. Einen Exkurs hierfür finden Sie im Appendix.
 
 
 #### Spezielle Matrizen
-Eine quadratische Matrix ist eine Matrix mit gleich vielen Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
+Eine quadratische Matrix ist eine Matrix mit gleich vielen Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie die Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
 
 
 ``` r
@@ -499,7 +517,7 @@ diag(1:3) # Diagonalmatrix mit Elementen 1,2,3 auf der Diagonalen
 ## [3,]    0    0    3
 ```
 
-Bisher haben wir Matrizen dadurch konstruiert, dass wir zwei Vektoren mit `cbind()` oder `rbind()` miteinander verknüpft haben. Wir können jedoch eine Matrix mit dem `matrix()`  direkt bestimmen. Diesem übergeben wir einen Vektor und die Dimensionen der Matrix. Dem Argument `data` werden die Daten, die wir in die Matrix schreiben wollen, übergeben, `nrow` und `ncol` bestimmen die Anzahl der Zeilen und Spalten und mit `byrow = T` legen wir fest, dass wir die Matrix zeilenweise gefüllt bekommen möchten:
+Bisher haben wir Matrizen dadurch konstruiert, dass wir zwei Vektoren mit `cbind()` oder `rbind()` miteinander verknüpft haben. Wir können jedoch eine Matrix mit dem `matrix()`  direkt definieren. Diesem übergeben wir einen Vektor und die Dimensionen der Matrix. Dem Argument `data` werden die Daten, die wir in die Matrix schreiben wollen, übergeben, `nrow` und `ncol` bestimmen die Anzahl der Zeilen und Spalten und mit `byrow = T` legen wir fest, dass wir die Matrix zeilenweise gefüllt bekommen möchten:
 
 
 ``` r
@@ -670,11 +688,18 @@ solve(D) %*% D
 ```
 
 Das Produkt von $D$ und $D^{-1}$ ist (ausnahmsweise) kommutativ: $DD^{-1}=D^{-1}D=I$. Im Allgemeinen ist die Bestimmung der Inversen einer Matrix komplex. Für eine $2 \times 2$-Matrix gibt es jedoch eine einfache Lösung. Eine $2\times 2$ Matrix 
-$$M=\begin{pmatrix}a&b\\ c&d \end{pmatrix}$$ 
+{{< math >}}
+$$M=\begin{pmatrix}a&b\\ c&d \end{pmatrix}$$
+{{</ math >}}
+
 lässt sich genau dann invertieren, wenn die Determinante nicht 0 ist, also wenn keine lineare Abhängigkeit innerhalb der Zeilen oder der Spalten besteht. Die Determinante von $M$ bestimmen wir als 
+{{< math >}}
 $$\text{det}[M] = ad-bc.$$
+{{</ math >}}
 Ist diese nicht 0, so erhalten wir die Inverse von $M$ durch
+{{< math >}}
 $$M^{-1}=\frac{1}{\text{det}[M]}\begin{pmatrix}d&-b\\ -c&a\end{pmatrix}=\frac{1}{ad-bc}\begin{pmatrix}d&-b\\ -c&a\end{pmatrix}.$$
+{{</ math >}}
 Wir müssen also die Diagonalelemente von $M$ vertauschen und die Nebendiagonalelemente mit einem Minus versehen. Anschließend müssen wir jeden Eintrag durch die Determinante teilen (oder wir nehmen einfach `solve`).
 
 
@@ -706,14 +731,14 @@ M[1,1]*M[2,2] - M[1,2]*M[2,1] # Determinante mit Hand
 ```
 
 ``` r
-K <- matrix(c(M[2,2], -M[1,2], M[2,1], M[1,1]), byrow = TRUE, ncol = 2, nrow = 2)
+K <- matrix(c(M[2,2], -M[1,2], -M[2,1], M[1,1]), byrow = TRUE, ncol = 2, nrow = 2)
 K # Kofaktorenmatrix
 ```
 
 ```
 ##      [,1] [,2]
 ## [1,]    4   -2
-## [2,]    3    2
+## [2,]   -3    2
 ```
 
 ``` r
@@ -723,7 +748,7 @@ K # Kofaktorenmatrix
 ```
 ##      [,1] [,2]
 ## [1,]  2.0   -1
-## [2,]  1.5    1
+## [2,] -1.5    1
 ```
 
 ``` r
@@ -749,7 +774,7 @@ Wofür sind Matrixoperationen in der Statistik wichtig? Im letzten Abschnitt sch
 load(url('https://pandar.netlify.app/daten/fb25.rda'))
 ```
 
-Summen lassen sich sehr leicht auch durch ein Matrixprodukt darstellen. Nehmen wir beispielsweise die Big Five Variablen des `fb25` Datensatzes her und nennen diese `X`. Wenn wir einen Zeilenvektor der Dimension $1\times n$ bilden, wobei $n$ die Anzahl an Zeilen von `X` ist, dann können wir die Summe der Elemente pro Spalte von `X` durch ein Matrixprodukt ausdrücken:
+Summen lassen sich sehr leicht auch durch ein Matrixprodukt darstellen. Nehmen wir beispielsweise die Big Five Variablen des `fb25` Datensatzes her und nennen diese `X`. Wenn wir einen 1en-Zeilenvektor der Dimension $1\times n$ bilden, wobei $n$ die Anzahl an Zeilen von `X` ist, dann können wir die Summe der Elemente pro Spalte von `X` durch ein Matrixprodukt ausdrücken:
 
 
 ``` r
@@ -866,12 +891,18 @@ Nicht überraschend kommen wir zu demselben Ergebnis wie `cov`. Mit Hilfe der Ma
 
 Analog zur Multiplikation zweier Matrizen müssen bei Vektoren die inneren Typangaben miteinander korrespondieren, sprich der erste Vektor muss so viele Spalten haben wie der zweite Vektor an Zeilen. Stellen wir uns vor, wir möchten folgende beide Vektoren $x$ und $y$ miteinander multiplizieren: 
 
+{{< math >}}
 $$x = \begin{pmatrix} 3 & -2 & 1\end{pmatrix}, \qquad y = \begin{pmatrix} 5 \\ 1 \\ 7 \end{pmatrix} $$ 
+{{</ math >}}
+
 Demnach ist eine Multiplikation $xy$ möglich, da der Zeilenvektor $x$ genauso viele Spalten hat, wie der Spaltenvektor $y$ an Zeilen, nämlich jeweils 3 [$xy = (1 \times 3)(3 \times 1)$]. Hieraus können wir bereits ableiten, dass die resultierende Matrix aus der Multiplikation dem Typ $1 \times 1$ entsprechen wird. Hierbei spricht man auch von einer Skalarmultiplikation, weil das Produkt der zwei Vektoren eine Matrix mit nur einem Element ist (nicht zu vertauschen mit der Multiplikation eines Vektors mit einem Skalar). 
 
 Für die eigentliche Multiplikation wird jedes Element von $x$ mit dem korrespondierenden Element $y$ multipliziert. Anschließend werden die Produkte aufaddiert. Für unser Beispiel resultiert folgendes Ergebnis: 
 
+{{< math >}}
 $$xy = \begin{pmatrix} 3 & -2 & 1\end{pmatrix} \cdot \begin{pmatrix} 5 \\ 1 \\ 7 \end{pmatrix} = 3 \cdot 5 + (-2) \cdot 1 + 1\cdot 7 = 20 $$ 
+{{</ math >}}
+
 In `R` kann die Skalarmultiplikation mit demselben Operator `%*%` durchgeführt werden.
 
 
