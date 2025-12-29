@@ -22,7 +22,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /extras/dynamic/cross-sectional-design
+    url: /extras/dynamic/cross-sectional-network-design
   # - icon_pack: fas
   #   icon: terminal
   #   name: Code
