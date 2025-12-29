@@ -27,7 +27,10 @@ sections:
     content:
       title: DYNAMIC
       subtitle:  The Dynamic Network Approach of Mental Health to Stimulate Innovations for Interventions and Change
-      text: Here, the methodological consulting of the [DYNAMIC](https://www.dynamic-center.net/) project presents frequently asked questions. These are categorized by research design:&nbsp;cross-sectional studies as well as longitudinal approaches (including panel studies and high-frequency measurements).
+      text: 
+        Here, the methodological consulting team of the [DYNAMIC](https://www.dynamic-center.net/) project presents frequently asked questions. The post on cross-sectional networks covers key issues related to required data structures and network interpretation. The post on dynamic networks focuses on comparing networks based on one or multiple observations.
+        
+        
         {{< category_list "dynamic" 2 >}}
 
     design:
