@@ -118,6 +118,12 @@ main:
     parent: "Extras"
     weight: 503
 
+  - name: "RMarkdown"
+    pre: "<i class='fa-solid fa-book'></i>&ensp;"
+    url: '/extras/main#rmarkdown'
+    parent: "Extras"
+    weight: 504
+
   - name: "LIFOS"
     pre: "<i class='fas fa-book-open'></i>&ensp;"
     url: 'https://lifos.uni-frankfurt.de/users/sign_in'

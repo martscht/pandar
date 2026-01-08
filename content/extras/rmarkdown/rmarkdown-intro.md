@@ -1,18 +1,19 @@
 ---
 title: "Einführung in RMarkdown"
+type: post
 date: '2025-06-24' 
-slug: rmakdown-intro 
-categories: ["Markdown"] 
+slug: rmarkdown-intro 
+categories: ["RMarkdown"] 
 tags: ["Einführung"] 
 subtitle: '' 
-summary: '' 
+summary: 'Dies ist eine technische Einführung in die Nutzung von RMarkdown unter der Annahme des Literate Programmings.' 
 authors: [pommeranz] 
 weight: 1 
-lastmod: '2026-01-07'
+lastmod: '2026-01-08'
 featured: no
 banner:
-  image: "/header/crash_post.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: "/header/black_and_white_white_boat.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1248352)"
 projects: []
 reading_time: false
 share: false
@@ -21,23 +22,23 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /extras/markdown/rmarkdown-intro
+    url: /extras/rmarkdown/rmarkdown-intro
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /extras/markdown/rmarkdown-intro.R
+    url: /RMarkdown/rmarkdown-source.Rmd
+    
 output:
   html_document:
+    toc: true
     keep_md: true
 ---
 
 
 
-{{< toc >}}
-
 ## Vorwort
 
-Es empfiehlt sich sehr, für das tiefere Verständnis des Themas den Source-Code dieses Beitrages runterzuladen und sich diesen bei Ungewissheiten anzuschauen, um eine Anwendung des Themas RMarkdown mitzunehmen. Dieser Beitrag dient in erster Linie dazu, Ressourcen zu bieten und einen Überblick zu verschaffen! Viel Erfolg beim durcharbeiten.
+Es empfiehlt sich sehr, für das tiefere Verständnis des Themas den [Quell-Code](/RMarkdown/rmarkdown-source.Rmd) dieses Beitrages runterzuladen und sich diesen bei Ungewissheiten anzuschauen, um eine Anwendung des Themas RMarkdown mitzunehmen. Dieser Beitrag dient in erster Linie dazu, Ressourcen zu bieten und einen Überblick zu verschaffen! Viel Erfolg beim durcharbeiten.
 
 ## Setup für dieses Tutorial: R & RStudio
 
@@ -168,12 +169,8 @@ Wiederholende Links können auch als Shortcut vorderfiniert werden und bei gleic
 ```
 Siehe [diesen Link] oder [diesen Link].
 
-[diesen Link]: https://www.youtube.com/watch?v=dQw4w9WgXcQ`
+[diesen Link]: Hier_Link_einfügen`
 ```
-
-Siehe [diesen Link] oder [diesen Link].
-
-[diesen Link]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
 
 ### Listen
@@ -280,7 +277,7 @@ Mit Markdown lassen sich auch Listen erstellen, welche Inhalte in verschieden ge
 #. two
 ```
 
-#TODO: SCREENSHOT!
+![RMarkdown Screenshot 2](/RMarkdown/RMD_Screenshot_2.PNG)
 
 #### Tipp zum Schreiben mehrerer Listen
 Um sicherzugehen, dass nicht zwei aufeinander folgende Listen fälschlich verbunden werden oder folgender Content mit eingerückt wird, empfiehlt es sich, einen nicht-eingerückten HTML-Kommentar `<!-- -->` nach der Liste einzubauen, statt eine leere Lücke zu hinterlassen.
@@ -330,7 +327,7 @@ Es gibt auch weitere Tabellen, die für Nutzer der `knit`-Funktion bzw. `Pandoc`
 #### Simple Tabelle (Pandoc)
 Simple Tabellen sehen bspw. folgendermaßen aus:
 
-#TODO: SCREENSHOT!
+![RMarkdown Screenshot 3](/RMarkdown/RMD_Screenshot_3.PNG)
 
 Hierbei ist die Position der Inhalt in der Tabelle abhängig davon, wie die Überschrift zu den Trennlinien positioniert ist. Ist sie rechts angeordnet, ist es rechtsbündig, links linksbündig, mittig ist sie zentriert und Default folgt der Standardanordnung, typischerweise links.
 ```
@@ -356,10 +353,10 @@ Statt einer Überschrift lässt sich auch eine weitere Reihe Trennlinien unter d
 
 Wird also zu einer Tabelle, bei der die erste Spalte rechts, die zweite links und die dritte zentriert ihre Inhalte ausgibt!
 
-#TODO: SCREENSHOT!
+![RMarkdown Screenshot 4](/RMarkdown/RMD_Screenshot_4.PNG)
 
 #### Mehrzeilen-Tabellen (Pandoc)
-In relativ ähnlichem Schema lassen sich auch Tabellen erstellen, die mehrere Zeilen pro Eintrag spannen. Dafür müssen die Trennlinien am Anfang und Ende stehen und Reihen voneinander mit Leerzeilen auseinandergeschrieben werden. Die Header trennt man auch weiterhin mit einem Trennstrich von den restlichen Inhalten, wenn man sie nutzt.
+In relativ ähnlichem Schema lassen sich auch Tabellen erstellen, die mehrere Zeilen pro Eintrag spannen (nur für PDFs!). Dafür müssen die Trennlinien am Anfang und Ende stehen und Reihen voneinander mit Leerzeilen auseinandergeschrieben werden. Die Header trennt man auch weiterhin mit einem Trennstrich von den restlichen Inhalten, wenn man sie nutzt.
 
 ```
 ------------------------------------------
@@ -375,7 +372,7 @@ Zweite Zeile Oh, noch mehr Sachen!
 
 wird etwa zu
 
-#TODO: SCREENSHOT!
+![RMarkdown Screenshot 5](/RMarkdown/RMD_Screenshot_5.PNG)
 
 Jedoch erlauben diese Tabellen noch nicht, dass man bspw. verschiedene Zellen kombiniert. Dafür gibt es noch ein anderes Format.
 
@@ -396,7 +393,7 @@ Grid-Tabellen sind, wie der Name vermuten lässt ein Raster welches strukturiert
 
 wird zu:
 
-#TODO: SCREENSHOT!
+![RMarkdown Screenshot 6](/RMarkdown/RMD_Screenshot_6.PNG)
 
 Auch die Ausrichtung des Texts wird leicht anders bestimmt, mit `:` links für links, rechts für rechts und auf beidn Seiten für eine zentrierte Ausrichtung. Bei Tabellen mit Kopfzeile ist dies an dem Trenner, der aus Gleichzeichen besteht.
 
@@ -453,6 +450,7 @@ Hier packen wir unsere erste Fußnote hin,[^1] und hier die Nächste.[^lang]
          
 Dieser nächste Text-Part sollte nicht mehr zur Fußnote gehören.
 ```
+
 Hier packen wir unsere erste Fußnote hin,[^1] und hier die Nächste.[^lang]
 
 [^1]: Eine einzeilige Fußnote
@@ -468,9 +466,9 @@ Auf der PandaR-Seite werden diese Fußnoten auch automatisch an das Ende im desi
 ### Erweiterungen mit CSS, HTML - Divs & Spans
 Man kann Bildern auch mit einer weiteren, eckigen Klammer HTML-Attribute geben, um so unter anderem ihre Größe zu beeinflussen!
 
-bspw. y`![Beschreibung](Link){width = 60%}` setzt das Bild auf 60% der verfügbaren Weite.
+bspw. `![Beschreibung](Link){width = 60%}` setzt das Bild auf 60% der verfügbaren Weite.
 
-Dies ist nur ein Beispiel für ein HTML-Attribut, es gibt auch viele weitere, die sich auf Links und Bilder anwenden lassen!
+Dies ist nur ein Beispiel für HTML-Attribute, es gibt auch viele weitere, die sich auf Links, Bilder und allesmögliche anwenden lassen, aber dies sprengt schnell den Rahmen für unsere Anwendungszwecke.
 
 ## Putting the R in RMarkdown: Angewandter Code
 Die vorigen Elemente, die wir erklärt haben beziehen sich erstmal nur auf reines Markdown, der Grundbaustein unseres Editors mit dem bisher nur Text und Textelemente abgedeckt sind. Jetzt gehen wir in die Anwendung welche begründet, warum wir genau *R*Markdown verwenden. Die Anwendung von Codeblöcken und In-lineCode sowie Parameter
@@ -532,7 +530,7 @@ Hier ist eine Übersicht der Parameter, welche im offiziellen RMarkdown-Cheatshe
 Für noch mehr Optionen führe `str(knitr::opts_chunk$get())` aus!
 
 ### Setup-Chunk, globale Settings
-Es empfiehlt sich, bei längeren Dokumenten einen Setup-Chunk zu nutzen und in diesem Optionen mit `knitr::opts_chunk$set(tag = val)` global für alle weiteren Chunks einzustellen, sofern man sonst einen gewissen Default-Wert regelmäßig überschreiben würde.
+Es empfiehlt sich, bei längeren Dokumenten einen Setup-Chunk zu nutzen und in diesem Optionen mit `knitr::opts_chunk$set(tag = val)` global für alle weiteren Chunks einzustellen, sofern man sonst einen gewissen Default-Wert regelmäßig überschreiben würde. Hier ein Beispiel, bei dem ein Ordner zur Ablage für alle generierten Plots & Bilder spezifiziert wird.
 
   
   ``` r
@@ -540,25 +538,24 @@ Es empfiehlt sich, bei längeren Dokumenten einen Setup-Chunk zu nutzen und in d
     knitr::opts_chunk$set(fig.path = figure_path)
   }
   ```
+
 ## Zweck und Darstellung - das Output-Format
-Ein Rmarkdown-Dokument lässt sich für verschiedene Zwecke und Formatte anwenden. Hierzu gibt es eine Vielzahl von Dateiformaten und weiterführenden Umgebungen, die diese Dateiformate nutzen. Es findet unter anderem Anwendung als interaktives Notizbuch oder automatisierte Statistikauswertung, als Teil einer Seite im Internet, als Word-Dokument oder Latex-Dokument für einen wissenschaftlichen Bericht. All diese Ausgabeformate kann man direkt im Kopf bestimmen und weiterverwenden. Im folgenden ein paar gängige Formate.
+Ein Rmarkdown-Dokument lässt sich für verschiedene Zwecke und Formatte anwenden. Hierzu gibt es eine Vielzahl von Dateiformaten und weiterführenden Umgebungen, die diese Dateiformate nutzen. Es findet unter anderem Anwendung als interaktives Notizbuch oder automatisierte Statistikauswertung, als Teil einer Seite im Internet, als Word-Dokument oder Latex-Dokument für einen wissenschaftlichen Bericht. All diese Ausgabeformate kann man direkt im Kopf bestimmen und weiterverwenden. Im folgenden ein paar gängige Formate. Dieses Format lässt sich in der Kopfzeile hinzufügen. Dafür neben den bereits vorhandenen Bestandteilen der Kopfzeile wie `title:` und `date:` in einer neuen Zeilen `output:` hinzufügen und das entsprechende Format festlegen.
 
 ### HTML
-Jegliche R-Inhalte auf PandaR sind in ihrer Darstellung ein Beispiel für HTML-Inhalte in RMarkdown. Ein selbsterstelltes Dokument wird im Vergleich zu diesen jedoch simpler aussehen. Dies liegt daran, dass diese Inhalte noch mit `HTML` und `CSS` verschönigt werden. 
+Jegliche R-Inhalte auf PandaR sind in ihrer Darstellung ein Beispiel für HTML-Inhalte in RMarkdown. Ein selbsterstelltes HTML-Dokument wird im Vergleich zu diesen jedoch simpler aussehen.
 
-HTML lässt sich beispielsweise direkt in das RMarkdown-Dokument einbinden.
+HTML lässt sich bei diesem Ausgabeformat direkt in das RMarkdown-Dokument einbinden und anwenden.
 
-Ein paar Anwendungsbeispiele für HTML:
+Ein Anwendungsbeispiel für HTML für wenig Vertraute:
 
 ```
-<b> *Schiefgestellt und fettgedruckt* </b>
+<span style="color: darkred;">Dieser Text ist rot</span>
 ```
-Erzeugt tatsächlich korrekt <b>*Schiefgestellt und fettgedruckt*</b>. Die Sterne werden verarbeitet, aber dies gilt nicht für jede Form bzw. jeden Interpreter von Markdown!
 
-<details><summary><b>Bonus: We R not limited by one language</b></summary>
-Text
+<span style="color: darkred;">Dieser Text ist rot</span>
 
-</details>
+Dies ist eine simple Anwendung, welche reines Markdown schon nicht umsetzen kann!
 
 ### Interaktives Notebook
 
@@ -566,9 +563,6 @@ Die folgende Art des Outputs und die daraus folgende Darstellung sollte für all
 
 Das Working Directory des Notebooks verhält sich genau wie zuvor für RMarkdown-Dokumente beschrieben.
 Ein interaktives Noteboook, auch html_notebook spiegelt größtenteils die IDE-interne Darstellung des RMarkdown-Dokuments dar, kann aber beispielsweise auch auf einer externen Seite gehostet werden.
-
-https://bookdown.org/yihui/rmarkdown/notebook.html
-https://rmarkdown.rstudio.com/lesson-10.html
 
 ### Markdown-Dokument
 
@@ -578,32 +572,49 @@ Markdown-Dokumente als Output-Format transformieren den Code und seine Ausgaben 
 
 Das Output-Format `pdf_document` erstellt ein normales PDF-Dokument. Die einzige Besonderheit, welche interessant ist sofern man mit mathematischen Gleichungen arbeitet, ist dasss man direkt LaTeX anwenden kann und dafür sogar [eigene Makros](https://pandoc.org/MANUAL.html#latex-macros) definieren kann. Für entsprechende Details siehe den [Guide von Yihui](https://bookdown.org/yihui/rmarkdown/pdf-document.html).
 
-### Eine Einführung in das Konzept des "Literate Programming"
 
-<!-- Appendix A -->
-### Angefügte Zitationen mit csl oder .bib
+### "Literate Programming" als abschließender Gedanke
+
+Nach dem ganzen Reden über die Technik und die Möglichkeiten hinter RMarkdown möchten wir auf das Kernkonzept hinter Programmierdarstellungen wie RMarkdown und Jupyter Notebook blicken, um den Sinn nochmal abschließend zu verdeutlichen. Das grundlegende Konzept nennt sich nämlich "Literate Programming" und befasst sich damit, dass man eingebetteten Code mit in natürlicher Sprache geschriebenen Erklärungen abwechselnd darstellt. Dies macht man, dass man damit anderen seinen Gedankengang transparent erläutern kann, aber auch um selbst durch den Prozess des Erklärens seinen Code besser zu verstehen und auch bei Gelegenheit verbessern zu können!
+
+Damit ist das Kernkonzept definitiv nicht nur darauf ausgelegt, transparente, offene Wissenschaft zu ermöglichen, sondern auch dazu, um seine eigenen Analyse-, Darstellungs- und Coding-Fähigkeiten zu dokumentieren und verbessern.
+
+Darauf aufbauend empfiehlt es sich nun, dieses Konzept für sich selbst im Anschluss auszuprobieren.
+
+<!-- Hier erweitere ich das Ganze vielleicht noch mit einem Workbook, wenn es sich mir noch ermöglicht -->
+### Weitere Tools
+
+Abschließend sind hier noch weitere Tools, die interessant in der Arbeit mit Rmarkdown sein könnten.
+
+#### Angefügte Zitationen mit csl oder .bib sowie `citation()`
+Neben dem bereits genannenten Output-Format lassen sich auch mit `bibliography:` BibTeX-Dateien eninbinden und mit `csl:` csl-Dateien einbinden.
+
+```
+bibliography: literatur.bib
+csl: apa.csl
+```
+
+BibTex sind dabei die Dateien, welche die Quellen, welche sich automatisch als Zitationen und Literaturverzeichnisse abbilden lassen, enthalten. Die csl-Datei macht das Format dieser Quellen aus. Durch die Einbindung dieser beiden Dateien lässt sich das Zitieren größtenteils automatisieren!
+
+R-Pakete lassen sich oft auch direkt in R(-Studio) zitieren per citation(). Diese geben auch meist direkt einen BibTex-Eintrag mit, den man in eine entsprechende Datei packen kann. Ein gutes Beispiel dafür ist `citation("ggplot2")`.
 
 
-### R-Package Zitationen
+#### StyleR
+Eine abschließende Empfehlung zur Darstellung des eigenen Codes, ist es diesen einfach automatisch zu formatieren, damit er gut lesbar ist und man dafür keinen erheblichen Mehraufwand aufbringen muss.
 
+Dafür muss man nur das entsprechende Package per `install.packages("styler")` installieren und anschließend `styler::style_file("tutorial.Rmd")` das (fertige) Dokument anwenden.
 
-### formatR & StyleR
-
-
-<!-- Appendix B - Muss noch STARK überarbeitet werden -->
-## Gegenüberstellung zu Quarto & Jupyter Notebooks
-
-Im Bereich der interaktiven Notebooks gibt es noch zwei weitere Kandidaten, die aus anderen Gründen auch spannend sein könnten. Einerseits gibt es [Jupyter Notebooks](https://docs.jupyter.org/en/latest/start/index.html), welche auf die Programmiersprache Python setzen, andererseits gibt es [Quarto](https://quarto.org/), welches eine neuere Plattform darstellt, die ebenso wie RMarkdown und RStudio von Posit entwickelt wird. Quarto ist eine flexiblere Software, welche die Engine von RMarkdown nutzen kann, von Jupyter Notebooks, als auch Observable integrieren kann.
-
-#TODO: QUELLEN EINBINDEN! RMARKDOWN GUIDE; YIHUI RMARKDOWN GUIDE; PANDOC DOCUMENTATION
-
-#TODO: ALLE ELEMENTE SEGMENTIEREN UND AUF EIN MINIMUM LIMITIEREN; REST IMMER ALS DROPDOWN-MENÜ FÜR WEITERE OPTIONEN; KLARMACHEN WAS ZU PANDOC GEHÖRT UND WAS NICHT
+Damit wäre auch schon alles erledigt für ein schönes Endprodukt!
 
 ----
 
-## Quellen
+### Grundlagen-Guides und Quellen
+
 https://bookdown.org/yihui/rmarkdown/
+
 https://pandoc.org/MANUAL.html
+
 https://rmarkdown.rstudio.com/lesson-1.html
+
 
 

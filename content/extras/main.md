@@ -58,6 +58,17 @@ sections:
 
     design:
       columns: 2
+
+  - block: markdown
+    id: rmarkdown
+    content:
+      title: RMarkdown
+      subtitle:  Eine technische Einführung in das Arbeiten mit RMarkdown
+      text: Für alle die sich gerne mit RMarkdown beschäftigen wollen, um damit ihren Code und damit einen weiteren Schritt ihrer (wissenschaftlichen) Arbeit transparent und sauber dokumentiert dazulegen.
+        {{< category_list "rmarkdown" 1 >}}
+
+    design:
+      columns: 2
       
   # 
   # 

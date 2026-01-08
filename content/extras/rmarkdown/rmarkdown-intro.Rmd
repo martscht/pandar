@@ -1,18 +1,19 @@
 ---
 title: "Einführung in RMarkdown"
+type: post
 date: '2025-06-24' 
-slug: rmakdown-intro 
-categories: ["Markdown"] 
+slug: rmarkdown-intro 
+categories: ["RMarkdown"] 
 tags: ["Einführung"] 
 subtitle: '' 
-summary: '' 
+summary: 'Dies ist eine technische Einführung in die Nutzung von RMarkdown unter der Annahme des Literate Programmings.' 
 authors: [pommeranz] 
 weight: 1 
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/crash_post.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: "/header/black_and_white_white_boat.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1248352)"
 projects: []
 reading_time: false
 share: false
@@ -21,13 +22,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /extras/markdown/rmarkdown-intro
+    url: /extras/rmarkdown/rmarkdown-intro
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /extras/markdown/rmarkdown-intro.R
+    url: /RMarkdown/rmarkdown-source.Rmd
+    
 output:
   html_document:
+    toc: true
     keep_md: true
 ---
 
@@ -35,11 +38,9 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-{{< toc >}}
-
 ## Vorwort
 
-Es empfiehlt sich sehr, für das tiefere Verständnis des Themas den Source-Code dieses Beitrages runterzuladen und sich diesen bei Ungewissheiten anzuschauen, um eine Anwendung des Themas RMarkdown mitzunehmen. Dieser Beitrag dient in erster Linie dazu, Ressourcen zu bieten und einen Überblick zu verschaffen! Viel Erfolg beim durcharbeiten.
+Es empfiehlt sich sehr, für das tiefere Verständnis des Themas den [Quell-Code](/RMarkdown/rmarkdown-source.Rmd) dieses Beitrages runterzuladen und sich diesen bei Ungewissheiten anzuschauen, um eine Anwendung des Themas RMarkdown mitzunehmen. Dieser Beitrag dient in erster Linie dazu, Ressourcen zu bieten und einen Überblick zu verschaffen! Viel Erfolg beim durcharbeiten.
 
 ## Setup für dieses Tutorial: R & RStudio
 
@@ -170,12 +171,8 @@ Wiederholende Links können auch als Shortcut vorderfiniert werden und bei gleic
 ```
 Siehe [diesen Link] oder [diesen Link].
 
-[diesen Link]: https://www.youtube.com/watch?v=dQw4w9WgXcQ`
+[diesen Link]: Hier_Link_einfügen`
 ```
-
-Siehe [diesen Link] oder [diesen Link].
-
-[diesen Link]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
 
 ### Listen
@@ -455,6 +452,7 @@ Hier packen wir unsere erste Fußnote hin,[^1] und hier die Nächste.[^lang]
          
 Dieser nächste Text-Part sollte nicht mehr zur Fußnote gehören.
 ```
+
 Hier packen wir unsere erste Fußnote hin,[^1] und hier die Nächste.[^lang]
 
 [^1]: Eine einzeilige Fußnote
@@ -534,13 +532,14 @@ Hier ist eine Übersicht der Parameter, welche im offiziellen RMarkdown-Cheatshe
 Für noch mehr Optionen führe `str(knitr::opts_chunk$get())` aus!
 
 ### Setup-Chunk, globale Settings
-Es empfiehlt sich, bei längeren Dokumenten einen Setup-Chunk zu nutzen und in diesem Optionen mit `knitr::opts_chunk$set(tag = val)` global für alle weiteren Chunks einzustellen, sofern man sonst einen gewissen Default-Wert regelmäßig überschreiben würde.
+Es empfiehlt sich, bei längeren Dokumenten einen Setup-Chunk zu nutzen und in diesem Optionen mit `knitr::opts_chunk$set(tag = val)` global für alle weiteren Chunks einzustellen, sofern man sonst einen gewissen Default-Wert regelmäßig überschreiben würde. Hier ein Beispiel, bei dem ein Ordner zur Ablage für alle generierten Plots & Bilder spezifiziert wird.
 
   ```{r}
   if (exists("figure_path")) {
     knitr::opts_chunk$set(fig.path = figure_path)
   }
   ```
+
 ## Zweck und Darstellung - das Output-Format
 Ein Rmarkdown-Dokument lässt sich für verschiedene Zwecke und Formatte anwenden. Hierzu gibt es eine Vielzahl von Dateiformaten und weiterführenden Umgebungen, die diese Dateiformate nutzen. Es findet unter anderem Anwendung als interaktives Notizbuch oder automatisierte Statistikauswertung, als Teil einer Seite im Internet, als Word-Dokument oder Latex-Dokument für einen wissenschaftlichen Bericht. All diese Ausgabeformate kann man direkt im Kopf bestimmen und weiterverwenden. Im folgenden ein paar gängige Formate. Dieses Format lässt sich in der Kopfzeile hinzufügen. Dafür neben den bereits vorhandenen Bestandteilen der Kopfzeile wie `title:` und `date:` in einer neuen Zeilen `output:` hinzufügen und das entsprechende Format festlegen.
 
@@ -598,21 +597,25 @@ csl: apa.csl
 
 BibTex sind dabei die Dateien, welche die Quellen, welche sich automatisch als Zitationen und Literaturverzeichnisse abbilden lassen, enthalten. Die csl-Datei macht das Format dieser Quellen aus. Durch die Einbindung dieser beiden Dateien lässt sich das Zitieren größtenteils automatisieren!
 
-R-Pakete lassen sich oft auch direkt in R(-Studio) zitieren per citation(). Diese geben auch meist direkt einen BibTex-Eintrag mit, den man in eine entsprechende Datei packen kann. Ein gutes Beispiel dafür ist `r citation("ggplot2")`.
+R-Pakete lassen sich oft auch direkt in R(-Studio) zitieren per citation(). Diese geben auch meist direkt einen BibTex-Eintrag mit, den man in eine entsprechende Datei packen kann. Ein gutes Beispiel dafür ist `citation("ggplot2")`.
 
 
 #### StyleR
 Eine abschließende Empfehlung zur Darstellung des eigenen Codes, ist es diesen einfach automatisch zu formatieren, damit er gut lesbar ist und man dafür keinen erheblichen Mehraufwand aufbringen muss.
 
-Dafür muss man nur das entsprechende Package per `r install.packages("styler")` installieren und anschließend `r styler::style_file("tutorial.Rmd")` das (fertige) Dokument anwenden.
+Dafür muss man nur das entsprechende Package per `install.packages("styler")` installieren und anschließend `styler::style_file("tutorial.Rmd")` das (fertige) Dokument anwenden.
 
 Damit wäre auch schon alles erledigt für ein schönes Endprodukt!
 
 ----
 
-## Quellen
+### Grundlagen-Guides und Quellen
+
 https://bookdown.org/yihui/rmarkdown/
+
 https://pandoc.org/MANUAL.html
+
 https://rmarkdown.rstudio.com/lesson-1.html
+
 
 
