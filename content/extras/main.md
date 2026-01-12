@@ -27,7 +27,10 @@ sections:
     content:
       title: DYNAMIC
       subtitle:  The Dynamic Network Approach of Mental Health to Stimulate Innovations for Interventions and Change
-      text: Here, the methodological consulting of the [DYNAMIC](https://www.dynamic-center.net/) project presents frequently asked questions. These are categorized by research design:&nbsp;cross-sectional studies as well as longitudinal approaches (including panel studies and high-frequency measurements).
+      text: 
+        Here, the methodological consulting team of the [DYNAMIC](https://www.dynamic-center.net/) project presents frequently asked questions. The post on cross-sectional networks covers key issues related to required data structures and network interpretation. The post on dynamic networks focuses on comparing networks based on one or multiple observations.
+        
+        
         {{< category_list "dynamic" 2 >}}
 
     design:
@@ -52,6 +55,17 @@ sections:
       subtitle:  Eine imperfekte Einführung für absolute Beginner
       text: Haben Sie es satt in Ihren Analysen immer nur in die letzte Spalte (auf den p-Wert) zu gucken und wollen endlich erfahren, wie Sie auch dann Ergebnisse Ihrer Untersuchung interpretieren können, wenn absolut nichts raus kommt oder die Stichprobe viel zu klein ist? Für genau solche Fälle bieten wir hier eine kurze Einführung in Bayesianische Statistik. Auch diejenigen, die daran interessiert sind, auch in ihren Auswertung tatsächlich kumulativen Erkenntnisfortschritt zu praktizieren oder klassisches Nullhypothesen-Testen aus ethischen Gründen ablehnen, sind herzlich willkommen!
         {{< category_list "bayes" 4 >}}
+
+    design:
+      columns: 2
+
+  - block: markdown
+    id: rmarkdown
+    content:
+      title: RMarkdown
+      subtitle:  Eine technische Einführung in das Arbeiten mit RMarkdown
+      text: Für alle die sich gerne mit RMarkdown beschäftigen wollen, um damit ihren Code und damit einen weiteren Schritt ihrer (wissenschaftlichen) Arbeit transparent und sauber dokumentiert dazulegen.
+        {{< category_list "rmarkdown" 1 >}}
 
     design:
       columns: 2
