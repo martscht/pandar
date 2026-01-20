@@ -1,7 +1,7 @@
 ---
 title: "Korrelation" 
 type: post
-date: '2026-01-20'
+date: '2025-01-09'
 slug: korrelation 
 categories: ["Statistik I"] 
 tags: ["Korrelation", "Grundlagen", "Hilfe"] 
@@ -42,11 +42,12 @@ output:
 
 <details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
 
-* Wie können [Kreuztabellen](#Kreuztabellen) in R erstellt werden? Welche Varianten gibt es, [relative Häufigkeitstabellen](#Relativtabelle) zu erstellen?
-* Wie kann ein gemeinsames [Balkendiagramm](#Balkendiagramm) für zwei Variablen erstellt werden?
+
 * Welche zwei Varianten gibt es, [Varianzen und Kovarianzen](#Ko_Varianz) zu bestimmen?
 * Wie kann die [Produkt-Moment-Korrelation](#PMK), die [Rang-Korrelation nach Spearman](#Rs) und [Kendalls $\tau$](#tau) bestimmt werden?
 * Wie wird bei der Berechnung von [Korrelationen mit fehlenden Werten](#NA) umgegangen?
+* Wie können [Kreuztabellen](#Kreuztabellen) in R erstellt werden? Welche Varianten gibt es, [relative Häufigkeitstabellen](#Relativtabelle) zu erstellen?
+* Wie kann ein gemeinsames [Balkendiagramm](#Balkendiagramm) für zwei Variablen erstellt werden?
 * Wie lässt sich der Zusammenhang zweier [dichotomer (nominaler) Variablen](#Dichotome_var) berechnen?
 
 </details>
@@ -103,9 +104,52 @@ fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
 
 ****
 
+Nachdem wir uns in den letzten Wochen mit der Testung von Unterschieden beschäftigt haben, untersuchen wir in den folgenden Sitzungen den Zusammenhang von Variablen. Auch wenn wir dabei sehen werden, dass sich die verwendeten Analysen ineinander überführen lassen, werden Hypothesen trotzdem häufig in diese Kategorien eingeordnet. Wir starten mit einem sehr typischen Beispiel aus der psychologischen Praxis - der Zusammenhang zwischen zwei Fragebogenscores soll untersucht werden. Spezifisch verfolgen wir die folgende Fragestellung: Hängt die Extraversion (`extra`) mit der Gewissenhaftigkeit (`gewis`) zusammen?
+
+Besonderes Augenmaß richten wir bei dieser Fragestellung auf die Produkt-Moment-Korrelation, allerdings betrachten wir auch die Bestimmung der Kovarianz und zunächst schauen wir uns grafisch den Zusammenhang der beiden Variablen an, um einen generellen Eindruck zu gewinnen.
+
+Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streupunktdiagramm* dargestellt werden. Dafür kann man die `plot()`-Funktion nutzen. Als Argumente können dabei `x` für die Variable auf der x-Achse, `y` für die Variable auf der y-Achse, `xlim`, `ylim` für eventuelle Begrenzungen der Achsen und `pch` für die Punktart angegeben werden.
+
+
+``` r
+plot(x = fb25$extra, y = fb25$gewis, xlim = c(1,5) , ylim = c(1,5))
+```
+
+![](/korrelation_files/unnamed-chunk-2-1.png)<!-- -->
+
+Die Produkt-Moment-Korrelation ist nur dann ein sinnvoller Kennwert für die Stärke eines Zusammenhangs, wenn der Zusammenhang zwischen den Variablen linearer Natur ist. Sollte eine andere Form des Zusammenhangs vorliegen, kann die Stärke für den linearen Zusammenhang zwar bestimmt werden, aber sie ist dann nicht das, was einen inhaltlich interessiert. Bei beispielsweise einem quadratischen Zusammenhang würde die Produkt-Moment-Korrelation einen Wert von 0 erreichen - das ist auch nicht falsch, da in den Daten eben *kein linearer Zusammenhang* vorliegt. Aber inhaltlich ist es nicht das, was von Interesse wäre.
+
+In der vorliegenden Grafik können wir leider keine gute Aussage darüber finden, ob ein anderer Verlauf als der lineare vorliegt. Dadurch, dass es nur so wenig mögliche Ausprägungen auf beiden Variablen gibt, haben viele Personen dieselben Werte. Wir wissen aber anhand der Grafik nicht, welcher Punkt wie viele Personen repräsentiert. Mit der `plot()`-Funktion können wir auch erstmal keine Abhilfe schaffen - im nächsten Semester lernen wir noch andere Wege der Grafik-Gestaltung kennen. Jetzt gehen wir einmal davon aus, dass es hier keine andere Form des Zusammenhangs in den Daten gibt.
+
+
 ## Varianz, Kovarianz und Korrelation {#Ko_Varianz .anchorheader}
 
-In der Vorlesung haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* empirische und geschätzte Werte gibt. R berechnet standardmäßig für die Varianz und Kovarianz die *Populationsschätzer*, verwendet also folgende Formeln für Varianz 
+Für die Streuung einer Variable haben wir bereits die Varianz als deskriptives Maß kennengelernt. Der Zusammenhang zwischen zwei Variablen kann daher als Kovarianz, also die gemeinsame Streuung zwischen zwei Variablen bezeichnet werden. In `R` können wir die Kovarianz mittels der `cov()` Funktion bestimmen - dabei müssen die beiden interessierenden Variablen an die Funktion übergeben werden.
+
+
+
+``` r
+cov(fb25$extra, fb25$gewis)     # Kovarianz Extraversion und Gewissenhaftigkeit
+```
+
+```
+## [1] NA
+```
+
+Wenn wir das einfach so eingeben, erhalten wir als Ergebnis `NA`. Wie gewohnt weist das daraufhin, dass irgendwo in unseren Variablen ein Wert nicht vorliegt. Bisher haben wir in solch einem Fall das zusätzliche Argument `na.rm` genutzt und auf `TRUE` gesetzt. Bei der Bestimmung von Kovarianzen (und auch der Korrelationen) gibt es aber verschiedene Möglichkeiten zur Behandlung der fehlenden Werte und das Argument ist daher ein anderes (`use`). An dieser Stelle füllen wir es zunächst einfach mit einer Option aus, die uns ein Ergebnis erzeugt (`"pairwise"`). Die genaue Bedeutung davon folgt später.
+
+
+``` r
+cov(fb25$extra, fb25$gewis, use = "pairwise") # Kovarianz Extraversion und Gewissenhaftigkeit
+```
+
+```
+## [1] 0.01549897
+```
+
+Wir sehen an dieser Stelle schon, dass es einen positiven Zusammenhang zwischen den Daten gibt. Das heißt, dass höhere Werte auf der Extraversion mit höheren Werten auf der Gewissenhaftigkeit einhergehen. Allerdings ist die Kovarianz ein unstandardisiertes Maß, das von der Skalierung der beiden Variablen X und Y abhängt. Wir können an dieser Stelle also noch gar keine Aussage darüber treffen, wie stark der gefundene Zusammenhang ist.
+
+*Anmerkung:* In der Vorlesung haben Sie gelernt, dass es für Kovarianzen und Varianzen empirische und geschätzte Werte gibt. Wir haben bereits gelernt, dass `R` für die Varianz, die Populationsschätzung mit der `var()` Funktion ausgibt. 
 
 {{< math >}}
 \begin{equation}
@@ -115,7 +159,7 @@ In der Vorlesung haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* e
 {{< /math >}}
 
 
-und Kovarianz.
+Dasselbe gilt auch für die Kovarianz - die Funktion `cov()` erzeugt die Populationsschätzung für Kovarianz.
 
 {{< math >}}
 \begin{equation}
@@ -124,267 +168,120 @@ und Kovarianz.
 \end{equation}
 {{< /math >}}
 
-### Funktionen und Behandlung fehlender Werte {#fehlende-werte}
 
-Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `neuro` (Neurotizismus) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
-Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
-
-
-``` r
-var(fb25$neuro, na.rm = TRUE)            #Varianz Neurotizismus
-```
-
-```
-## [1] 0.985026
-```
-
-``` r
-var(fb25$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
-```
-
-```
-## [1] 0.6312345
-```
-
-
-Die Funktion `cov()` wird für die Kovarianz verwendet und benötigt als Argumente die Variablen. 
-
-{{<intext_anchor NA>}}
-
-
-``` r
-cov(fb25$neuro, fb25$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
-```
-
-```
-## [1] 0.09750056
-```
-
-Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Problem werden. Zur Bewältigung des Problems gibt es das Argument `use`, das mehr Flexibilität bietet, als `na.rm` bei der univariaten Betrachtung. Diese Flexibilität setzt aber nur deutlich ein, wenn mehr als zwei Variablen gleichzeitig betrachtet werden. Wir werden gleich also alle fünf der Big 5 Persönlichkeitsdimensionen betrachten. Zunächst aber eine kurze Zusammenfassung von den drei häufigsten Optionen:
-
-* *Nutzung aller Beobachtungen*: Alle Zeilen (also Personen) gehen in die Berechnung aller Werte mit ein.
-* *Listenweiser Fallausschluss*: Personen, die auf (mindestens) einer von **allen** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
-* *Paarweiser Fallausschluss*: Personen, die auf (mindestens) einer von **zwei** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
-
-Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür kann ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Wir nehmen alle vier Variablen aus unseren Beispielen zur Kovarianzen auf. Außerdem müssen wir zu Veranschaulichungszwecken noch das Vorkommen fehlender Werte (willkürlich) anpassen.
-
-
-``` r
-big5 <- fb25[,c('extra', 'vertr', 'gewis', 'neuro', 'offen')] #Datensatzreduktion
-cov(big5)                                       #Kovarianzmatrix   
-```
-
-```
-##       extra       vertr      gewis       neuro       offen
-## extra    NA          NA         NA          NA          NA
-## vertr    NA  0.67371925 0.09664861 -0.01130670  0.07576732
-## gewis    NA  0.09664861 0.63123448  0.09750056  0.01420108
-## neuro    NA -0.01130670 0.09750056  0.98502595 -0.01341684
-## offen    NA  0.07576732 0.01420108 -0.01341684  0.79347777
-```
-
-Auch hier bekommen wir zunächst die wenig zufriedenstellende Aussage, dass mehrere der Kovarianzen nicht bestimmt werden können, weil fehlende Werte vorliegen. Anhand der `summary` können wir auch schnell ermitteln, wie viele fehlende Werte das pro Variable sind:
-
-
-``` r
-summary(big5)
-```
-
-```
-##      extra           vertr           gewis           neuro           offen      
-##  Min.   :1.000   Min.   :1.500   Min.   :2.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.500  
-##  Median :3.500   Median :3.500   Median :3.500   Median :3.000   Median :4.000  
-##  Mean   :3.379   Mean   :3.509   Mean   :3.602   Mean   :3.187   Mean   :3.919  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.500  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000  
-##  NA's   :1
-```
-
-
-Um trotz dieses fehlenden Werts Kovarianzen berechnen zu können, können wir mit dem Argument `use` arbeiten. Per Voreinstellung wird die erste der drei Optionen genutzt, welche ausgeschrieben `"everything"` heißt. Da dabei alle Zeilen einfach in die Berechnung eingehen, werden `NA`-Werte nicht ausgeschlossen und für die Zusammenhänge daher keine Kennwerte erzeugt. Wir können diese Schlussfolgerug auch nochmal überprüfen.
-
-
-``` r
-cov(big5, use = "everything")         # Kovarianzmatrix mit Argument   
-```
-
-```
-##       extra       vertr      gewis       neuro       offen
-## extra    NA          NA         NA          NA          NA
-## vertr    NA  0.67371925 0.09664861 -0.01130670  0.07576732
-## gewis    NA  0.09664861 0.63123448  0.09750056  0.01420108
-## neuro    NA -0.01130670 0.09750056  0.98502595 -0.01341684
-## offen    NA  0.07576732 0.01420108 -0.01341684  0.79347777
-```
-
-Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also der Default für diese Funktion. Nach dieser ersten Erkenntnis können wir die verschiedenen Argumente für die Behandlung von `NA` in der `cov()` Funktion ausprobieren. 
-
-Beginnen wir mit dem *paarweisem Fallausschluss*, der mit `"pairwise"` angesprochen werden kann. 
-
-
-``` r
-cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
-```
-
-```
-##             extra       vertr      gewis       neuro       offen
-## extra  0.94810321  0.04483937 0.01549897 -0.39451470  0.11271360
-## vertr  0.04483937  0.67371925 0.09664861 -0.01130670  0.07576732
-## gewis  0.01549897  0.09664861 0.63123448  0.09750056  0.01420108
-## neuro -0.39451470 -0.01130670 0.09750056  0.98502595 -0.01341684
-## offen  0.11271360  0.07576732 0.01420108 -0.01341684  0.79347777
-```
-
-Wie wir sehen, werden nun die Personen mit fehlenden Werten auf einer Variable ignoriert, wenn für die Variable mit fehlendem Wert ein Zusammenhangsmaß berechnet wird. Ansonsten werden Personen aber nicht aus der Berechnung ausgeschlossen, was man vor allem daran sieht, dass sich die Kovarianzen (und Varianzen) von Variablen ohne fehlende Werte (`vertr`, `gewis`, `neuro` und `offen`) nicht verändert haben.
-
-Vergleichen wir nun dieses Ergebnis noch mit dem Ergebnis des *listenweisem Fallausschluss*.
-
-``` r
-cov(big5, use = 'complete')             #Listenweiser Fallausschluss
-```
-
-```
-##             extra       vertr      gewis       neuro       offen
-## extra  0.94810321  0.04483937 0.01549897 -0.39451470  0.11271360
-## vertr  0.04483937  0.67222602 0.09283436 -0.01046936  0.08050809
-## gewis  0.01549897  0.09283436 0.63037708  0.09877535  0.01823878
-## neuro -0.39451470 -0.01046936 0.09877535  0.98957052 -0.01430850
-## offen  0.11271360  0.08050809 0.01823878 -0.01430850  0.79321030
-```
-
-Wie wir sehen, unterscheiden sich die Werte zwischen `pairwise` und `complete` für die Kovarianzen aller Kombinationen außer der mit der ersten Variable. Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der kompletten Berechnung ausgeschlossen werden. Selbst wenn sie nur auf der Extraversion (`extra`) einen fehlenden Wert haben, gehen sie nicht in die Berechnung des Zusammenhangs zwischen bspw. Verträglichkeit und Neurotizismus (`vertr` und `neuro`) ein. 
-
-### Grafische Darstellung
-
-Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streupunktdiagramm* dargestellt werden. Dafür kann man die `plot()` Funktion nutzen. Als Argumente können dabei `x` für die Variable auf der x-Achse, `y` für die Variable auf der y-Achse, `xlim`, `ylim` für eventuelle Begrenzungen der Achsen und `pch` für die Punktart angegeben werden.
-
-
-``` r
-plot(x = fb25$neuro, y = fb25$gewis, xlim = c(1,5) , ylim = c(1,5))
-```
-
-![](/korrelation_files/unnamed-chunk-9-1.png)<!-- -->
-
-### Produkt-Moment-Korrelation (Pearson Korrelation)
+### Produkt-Moment-Korrelation (Pearson-Korrelation)
 
 {{<intext_anchor PMK>}}
 
-Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiedene Zusammenhangsmaße verfügbar, die im Gegensatz zur Kovarianz auch eine Vergleichbarkeit zwischen zwei Zusammenhangswerten sicherstellen. Für zwei metrisch skalierte Variablen gibt es dabei die *Produkt-Moment-Korrelation*. In der Funktion `cor()` werden dabei die Argumente `x` und `y` für die beiden betrachteten Variablen benötigt. `use` beschreibt weiterhin den Umgang mit fehlenden Werten.
+Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiedene Zusammenhangsmaße verfügbar, die im Gegensatz zur Kovarianz auch eine Vergleichbarkeit zwischen zwei Zusammenhangswerten sicherstellen. Für zwei metrisch skalierte Variablen gibt es dabei die *Produkt-Moment-Korrelation*. In der Funktion `cor()` werden dabei die Argumente `x` und `y` für die beiden betrachteten Variablen benötigt. `use` beschreibt weiterhin den Umgang mit fehlenden Werten. Die Bestimmung der Pearson-Korrelation ist dabei der Default und muss daher nicht nochmal festgehalten werden.
 
 
 ``` r
-cor(x = fb25$neuro, y = fb25$gewis, use = 'pairwise')
+cor(x = fb25$extra, y = fb25$gewis, use = 'pairwise') # Bestimmung Pearson-Korrelation
 ```
 
 ```
-## [1] 0.1236482
+## [1] 0.02004818
 ```
 
-Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/lehre/statistik-i/einfache-reg) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
 
-In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschieht äquivalent zu der Kovarianzmatrix mit dem Datensatz als Argument in der `cor()` Funktion. In der Diagonale stehen die Korrelationen der Variable mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
+
+Die Stärke des korrelativen Zusammenhangs wird mit dem Korrelationskoeffizienten ausgedrückt, der zwischen -1 und +1 liegt. Bei einer positiven Korrelation gilt (*je mehr Variable x... desto mehr Variable y*) bzw. umgekehrt, bei einer negativen Korrelation (*je mehr Variable x... desto weniger Variable y*) bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/lehre/statistik-i/einfache-reg) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
+
+Es handelt sich um eine schwache positive Korrelation von _r_ = 0.02. Der Effekt ist nach Cohens (1988) Konvention als vernachlässigbar bis schwach zu bewerten. D.h. es gibt keinen nennenswerten Zusammenhang zwischen der Ausprägung in Extraversion und der Ausprägung in der Gewissenhaftigkeit.
+
+*Cohens (1988) Konvention zur Interpretation von $|r|$*
+
+* ~ .10: schwacher Effekt  
+* ~ .30: mittlerer Effekt  
+* ~ .50: starker Effekt 
+
+Die Bestimmung der Pearson-Korrelation ist zunächst einmal ein deskriptives Vorgehen. Wir beschreiben den Zusammenhang der beiden Variablen in unserer Stichprobe. Typischerweise wollen wir aber nicht nur das machen, sondern auf eine dahinterliegende Population schließen. Wir müssen unser Ergebnis also inferenzstatistisch absichern. Die häufigste Weise ist dabei die Absicherung des Zusammenhangs gegen das Vorliegen von keinem Zusammenhang. Wie wir es bereits gewohnt sind, hat aber jede Inferenzstatistik Voraussetzungen, die wir zunächst betrachten müssen.
+
+### Inferenzstatistische Prüfung der Pearson-Korrelation
+
+Folgende Voraussetzungen sind für die inferenzstatistische Prüfung notwendig:
+
+1. Unabhängigkeit der Beobachtungen (Zufallsstichproben)
+2. Bivariate Normalverteilung
+
+Weiterhin ist anzumerken, dass die Korrelation an sich *sensibel auf Ausreißer* reagiert. Das ist darauf zurückzuführen, dass Mittelwerte und Standardabweichungen in ihrer Berechnung genutzt werden, die ja wie besprochen selbst sensibel für Ausreißer sind. Die Diagnostik von Ausreißern besprechen wir in zukünftigen Tutorials. Bei unseren Durchgeführten Untersuchungen hätten wir sie aber besonders im Histogramm auch schon erkennen können. Die Nutzung von Mittelwerten und Standardabweichungen in der Berechnung erklärt auch, dass die Daten mindestens auf *Intervallskalenniveau* vorliegen sollten (mit Ausnahme des später besprochenen, dichotomen Falles), damit die Pearson-Korrelation überhaupt die sinnvolle Wahl eines Korrelationskoeffizienten ist.
+
+
+#### Unabhängigkeit der Beobachtungen
+
+Die Voraussetzung kennen wir schon aus der Unterscheidung des unabhängigen vs. des abhängigen t-Tests. Wie auch dort wird die Voraussetzung vor allem durch das Versuchsdesign sichergestellt - es soll eine echte Zufallsstichprobe aus der Population gezogen werden. Für unsere Testung nehmen wir diese Voraussetzung an.
+
+#### Bivariate Normalverteilung
+
+Bivariate Normalverteilung heißt, dass die beiden beteiligten Variablen gemeinsam einer Normalverteilung im drei-dimensionalem Raum folgen. Da dies schwieriger zu visualisieren ist, wird stattdessen häufig die Normalverteilung einzeln für die beiden Variablen geprüft. 
+
+Für die Testung der Normalverteilung gibt es zwei grobe Bereiche von Methoden. Die Normalverteilung kann durch grafische Darstellung beurteilt oder mit inferenzstatistischen Methoden getestet werden. 
+
+Die einfachste Möglichkeit zur grafischen Überprüfung ist dabei die Anwendung eines Histogramms. Die Funktion `curve()` zeichnet zusätzlich den Verlauf der theoretischen Normalverteilung ein, damit wir die empirisch beobachteten Werte im Histogramm besser abgleichen können.
 
 
 ``` r
-cor(big5, use = 'pairwise')
+# Histogramme
+hist(fb25$extra, prob = T, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$extra, na.rm = T), sd = sd(fb25$extra, na.rm = T)), col = "blue", add = T)  
 ```
 
-```
-##             extra       vertr      gewis       neuro       offen
-## extra  1.00000000  0.05616607 0.02004818 -0.40729774  0.12997336
-## vertr  0.05616607  1.00000000 0.14820429 -0.01387946  0.10362751
-## gewis  0.02004818  0.14820429 1.00000000  0.12364824  0.02006590
-## neuro -0.40729774 -0.01387946 0.12364824  1.00000000 -0.01517605
-## offen  0.12997336  0.10362751 0.02006590 -0.01517605  1.00000000
-```
-
-
-Die Stärke des korrelativen Zusammenhangs wird mit dem Korrelationskoeffizienten ausgedrückt, der zwischen -1 und +1 liegt. 
-Die default-Einstellung bei `cor()`ist die *Produkt-Moment-Korrelation*, also die Pearson-Korrelation.
-
-
-``` r
-cor(fb25$neuro, fb25$gewis, use = "pairwise", method = "pearson")
-```
-
-```
-## [1] 0.1236482
-```
-
-
-Achtung! Die inferenzstatistische Testung der Pearson-Korrelation hat gewisse Voraussetzungen, die vor der Durchführung überprüft werden sollten!
-
-### Voraussetzungen Pearson-Korrelation
-
-1. *Skalenniveau*: intervallskalierte Daten $\rightarrow$ ok (Ratingskalen werden meist als intervallskaliert aufgefasst, auch wenn das nicht 100% korrekt ist)  
-2. *Linearität*: Zusammenhang muss linear sein $\rightarrow$ grafische Überprüfung (siehe  Scatterplot)  
-3. *Normalverteilung*: Variablen müssen normalverteilt sein $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk-Test  
-
-#### zu 3. Normalverteilung
-
-$\rightarrow$ QQ-Plot, Histogramm & Shapiro-Wilk-Test
-
-Der *Shapiro-Wilk-Test* prüft, ob eine Variable normalverteilt ist. Die Nullhypothese des Tests besagt, dass die Daten aus einer normalverteilten Grundgesamtheit stammen. Ein p-Wert kleiner als das gewählte Signifikanzniveau (z. B. $\alpha$ = 0.05) spricht gegen die Annahme einer Normalverteilung, ein größerer p-Wert dagegen nicht. Der Test liefert eine Entscheidungsgrundlage dafür, ob die Annahme einer Normalverteilung für die vorliegenden Daten plausibel ist und welche statistischen Verfahren angewendet werden sollten.
-
-
-``` r
-# car-Paket laden
-library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-``` r
-#QQ
-qqPlot(fb25$neuro)
-```
-
-![](/korrelation_files/unnamed-chunk-13-1.png)<!-- -->
-
-```
-## [1]  8 78
-```
-
-``` r
-qqPlot(fb25$gewis)
-```
-
-![](/korrelation_files/unnamed-chunk-13-2.png)<!-- -->
-
-```
-## [1]  8 29
-```
-
-``` r
-#Histogramm
-
-hist(fb25$neuro, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb25$neuro, na.rm = T), sd = sd(fb25$neuro, na.rm = T)), col = "blue", add = T)  
-```
-
-![](/korrelation_files/unnamed-chunk-13-3.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 hist(fb25$gewis, prob = T, ylim = c(0,1))
 curve(dnorm(x, mean = mean(fb25$gewis, na.rm = T), sd = sd(fb25$gewis, na.rm = T)), col = "blue", add = T)
 ```
 
-![](/korrelation_files/unnamed-chunk-13-4.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-7-2.png)<!-- -->
+
+Während es für die Extraversion eher kleine Abweichungen gibt, ist die Verteilung der Gewissenhaftigkeit als rechtssteil einzuordnen.
+
+Eine zweite Möglichkeit ist die Anwendung der `qqPlot()` Funktion. Diese kommt aus dem Paket `car` und hat ein paar mehr Features in der Anzeige als die Base-Funktion.
+
 
 ``` r
-#Shapiro
-shapiro.test(fb25$neuro)
+# car-Paket laden
+library(car)
+
+# qq-Plots
+qqPlot(fb25$extra)
+```
+
+![](/korrelation_files/unnamed-chunk-8-1.png)<!-- -->
+
+```
+## [1]  33 108
+```
+
+``` r
+qqPlot(fb25$gewis)
+```
+
+![](/korrelation_files/unnamed-chunk-8-2.png)<!-- -->
+
+```
+## [1]  8 29
+```
+
+Wir sehen für beide Variablen wieder Abweichungen von der Normalverteilung - leichte Abweichungen bei der Extraversion und deutliche bei der Gewissenhaftigkeit.
+
+Kommen wir jetzt zur inferenzstatistischen Prüfung der Normalverteilung. Der *Shapiro-Wilk-Test* liefert eine Entscheidungsgrundlage dafür, ob die Annahme einer Normalverteilung für die vorliegenden Daten plausibel ist.  Die Nullhypothese des Tests besagt, dass die Daten aus einer normalverteilten Grundgesamtheit stammen, während die Alternativhypothese das nicht-Vorliegen einer Normalverteilung in der Grundgesamheit aufzeigen würde. Daher spricht ein p-Wert kleiner als das gewählte Signifikanzniveau (z. B. $\alpha$ = 0.05) gegen die Annahme einer Normalverteilung, ein größerer p-Wert für die Annahme der Normalverteilung. Die Funktion zur Durchführung lautet `shapiro.test()`. 
+
+
+
+``` r
+# Shapiro
+shapiro.test(fb25$extra)
 ```
 
 ```
 ## 
 ## 	Shapiro-Wilk normality test
 ## 
-## data:  fb25$neuro
-## W = 0.96305, p-value = 2.605e-05
+## data:  fb25$extra
+## W = 0.95659, p-value = 5.236e-06
 ```
 
 ``` r
@@ -399,110 +296,170 @@ shapiro.test(fb25$gewis)
 ## W = 0.94854, p-value = 7.546e-07
 ```
 
-$p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
+Für die Entscheidung ergibt sich $p < \alpha$ $\rightarrow$ $H_1$ bei beiden Variablen. Die Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung für die inferenzstatistische Testung der Korrelation verletzt. 
 
-{{<intext_anchor Rs>}}
+Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden. 
 
-#### Rangkorrelation in R
+### Inferenzstatistische Prüfung der Spearman-Korrelation
 
-
-``` r
-r1 <- cor(fb25$neuro,fb25$gewis,
-          method = "spearman",     #Pearson ist default
-          use = "complete") 
-
-r1
-```
-
-```
-## [1] 0.106223
-```
-
-
-#### Interpretation des deskriptiven Zusammenhangs
-
-Es handelt sich um eine schwache positive Korrelation von _r_ = 0.11. Der Effekt ist nach Cohens (1988) Konvention als vernachlässigbar bis schwach zu bewerten. D.h. es gibt keinen nennenswerten Zusammenhang zwischen der Ausprägung in Neurotizismus und der Ausprägung in der Gewissenhaftigkeit. 
-
-#### Cohens (1988) Konvention zur Interpretation von $|r|$
-
-* ~ .10: schwacher Effekt  
-* ~ .30: mittlerer Effekt  
-* ~ .50: starker Effekt 
-
-### Kendalls $\tau$ {{<intext_anchor tau>}}
-
-Als weitere Variante der Rangkorrelation gibt es noch Kendalls $\tau$. Diese kann man mit `method = "kendall"` angesprochen werden.
+Wenn man sich für diese Variante entscheidet, wäre es sinnvoll, auch für den deskriptiven Bericht die Spearman Korrelation zu bestimmen. Man kann diese durch die Eingabe des `method` Arguments anpassen, dass per Voreinstellung eben auf die Pearson-Korrelation abzielt. Die nötige Eingabe wäre `"spearman"`. 
 
 
 ``` r
-cor(fb25$neuro, fb25$gewis, use = 'complete', method = 'kendall')
+cor(x = fb25$extra, y = fb25$gewis, use = 'pairwise', method = "spearman") # Bestimmung Pearson-Korrelation
 ```
 
 ```
-## [1] 0.07920505
+## [1] 0.03068195
 ```
-Die Interpretation erfolgt wie bei Spearman's Rangkorrelation. 
 
-**Signifikanztestung des Korrelationskoeffizienten:**
-Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signifikanz geprüft werden. Dazu verwenden wir die `cor.test()`-Funktion.
+Der sehr schwache positive Zusammenhang zwischen den Variablen wird auch hier deutlich. Doch können wir diesen auf die Population übetragen? Die inferenzstatistische Testung wird durch die Funktion `cor.test()` durchgeführt. Vor der Durchführung sollten wir aber wieder $\alpha$ festelgen, wir nehmen hier 5% an. Außerdem sollten die Hypothesen festgehalten werden. Aus der Fragestellung lässt sich nicht ableiten, ob wir einen positiven oder negativen Effekt erwarten, weshalb wir ungerichtete Hypothesen verwenden.
 
-* $H_0$: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
-* $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
+* $H_0$: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Extraversion und Gewissenhaftigkeit
+* $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Extraversion und Gewissenhaftigkeit
+
+Die Argumente von `cor.test()` entsprechen weitesgehend denen von `cor()`. Der einzig zusätzliche Input für unsere Fragestellung ist `alternative`, das die Art des Tests beschreibt. Wir wählen hier `"two.sided"` für einen zweiseitigen Test aufgrund der ungerichteten Hypothesen.
 
 
 ``` r
-cor <- cor.test(fb25$neuro, fb25$gewis, 
+cor.test(fb25$gewis, fb25$gewis, 
          alternative = "two.sided", 
-         method = "spearman",      #Da Voraussetzungen für Pearson verletzt
+         method = "spearman",      
          use = "complete")
 ```
 
 ```
-## Warning in cor.test.default(fb25$neuro, fb25$gewis, alternative = "two.sided", :
-## Cannot compute exact p-value with ties
-```
-
-``` r
-cor$p.value      #Gibt den p-Wert aus
-```
-
-```
-## [1] 0.1240077
-```
-
-Anmerkung: Bei der Rangkorrelation kann der exakte p-Wert nicht berechnet werden, da gebundene Ränge vorliegen. Das Ergebnis ist allerdings sehr eindeutig: $p > \alpha$ $\rightarrow$ $H_0$. Die Korrelation fällt nicht signifikant von 0 verschieden aus, d.h. die $H_0$ wird beibehalten. Daraus würde sich die folgende Interpretation ergeben:
-
-**Ergebnisinterpretation:**
-Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusammenhängen. Der Spearman-Korrelationskoeffizient beträgt 0.11 und ist statistisch nicht signifikant (_p_ = 0.124). Folglich wird die Nullhypothese hier beibehalten: Neurotizismus und Gewissenhaftigkeit weisen keinen Zusammenhang auf.
-
-**Modifikation**
-Wir haben in der Funktion `cor.test()` als Argument `method = "spearman"` eingegeben, da die Voraussetzungen für die Pearson-Korrelation nicht erfüllt waren. Wenn dies der Fall gewesen wäre, müsste man stattdessen `method = "pearson"` angeben:
-
-
-``` r
-cor.test(fb25$neuro, fb25$gewis, 
-         alternative = "two.sided", 
-         method = "pearson",       
-         use = "complete")
+## Warning in cor.test.default(fb25$gewis, fb25$gewis, alternative = "two.sided", : Cannot compute exact
+## p-value with ties
 ```
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Spearman's rank correlation rho
 ## 
-## data:  fb25$neuro and fb25$gewis
-## t = 1.8014, df = 209, p-value = 0.07308
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  -0.0116143  0.2544670
+## data:  fb25$gewis and fb25$gewis
+## S = 0, p-value < 2.2e-16
+## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##       cor 
-## 0.1236482
+## rho 
+##   1
 ```
 
-### Zusammenhang dichotomer (nominaler) Variablen {#Dichotome_var .anchorheader}
+Bei der Rangkorrelation kann der exakte p-Wert nicht berechnet werden, da gebundene Ränge vorliegen. Das bedeutet, dass Personen auf den ursprünglichen Variablen Extraversion und Gewissenhaftigkeit gleiche Werte hatten und daher auch den gleichen Rang bekommen haben. Das Ergebnis ist allerdings sehr eindeutig: $p > \alpha$ $\rightarrow$ $H_0$. Die Korrelation fällt nicht signifikant von 0 verschieden aus, d.h. die $H_0$ wird beibehalten: Extraversion und Gewissenhaftigkeit weisen keinen Zusammenhang auf.
 
-Abschließend lernen wir Zusammenhangsmaße für dichotome nominalskalierte Variablen kennen. Dazu bearbeiten wir folgende Forschungsfragestellung: Haben Studierende mit Wohnort in Uninähe (Frankfurt) eher einen Nebenjob als Studierende, deren Wohnort außerhalb von Frankfurt liegt?
+*Anmerkung:* Wäre die Voraussetzung für die Testung der Pearson-Korrelation nicht verletzt gewesen, könnte man in der `cor.test()` Funktion das `method` Argument entweder weglassen oder mit `"pearson"` füllen.
+
+
+## Kovarianz- und Korrelationsmatrizen
+
+Bisher haben wir nur den Zusammenhang von zwei Variablen betrachtet und den zugehörigen Korrelationswert ausgegeben. In der Praxis ist es aber üblich, dass man mehr als zwei Variablen erhoben hat - dann will man in der Deskriptivstatistik häufig den bivariaten Zusammenhang aller Variablenpaare darstellen. In `R` kann man beispielsweise die Kovarianzen zwischen den verschiedenen Variablen auch mit der `cov()` Funktion bestimmen. Dafür gibt man die Variablen nicht getrennt durch ein Komma an, sondern einen Datensatz der alle interessierenden Variablen enthält. Wollen wir beispielsweise alle Kovarianzen für die Variablen Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`) und Extraversion (`extra`) bestimmen, können wir das folgendermaßen erreichen.
+
+
+``` r
+cov(fb25[, c('vertr', 'gewis', 'extra')], use = "pairwise")  # Kovarianzmatrix
+```
+
+```
+##            vertr      gewis      extra
+## vertr 0.67371925 0.09664861 0.04483937
+## gewis 0.09664861 0.63123448 0.01549897
+## extra 0.04483937 0.01549897 0.94810321
+```
+
+Auf den Elementen neben der Diagonalen finden wir nun alle Kovarianzen zwischen den Varibalen. Auf der Hauptdiagonale sind die Kovarianzen mit sich selbst zu finden - dies entspricht dann den Varianzen der Variablen.
+
+Analog kann die Korrelationsmatrix mit der `cor()` Funktion bestimmt werden. Auch hier wird der Datensatz mit den interessierenden Variablen als Argument übergeben (wir nutzen hier wieder die Pearson-Korrelation, da wir hier keine inferenzstatistische Testung anstreben).
+
+
+``` r
+cor(fb25[, c('vertr', 'gewis', 'extra')], use = "pairwise")  # Korrelationsmatrix
+```
+
+```
+##            vertr      gewis      extra
+## vertr 1.00000000 0.14820429 0.05616607
+## gewis 0.14820429 1.00000000 0.02004818
+## extra 0.05616607 0.02004818 1.00000000
+```
+
+Diesmal sieht man auf der Diagonalen die Korrelationen der Variablen mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
+
+Anhand der Korrelationsmatrix lassen sich jetzt auch eindrucksvoll die verschiedenen Option der Behandlung fehleder Werte besprechen.
+
+### Behandlung fehlender Werte {#fehlende-werte}
+
+{{<intext_anchor NA>}}
+
+Wie bereits angekündigt, bietet das Argument `use` mehr Flexibilität bietet, als `na.rm` bei der univariaten Betrachtung. Diese Flexibilität setzt aber nur deutlich ein, wenn mehr als zwei Variablen gleichzeitig betrachtet werden. Die folgenden Optionen gibt es hier.
+
+* *Nutzung aller Beobachtungen*: Alle Zeilen (also Personen) gehen in die Berechnung aller Werte mit ein.
+* *Listenweiser Fallausschluss*: Personen, die auf (mindestens) einer von **allen** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
+* *Paarweiser Fallausschluss*: Personen, die auf (mindestens) einer von **zwei** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
+
+Starten wir mit der ersten Option - der Nutzung aller Beobachtungen. Dies ist die Voreinstellung der Funktion - ausgeschrieben würde das Argument mit `"everything"` befüllt werden. Da dabei alle Zeilen einfach in die Berechnung eingehen, werden `NA`-Werte nicht ausgeschlossen und für die Zusammenhänge daher keine Kennwerte erzeugt. Wir können diese Schlussfolgerug auch nochmal überprüfen.
+
+
+``` r
+cor(fb25[, c('vertr', 'gewis', 'extra')])  # Nutzung aller Beobachtungen
+```
+
+```
+##           vertr     gewis extra
+## vertr 1.0000000 0.1482043    NA
+## gewis 0.1482043 1.0000000    NA
+## extra        NA        NA     1
+```
+
+``` r
+cor(fb25[, c('vertr', 'gewis', 'extra')], use = "everything")  # Nutzung aller Beobachtungen
+```
+
+```
+##           vertr     gewis extra
+## vertr 1.0000000 0.1482043    NA
+## gewis 0.1482043 1.0000000    NA
+## extra        NA        NA     1
+```
+
+Die Ergebnisse sind exakt gleich - `"everything"` ist also der Default für diese Funktion. Wir sehen, dass wir für die Variable `extra` fehlende Werte vorliegen haben, während die anderen Variablen vollständig beobachtet sind, denn für die Korrelation zwischen `vertr` und `gewis` erhalten wir hier Werte. 
+
+Wir haben im bisherigen Tutorial immer `"pairwise"` notiert, was dem *paarweisem Fallausschluss* entspricht.
+
+
+``` r
+cor(fb25[, c('vertr', 'gewis', 'extra')], use = 'pairwise')  # Paarweiser Fallausschluss
+```
+
+```
+##            vertr      gewis      extra
+## vertr 1.00000000 0.14820429 0.05616607
+## gewis 0.14820429 1.00000000 0.02004818
+## extra 0.05616607 0.02004818 1.00000000
+```
+
+Wie wir sehen, werden nun die Personen mit fehlenden Werten auf einer Variable ignoriert, wenn für die Variable mit fehlendem Wert ein Zusammenhangsmaß berechnet wird. Ansonsten werden Personen aber nicht aus der Berechnung ausgeschlossen, was man vor allem daran sieht, dass sich die Korrelationen von Variablen ohne fehlende Werte (`vertr` und `gewis`) nicht verändert haben im Vergleich zu der Bestimmung mit `"everything"`
+
+Vergleichen wir nun dieses Ergebnis noch mit dem Ergebnis des *listenweisem Fallausschluss*, das über `"complete"` angesprochen werden kann.
+
+
+``` r
+cor(fb25[, c('vertr', 'gewis', 'extra')], use = 'complete')  # Listenweiser Fallausschluss
+```
+
+```
+##            vertr      gewis      extra
+## vertr 1.00000000 0.14261029 0.05616607
+## gewis 0.14261029 1.00000000 0.02004818
+## extra 0.05616607 0.02004818 1.00000000
+```
+
+Wie wir sehen, unterscheiden sich die Werte zwischen `pairwise` und `complete` für die Korrelation zwischen `vertr` und `gewis`. Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der kompletten Berechnung ausgeschlossen werden. Selbst wenn sie nur auf der Extraversion (`extra`) einen fehlenden Wert haben, gehen sie nicht in die Berechnung des Zusammenhangs zwischen Verträglichkeit und Gewissenhaftigkeit ein. 
+
+
+
+## Zusammenhang dichotomer (nominaler) Variablen {#Dichotome_var .anchorheader}
+
+Betrachten wir nun Zusammenhangsmaße für dichotome nominalskalierte Variablen. Dazu bearbeiten wir folgende Forschungsfragestellung: Haben Studierende mit Wohnort in Uninähe (Frankfurt) eher einen Nebenjob als Studierende, deren Wohnort außerhalb von Frankfurt liegt?
 
 Wir analysieren aus unserem Datensatz die beiden dichotomen Variablen `job` (ja [`ja`] vs. nein [`nein`]) und `ort` (Frankfurt [`FFM`] vs. außerhalb [`andere`]). Die Variablen `ort` und `job` liegen nach den vorbereitenden Schritten bereits als Faktor-Variablen mit entsprechende Labels vor. Dies wird durch die folgende Prüfung bestätigt:
 
@@ -523,7 +480,8 @@ is.factor(fb25$job)
 ## [1] TRUE
 ```
 
-Bevor wir uns mit der Berechnung statistisch komplexerer Zusammenhangsmaße beschäftigen, möchten wir zunächst die Beziehung zwischen den beiden Variablen mithilfe von Häufigkeitstabellen sowie grafisch verdeutlichen.
+
+Bevor wir uns mit der Berechnung des Zusammenhangsmaßes beschäftigen, möchten wir zunächst die Beziehung zwischen den beiden Variablen mithilfe von Häufigkeitstabellen sowie grafisch verdeutlichen.
 
 #### Häufigkeitstabellen 
 
@@ -534,6 +492,7 @@ Die Gruppengehörigkeit verschiedener Kombinationen der dichotomen Variablen `jo
 Kreuztabellen liefern die Häufigkeit von Kombinationen von Ausprägungen in mehreren Variablen. In den Zeilen wird die erste Variable abgetragen und in den Spalten die zweite. Im Unterschied zum univariaten Fall muss im `table()`-Befehl nur die zweite interessierende Variable zusätzlich genannt werden. Tabellen können beliebig viele Dimensionen haben, werden dann aber sehr unübersichtlich.
 
 Erstellen der Kreuztabelle als Datenbasis:
+
 
 ``` r
 tab <- table(fb25$ort, fb25$job)
@@ -653,7 +612,7 @@ barplot (tab,
          legend = rownames(tab))
 ```
 
-![](/korrelation_files/unnamed-chunk-25-1.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-24-1.png)<!-- -->
 
 Somit haben Sie sich einen klaren Überblick über die bivariate Beziehung verschafft und können nun einen geeigneten Korrelationskoeffizienten berechnen und interpretieren.
 
@@ -662,6 +621,20 @@ Somit haben Sie sich einen klaren Überblick über die bivariate Beziehung versc
 Wie in der Vorlesung behandelt, berechnet sich $\phi$ folgendermaßen:
 
 $$\phi = \frac{n_{11}n_{22}-n_{12}n_{21}}{\sqrt{(n_{11}+n_{12})(n_{11}+n_{21})(n_{12}+n_{22})(n_{21}+n_{22})}}$$ welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interpretiert werden kann. 1 steht in diesem Fall für einen perfekten positiven Zusammenhang .
+
+Die Berechnung muss in `R` natürlich nicht per Hand durchgeführt werden. Beispielsweise ist die Berechnung auch in dem uns bekannten Paket `psych` vorhanden, welches verschiedene psychometrische Funktionen beinhaltet. Die Funktion zur Berechnung von $\phi$ heißt `phi()`. Wichtig ist hier, dass nicht die beiden Variablen aus dem Datensatz als Argumente angegeben werden wie bei `cor()`, sondern direkt ein Tabellenobjekt mit den Häufigkeiten. Das Argument `digits` bietet zusätzlich die Option, die Anzahl der Nachkommastellen im Output zu definieren.
+
+
+``` r
+# psych Paket laden
+library(psych)
+phi(tab, digits = 4)                   #Korrelationskoeffizient Phi
+```
+
+```
+## [1] -0.0689
+```
+
 
 Durch ein mathematisches Wunder (dass Sie gerne anhand der Formeln für Kovarianz und Korrelation nachvollziehen können) entspricht diese Korrelation exakt dem Wert, den wir auch anhand der Pearson-Korrelation zwischen den beiden Variablen bestimmen würden:
 
@@ -709,6 +682,31 @@ Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $\phi$ 
 
 Der Wert für den Zusammenhang der beiden Variablen ist also bei völliger Ahnungslosigkeit als klein einzuschätzen.
 
+
+
+**Yules Q**
+
+Dieses Zusammenhangsmaße berechnet sich als
+
+$$Q=\frac{n_{11}n_{22}-n_{12}n_{21}}{n_{11}n_{22}+n_{12}n_{21}},$$
+
+welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interpretiert werden kann. 1 steht in diesem Fall für einen perfekten positiven Zusammenhang.
+
+
+In dem vorher schon geladenen Paket `psych` gibt es auch die Funktion `Yule()`:
+
+
+``` r
+Yule(tab)                   # Yules Q
+```
+
+```
+## [1] -0.1494775
+```
+
+
+<details><summary>Händische Berechnung der beiden Zusammenhangsmaße</summary>
+
 In `R` sieht eine händische Berechnung von Phi so aus:
 
 
@@ -721,14 +719,6 @@ korr_phi
 ```
 ## [1] -0.06890118
 ```
-
-**Yules Q**
-
-Dieses Zusammenhangsmaße berechnet sich als
-
-$$Q=\frac{n_{11}n_{22}-n_{12}n_{21}}{n_{11}n_{22}+n_{12}n_{21}},$$
-
-welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interpretiert werden kann. 1 steht in diesem Fall für einen perfekten positiven Zusammenhang.
 
 In `R` sieht das so aus:
 
@@ -743,48 +733,15 @@ YulesQ
 ## [1] -0.1494775
 ```
 
+</details>
 
-Das Ganze lässt sich auch mit dem `psych` Paket und der darin enthaltenen Funktionen `phi()` und `Yule()` umsetzen:
 
+## Odds (Wettquotient) und Odds-Ratio {#odds-wettquotient-und-odds-ratio .anchorheader}
 
-``` r
-# alternativ mit psych Paket
-library(psych)
-```
+Der Odds (Wettquotient, Chance) gibt das Verhältnis der Wahrscheinlichkeiten an, dass ein Ereignis eintritt bzw. dass es nicht eintritt. Das Wettquotienten-Verhältnis (Odds-Ratio) zeigt an, um wieviel sich dieses Verhältnis zwischen Ausprägungen einer zweiten dichotomen Variablen unterscheidet. Hier handelt sich also nicht um klassisches Zusammenangsmaß, das Werte zwischen -1 und 1 annehmen kann, allerdings ist es in der klinischen Forschung ein recht häufig genutztes Maß. Bleiben wir bei dem Beispiel zum Wohnort und dem Vorhandensein eines Jobs.
 
-```
-## 
-## Attaching package: 'psych'
-```
+Zur Erinnerung lassen wir uns hier nochmal die absoluten Häufigkeiten anzeigen.
 
-```
-## The following object is masked from 'package:car':
-## 
-##     logit
-```
-
-``` r
-phi(tab, digits = 8)
-```
-
-```
-## [1] -0.06890118
-```
-
-``` r
-Yule(tab)
-```
-
-```
-## [1] -0.1494775
-```
-
-**Odds (Wettquotient) und Odds-Ratio** {#odds-wettquotient-und-odds-ratio .anchorheader}
-
-Der Odds (Wettquotient, Chance) gibt das Verhältnis der Wahrscheinlichkeiten an, dass ein Ereignis eintritt bzw. dass es nicht eintritt. 
-Das Wettquotienten-Verhältnis (Odds-Ratio) zeigt an, um wieviel sich dieses Verhältnis zwischen Ausprägungen einer zweiten dichotomen Variablen unterscheidet (Maß für den Zusammenhang).
-
-Zur Erinnerung die Kreuztabelle:
 
 ``` r
 tab
@@ -799,6 +756,8 @@ tab
 
 Berechnung des Odds für `FFM`:
 
+
+
 ``` r
 Odds_FFM = tab[1,1]/tab[1,2]
 Odds_FFM
@@ -807,6 +766,7 @@ Odds_FFM
 ```
 ## [1] 1.695652
 ```
+
 Für in Frankfurt Wohnende ist die Chance keinen Job zu haben demnach 1.7-mal so hoch wie einen Job zu haben. 
 
 Berechnung des Odds für `anderer`:
@@ -860,11 +820,6 @@ Zur Berechnung dieses Koeffizienten müssen wir das Paket `rococo` installieren,
 if (!requireNamespace("rococo", quietly = TRUE)) {
   install.packages("rococo")
 }
-```
-
-```
-## Installing package into '/home/martin/R/x86_64-pc-linux-gnu-library/4.5'
-## (as 'lib' is unspecified)
 ```
 
 
