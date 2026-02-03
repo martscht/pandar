@@ -1,15 +1,15 @@
 ---
 title: "Einfache Lineare Regression" 
 type: post
-date: '2019-10-18' 
+date: '2025-02-01' 
 slug: einfache-reg
 categories: ["Statistik I"] 
 tags: ["Regression", "Lineare Regression", "Streudiagramm", "Determinationskoeffizient"]
 subtitle: ''
 summary: 'In diesem Beitrag werden die einfache lineare Regression vorgestellt. Außerdem soll der Unterschied zwischen standardisierten und nicht-standardisierten Regressionsgewichten deutlich werden sowie die Berechnung des Determinationskoeffizienten R² und dessen Bedeutung geklärt werden.' 
-authors: [winkler, neubauer, nehler, beitner]
+authors: [nehler, liu, winkler, neubauer, beitner]
 weight: 11
-lastmod: '2025-10-20'
+lastmod: '2026-02-03'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -53,55 +53,55 @@ output:
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb25` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb25.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda'))
+load(url('https://pandar.netlify.app/daten/fb25.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb24$hand_factor <- factor(fb24$hand,
+fb25$hand_factor <- factor(fb25$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb24$fach <- factor(fb24$fach,
+fb25$fach <- factor(fb25$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb24$ziel <- factor(fb24$ziel,
+fb25$ziel <- factor(fb25$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb24$wohnen <- factor(fb24$wohnen, 
+fb25$wohnen <- factor(fb25$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
-fb24$unipartys <- factor(fb24$uni3,
+fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
+fb25$unipartys <- factor(fb25$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
-fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
-fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
-fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
-fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
-fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
+fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
+fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
+fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
+fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
+fb25$mdbf5_r <- -1 * (fb25$mdbf5 - 4 - 1)
+fb25$mdbf7_r <- -1 * (fb25$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+fb25$wm_pre  <- fb25[, c('mdbf1', 'mdbf5_r', 
                         'mdbf7_r', 'mdbf10')] |> rowMeans()
-fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 
@@ -114,12 +114,16 @@ Nachdem wir mit der Korrelation mit der gemeinsamen Betrachtung von zwei Variabl
 
 ### Modellschätzung {#Modell}
 
+In diesem Skript beschäftigen wir uns mit der folgenden Fragestellung:
+
+* Können wir mit der Gewissenhaftigkeit (*gewis*) aus dem Selbstbericht das selbst eingeschätzte "Vertrauen in die Psychologie als Wissenschaft" (*trust*) mit einem linearen Modell vorhersagen? Gibt es hier einen linearen Zusammenhang?
+
 Die Modellgleichung für die lineare Regression, wie sie in der Vorlesung besprochen wurde, lautet: $y_m = b_0 + b_1 x_m + e_m$
 
 In R gibt es eine interne Schreibweise, die sehr eng an diese Form der Notation angelehnt ist. Mit `?formula` können Sie sich detailliert ansehen, welche Modelle in welcher Weise mit dieser Notation dargestellt werden können. R verwendet diese Notation für (beinahe) alle Modelle, sodass es sich lohnt, sich mit dieser Schreibweise vertraut zu machen. Die Kernelemente sind im Fall der linearen einfachen Regression:
 
 
-```r
+``` r
 y ~ 1 + x
 ```
 
@@ -131,487 +135,273 @@ Diese Notation enthält fünf Elemente:
 *  `+`: eine additive Verknüpfung der Elemente auf der rechten Seite der Gleichung
 *  `x`: eine unabhängige Variable
 
-Die Notation beschreibt also die Aussage "$y$ wird regrediert auf die Konstante $1$ und die Variable $x$". Die zu schätzenden Parameter $b_0$ und $b_1$ werden in dieser Notation nicht erwähnt, weil sie uns unbekannt sind.
+Die Notation beschreibt also die Aussage "$y$ wird regrediert auf die Konstante $1$ und die Variable $x$". Die zu schätzenden Parameter $b_0$ und $b_1$ werden in dieser Notation nicht erwähnt, weil sie uns unbekannt sind. R geht generell davon aus, dass immer auch der Achsenabschnitt $b_0$ geschätzt werden soll, sodass `y ~ x` ausreichend ist, um eine Regression mit einem Achsenabschnitt zu beschreiben. Wenn das Intercept unterdrückt werden soll, muss das mit `y ~ 0 + x` explizit gemacht werden.
 
-R geht generell davon aus, dass immer auch der Achsenabschnitt $b_0$ geschätzt werden soll, sodass `y ~ x` ausreichend ist, um eine Regression mit einem Achsenabschnitt zu beschreiben. Wenn das Intercept unterdrückt werden soll, muss das mit `y ~ 0 + x` explizit gemacht werden.
-
-
-Um nun eine einfache Regression an unserem Datensatz durchführen zu können, betrachten wir folgende Fragestellung:
-
-* Zeigt die Extraversion (*extra*) aus dem Selbstbericht einen linearen Zusammenhang mit der selbst eingeschätzten "Nerdiness" (*nerd*)?
-
-Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](/lehre/statistik-i/multiple-reg/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. Wenn wir darin den beobachteten lokalen Zusammenhang abbilden, können wir auch schon visuell beurteilen, ob der Zusammenhang denn auch linear ist.
+Starten wir nun mit unserem Anwendungsbeispiel. Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](/lehre/statistik-i/multiple-reg/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. 
 
 
 
-```r
-plot(fb24$extra, fb24$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
-     main = "Zusammenhang zwischen Extraversion und Nerdiness", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
-lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
+``` r
+plot(fb25$gewis, fb25$trust, xlab = "Gewissenhaftigkeit", ylab = "Vertrauen in die Psychologie als Wissenschaft", 
+     main = "Zusammenhang zwischen Gewissenhaftigkeit und Vertrauen in die Psychologie als Wissenschaft", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
 ```
 
 ![](/einfache-reg_files/unnamed-chunk-3-1.png)<!-- -->
+
+Hier erkennen wir zunächst einmal nicht so viel. Das liegt daran, dass viele Punkte übereinander liegen und es in der Grafik nicht deutlich wird, wo eigentlich die meisten Personen liegen - daher können wir auch noch nicht sagen, ob eine lineare Modellierung eine geeignete Herangehensweise für die Zusammenhang der beiden Variablen ist.
+
+Abhilfe können wir schaffen, indem wir eine Linie zusätzlich einzeichnen, die den lokalen Zusammenhang abbildet. Die Logik bei der Erstellung kann man sich in etwa so vorstellen: Es wird für jeden kleinen Bereich der x-Variable (bspw. zwischen 2 und 2.5) geschaut wie der Zusammenhang zur y-Variable ist und eingezeichnet. Aus diesen ganzen lokalen Zusammenhängen wird dann eine durchgehende Linie gezeichnet. Wenn diese ungefähr linear ist, können wir davon ausgehen, dass die Nutzung der Linearität valide ist.  
+
+
+``` r
+plot(fb25$gewis, fb25$trust, xlab = "Gewissenhaftigkeit", ylab = "Vertrauen in die Psychologie als Wissenschaft", 
+     main = "Zusammenhang zwischen Gewissenhaftigkeit und Vertrauen in die Psychologie als Wissenschaft", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
+lines(loess.smooth(fb25$gewis, fb25$trust), col = 'blue')    #beobachteter, lokaler Zusammenhang
+```
+
+![](/einfache-reg_files/unnamed-chunk-4-1.png)<!-- -->
  
  * `pch` verändert die Darstellung der Datenpunkte
  * `xlim` und `ylim` veränderen die X- bzw. Y-Achse 
  * mit `cex` könnte man noch die Größe der Datenpunkte anpassen
 
-<b>Interpretation</b>: Eine lineare Beziehung scheint den Zusammenhang aus `extra` und `nerd` akkurat zu beschreiben. Ein bspw. u-förmiger Zusammenhang ist nicht zu erkennen.
+<b>Interpretation</b>: Eine fast lineare Beziehung scheint den Zusammenhang aus `gewis` und `trust` akkurat zu beschreiben. Ein bspw. u-förmiger Zusammenhang ist nicht zu erkennen.
+
+Wie eben gesehen ist in unserem Beispiel $x$ die Gewissenhaftigkeit (`gewis`) und $y$ die Vertrauen in die Psychologie als Wissenschaft (`trust`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
 
 
-In unserem Beispiel ist $x$ die Extraversion (`extra`) und $y$ die Nerdiness (`nerd`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
-
-
-```r
-lm(formula = nerd ~ 1 + extra, data = fb24)
+``` r
+lm(formula = trust ~ 1 + gewis, data = fb25)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = nerd ~ 1 + extra, data = fb24)
+## lm(formula = trust ~ 1 + gewis, data = fb25)
 ## 
 ## Coefficients:
-## (Intercept)        extra  
-##      3.8236      -0.2376
+## (Intercept)        gewis  
+##      3.2431       0.1157
 ```
 
 So werden die Koeffizienten direkt ausgegeben. Wenn wir mit dem Modell jedoch weitere Analysen durchführen möchten, müssen wir es einem Objekt im Environment zuweisen. Dafür legen wir es im Objekt `lin_mod` (steht für *lineares Modell*) ab. Hier in verkürzter Schreibweise (wir lassen die 1 als Repräsentant für den Achsenabschnitt weg):
 
 
-
-```r
-lin_mod <- lm(nerd ~ extra, fb24)                  #Modell erstellen und Ergebnisse im Objekt lin_mod ablegen
-```
-
-Aus diesem Objekt können mit `coef()` oder auch `lin_mod$coefficients` die geschätzten Koeffizienten extrahiert werden:
-
-
-```r
-coef(lin_mod) 
-```
-
-```
-## (Intercept)       extra 
-##   3.8235795  -0.2375652
-```
-
-```r
-lin_mod$coefficients
-```
-
-```
-## (Intercept)       extra 
-##   3.8235795  -0.2375652
+``` r
+lin_mod <- lm(trust ~ gewis, fb25)                  #Modell erstellen und Ergebnisse im Objekt lin_mod ablegen
 ```
 
 Falls man sich unsicher ist, wie dieses Modell zustande gekommen ist, kann man dies ausdrücklich erfragen:
 
 
-```r
+``` r
 formula(lin_mod)
 ```
 
 ```
-## nerd ~ extra
+## trust ~ gewis
 ```
 
-### Streu-Punktdiagramm mit Regressionsgerade {#Streudiagramm}
-
-Das Streudiagramm haben wir zu Beginn schon abbilden lassen. Hier kann nun zusätzlich noch der geschätzte Zusammenhang zwischen den beiden Variablen als Regressiongerade eingefügt werden. Hierzu wird der Befehl `plot()` durch `abline()` ergänzt:
+Aus diesem Objekt können mit `coef()` oder auch `lin_mod$coefficients` die geschätzten Koeffizienten abgerufen werden:
 
 
-```r
-# Scatterplot zuvor im Skript beschrieben
-plot(fb24$extra, fb24$nerd, 
-  xlim = c(0, 6), ylim = c(1, 5), pch = 19)
-lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
-# Ergebnisse der Regression als Gerade aufnehmen
-abline(lin_mod, col = 'red')
+``` r
+coef(lin_mod) 
 ```
 
-![](/einfache-reg_files/unnamed-chunk-8-1.png)<!-- -->
+```
+## (Intercept)       gewis 
+##   3.2430990   0.1157476
+```
 
+``` r
+lin_mod$coefficients
+```
 
-In `lin_mod$coefficients` stehen die Regressionskoeffizienten $b_0$ unter `(Intercept)` zur Konstanten gehörend und $b_1$ unter dem Namen der Variable, die wir als Prädiktor nutzen. In diesem Fall also `extra`. Die Regressionsgleichung hat daher die folgende Gestalt: $y_i = 3.82 + -0.24 \cdot x + e_i$. 
+```
+## (Intercept)       gewis 
+##   3.2430990   0.1157476
+```
+
+In `lin_mod$coefficients` stehen die Regressionskoeffizienten $b_0$ unter `(Intercept)` zur Konstanten gehörend und $b_1$ unter dem Namen der Variable, die wir als Prädiktor nutzen. In diesem Fall also `gewis`. Die Regressionsgleichung hat daher die folgende Gestalt: $y_i = 3.24 + 0.12 \cdot x + e_i$. 
 
 Regressionsgleichung (unstandardisiert): 
 
 $$\hat{y} = b_0 + b_1*x_m$$
-$$\hat{y} = 3.82 + (-0.24)*x_m$$
+$$\hat{y} = 3.24 + (0.12)*x_m$$
 
 **Interpretation der Regressionskoeffizienten:**  
 
-* *$b_0$ (Achsenabschnitt)*: beträgt die Extraversion 0, wird eine Nerdiness von 3.82 vorhergesagt  
-* *$b_1$ (Regressionsgewicht)*: mit jeder Steigerung der Extraversion um 1 Einheit wird eine um 0.24 Einheiten niedrigere (!) Nerdiness vorhergesagt
+* *$b_0$ (Achsenabschnitt)*: beträgt die Gewissenhaftigkeit 0, wird eine Vertrauen in die Psychologie als Wissenschaft von 3.24 vorhergesagt  
+* *$b_1$ (Regressionsgewicht)*: mit jeder Steigerung der Gewissenhaftigkeit um 1 Einheit wird eine um 0.12 Einheiten niedrigere (!) Vertrauen in die Psychologie als Wissenschaft vorhergesagt
+
+
+### Streu-Punktdiagramm mit Regressionsgerade {#Streudiagramm}
+
+Das Streudiagramm haben wir zu Beginn schon abbilden lassen. Hier kann nun zusätzlich noch der geschätzte Zusammenhang zwischen den beiden Variablen als Regressiongerade eingefügt werden. Hierzu wird eine weitere Zeile mit `abline()` ergänzt. In `abline()` hätte man die Möglichkeit, Achsenabschnitt und Steigungsgewicht selbst zu definieren - aber man kann stattdessen auch einfach ein Objekt aus einer einfachen linearen Regression nutzen. 
+
+
+``` r
+# Scatterplot zuvor im Skript beschrieben
+plot(fb25$gewis, fb25$trust, 
+  xlim = c(0, 6), ylim = c(1, 5), pch = 19)
+lines(loess.smooth(fb25$gewis, fb25$trust), col = 'blue')    #beobachteter, lokaler Zusammenhang
+# Ergebnisse der Regression als Gerade aufnehmen
+abline(lin_mod, col = 'red')
+```
+
+![](/einfache-reg_files/unnamed-chunk-9-1.png)<!-- -->
+
 
 
 ### Residuen Werte
 
-Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können. Die Residuen betragen die Differenzen zu den vorhergesagten Werten bzw. zur Regressionsgeraden.
+Wie wir in der eben erstellten Abbildung sehen, liegen die wahren Werte natürlich nicht genau auf der Regressionsgerade. Die Abweichungen (also die Differenz zwischen wahrem und vorhergesagten Wert) bezeichnen wir als Residuen. Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können. 
 
 
-```r
+``` r
 residuals(lin_mod)
 ```
 
 ```
-##            1            2 
-## -0.135753476 -0.539985357 
-##            3            4 
-## -0.277550571  0.532768274 
-##            5            6 
-##  0.437000155 -0.087869417 
-##            7            8 
-##  0.293347976 -0.562999845 
-##            9           10 
-##  0.793347976 -1.277550571 
-##           11           12 
-##  0.937000155  0.937000155 
-##           13           14 
-## -0.802420143 -0.825434631 
-##           15           16 
-##  0.460014643 -0.277550571 
-##           17           18 
-## -0.277550571  0.174565369 
-##           19           20 
-##  0.674565369  0.793347976 
-##           21           22 
-##  0.818217548  0.364246524 
-##           23           24 
-## -0.039985357  0.699434941 
-##           25           26 
-## -1.610883905 -0.419347666 
-##           27           28 
-## -0.825434631  0.080652334 
-##           29           30 
-## -0.039985357 -0.992101297 
-##           31           32 
-##  0.484884214  1.078797250 
-##           33           35 
-##  0.341232036 -0.729666512 
-##           36           37 
-## -0.158767964  0.745463917 
-##           38           39 
-##  1.437000155 -1.158767964 
-##           40           41 
-##  0.151550881  0.603666822 
-##           42           43 
-##  0.126681310  0.078797250 
-##           44           45 
-##  0.293347976 -1.039985357 
-##           46           47 
-##  0.174565369 -0.396333178 
-##           48           49 
-## -0.206652024  1.055782762 
-##           50           51 
-##  0.412130583  0.055782762 
-##           52           53 
-##  0.555782762  0.626681310 
-##           54           55 
-##  0.293347976  0.389116095 
-##           56           57 
-##  0.341232036 -0.610883905 
-##           58           59 
-## -1.254536083  0.437000155 
-##           60           61 
-##  0.674565369 -0.229666512 
-##           62           63 
-##  0.126681310 -0.302420143 
-##           64           65 
-## -0.754536083 -0.087869417 
-##           66           67 
-##  0.318217548  1.245463917 
-##           68           69 
-## -0.110883905 -0.992101297 
-##           70           71 
-##  0.578797250 -0.610883905 
-##           72           73 
-##  1.078797250  0.960014643 
-##           74           75 
-##  0.222449429  0.078797250 
-##           76           77 
-## -0.325434631  0.199434941 
-##           78           79 
-## -0.373318690  0.412130583 
-##           80           81 
-## -1.181782452 -0.633898393 
-##           82           83 
-##  0.818217548 -1.229666512 
-##           84           86 
-## -0.421202750 -1.562999845 
-##           87           88 
-## -0.396333178 -0.421202750 
-##           89           90 
-## -0.087869417 -0.706652024 
-##           91           92 
-## -0.087869417  0.460014643 
-##           93           94 
-##  0.793347976 -1.087869417 
-##           95           96 
-## -1.015115786  0.437000155 
-##           97           98 
-## -0.992101297 -0.992101297 
-##           99          100 
-## -0.539985357 -0.825434631 
-##          101          102 
-## -0.325434631 -0.039985357 
-##          103          104 
-##  1.103666822  0.245463917 
-##          105          106 
-##  0.197579857  0.460014643 
-##          107          108 
-##  0.507898703 -0.444217238 
-##          109          110 
-##  0.007898703  0.199434941 
-##          111          112 
-##  0.603666822  0.151550881 
-##          113          114 
-## -0.110883905 -0.586014333 
-##          115          116 
-##  0.437000155  0.603666822 
-##          117          118 
-## -0.492101297  0.626681310 
-##          119          120 
-## -0.039985357  1.007898703 
-##          121          122 
-##  0.651550881  0.651550881 
-##          123          124 
-## -0.754536083 -0.373318690 
-##          125          126 
-## -0.062999845  0.818217548 
-##          127          128 
-##  0.793347976  0.389116095 
-##          129          130 
-## -0.635753476 -0.396333178 
-##          131          132 
-##  0.555782762 -0.133898393 
-##          133          134 
-## -0.325434631  1.199434941 
-##          135          136 
-##  0.412130583 -0.086014333 
-##          137          138 
-##  0.697579857  0.078797250 
-##          139          140 
-## -1.039985357 -0.706652024 
-##          141          142 
-##  0.174565369 -0.539985357 
-##          143          144 
-##  0.151550881  0.055782762 
-##          145          146 
-##  0.484884214 -0.158767964 
-##          147          148 
-##  0.270333488 -1.777550571 
-##          149          150 
-## -0.562999845  0.651550881 
-##          151          152 
-##  0.412130583  0.293347976 
-##          153          154 
-## -0.658767964 -0.515115786 
-##          155          156 
-##  0.270333488  0.674565369 
-##          157          158 
-##  0.937000155  0.484884214 
-##          159          160 
-##  1.007898703  0.197579857 
-##          161          162 
-##  0.460014643 -0.373318690 
-##          163          164 
-##  0.530913191 -1.015115786 
-##          165          166 
-## -0.396333178  0.270333488 
-##          167          168 
-##  0.412130583 -0.229666512 
-##          169          170 
-## -0.848449119  0.222449429 
-##          171          172 
-## -0.706652024 -0.325434631 
-##          173          174 
-## -0.681782452  0.080652334 
-##          175          176 
-## -0.562999845  0.960014643 
-##          177          178 
-##  1.293347976  0.626681310 
-##          179          180 
-## -0.873318690 -0.396333178 
-##          181          182 
-## -0.825434631  0.674565369 
-##          183          184 
-## -0.896333178 -0.181782452 
-##          185          186 
-##  0.437000155  0.080652334 
-##          187          188 
-## -0.348449119  1.126681310 
-##          189          190 
-##  0.341232036 -0.610883905 
-##          191          192 
-## -0.206652024 -1.302420143
+##           1           2           3           4           5           6           7 
+## -0.19913461  0.06937022  0.18511781 -0.09729644  0.07632493  0.51845114 -0.53246794 
+##           8           9          10          11          12          13          14 
+## -0.97459415  0.29391068 -0.48850357  0.01845114 -0.14821553 -0.42367507  0.06937022 
+##          15          16          17          18          19          20          21 
+## -0.70608932  0.35178447 -0.03246794 -0.70608932 -0.09034173 -0.09034173  0.80086539 
+##          22          23          24          25          26          27          28 
+##  0.18511781  0.12724401 -0.53942265  0.51845114 -0.03246794 -0.20608932 -0.37275599 
+##          29          30          31          34          35          36          37 
+## -0.14126082  0.51845114 -0.14821553 -0.31488219 -0.43062978  0.90965827  0.18511781 
+##          38          39          40          41          42          43          44 
+## -0.15517024  0.12724401 -0.19913461  0.62724401  0.01845114 -0.31488219 -0.76396311 
+##          45          46          47          48          50          51          52 
+## -0.70608932 -0.03246794 -0.42367507  0.62724401  1.12724401  0.13419872  0.07632493 
+##          53          54          55          56          57          58          59 
+## -0.14821553 -0.37275599  0.46753206  0.06937022 -0.59729644 -0.32183690 -0.43062978 
+##          60          61          62          63          64          65          66 
+## -0.14821553 -0.53942265 -1.14821553  0.40270356 -0.03942265 -0.14126082  0.18511781 
+##          67          68          70          71          72          73          74 
+##  0.23603689 -0.03246794 -0.25700840  1.40965827 -0.03246794 -0.76396311 -0.09034173 
+##          75          76          77          78          79          80          81 
+##  0.12724401  0.67816310  0.30086539 -0.09034173  0.29391068  0.29391068  0.18511781 
+##          82          83          84          85          86          87          88 
+##  0.13419872 -0.31488219  0.34482976 -0.19913461  0.68511781  0.29391068  0.18511781 
+##          89          90          91          92          94          95          96 
+## -0.25700840 -0.20608932 -0.47459415  1.01149643  0.35873918  0.62724401  0.35178447 
+##          97          98          99         100         101         102         103 
+##  0.01149643  0.67816310 -0.43062978  0.30086539  0.35178447 -0.87275599  0.07632493 
+##         104         105         106         107         108         110         111 
+##  0.24299160 -0.26396311  0.29391068 -0.42367507 -0.75700840 -0.48154886  0.56937022 
+##         112         113         114         115         116         117         118 
+##  0.29391068  0.56937022  0.12724401  0.52540585  0.63419872  0.63419872  0.07632493 
+##         119         120         121         122         123         124         125 
+##  0.19207252  0.18511781 -0.64821553  0.01845114 -0.19913461  0.18511781 -0.64821553 
+##         126         127         128         129         130         131         132 
+##  0.35178447  0.51149643 -0.14821553  0.12724401  0.57632493 -0.37275599  0.51149643 
+##         133         134         135         136         137         138         139 
+## -0.81488219  0.46057735 -0.82183690  0.57632493 -0.09729644 -0.03942265  0.12724401 
+##         140         141         142         143         144         145         146 
+## -1.14821553  0.12724401  0.40270356  0.01845114 -0.20608932 -0.26396311  0.40965827 
+##         147         148         149         150         151         152         153 
+##  0.24299160  0.24299160 -0.09729644 -0.31488219 -0.70608932 -0.64821553 -0.43062978 
+##         154         155         156         157         158         159         160 
+## -0.59729644  0.51149643 -0.75700840  0.29391068  0.01845114  0.23603689  0.12724401 
+##         161         162         163         164         165         166         167 
+## -0.09729644  0.74299160  0.06937022  0.06937022 -0.69913461  0.74299160 -0.69913461 
+##         168         169         170         172         173         174         175 
+##  0.02540585  0.07632493 -0.32183690  0.46057735 -0.03942265 -0.20608932  0.07632493 
+##         176         177         178         179         180         181         182 
+##  0.17816310  0.46753206  0.18511781 -0.92367507  0.90270356 -0.26396311 -0.03942265 
+##         183         184         185         186         187         188         189 
+## -0.31488219 -0.20608932  0.12724401  0.62724401 -0.37275599 -0.25700840  0.07632493 
+##         190         191         192         193         194         195         196 
+##  0.67816310  0.74299160 -0.70608932  0.13419872  0.63419872 -0.93062978 -1.30792748 
+##         197         198         199         200         201         202         203 
+##  0.40965827 -0.03942265  0.51845114  0.24299160 -0.20608932  0.57632493 -0.14821553 
+##         204         205         206         207         208         209         210 
+## -0.36580128 -0.48154886  0.30086539  0.24299160  0.40270356 -0.31488219 -0.32183690 
+##         211 
+## -0.43062978
 ```
 
-Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Extraversion vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Nerdiness).
+Die Residuen haben die Bedeutung des "Ausmaßes an Vertrauen in die Psychologie als Wissenschaft, das nicht durch Gewissenhaftigkeit vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Vertrauen in die Psychologie als Wissenschaft).
 
 ### Vorhergesagte Werte
 
 Die vorhergesagten Werte $\hat{y}$ können mit `predict()` ermittelt werden:
 
 
-```r
+``` r
 predict(lin_mod)
 ```
 
 ```
-##        1        2        3 
-## 2.635753 2.873319 3.110884 
-##        4        5        6 
-## 3.467232 3.229667 2.754536 
-##        7        8        9 
-## 2.873319 3.229667 2.873319 
-##       10       11       12 
-## 3.110884 3.229667 3.229667 
-##       13       14       15 
-## 2.635753 2.992101 2.873319 
-##       16       17       18 
-## 3.110884 3.110884 2.992101 
-##       19       20       21 
-## 2.992101 2.873319 3.348449 
-##       22       23       24 
-## 2.635753 2.873319 3.467232 
-##       25       26       27 
-## 3.110884 3.586014 2.992101 
-##       28       29       30 
-## 3.586014 2.873319 2.992101 
-##       31       32       33 
-## 3.348449 2.754536 2.992101 
-##       35       36       37 
-## 3.229667 2.992101 2.754536 
-##       38       39       40 
-## 3.229667 2.992101 3.348449 
-##       41       42       43 
-## 3.229667 2.873319 2.754536 
-##       44       45       46 
-## 2.873319 2.873319 2.992101 
-##       47       48       49 
-## 3.229667 2.873319 3.110884 
-##       50       51       52 
-## 2.754536 3.110884 3.110884 
-##       53       54       55 
-## 2.873319 2.873319 3.110884 
-##       56       57       58 
-## 2.992101 3.110884 2.754536 
-##       59       60       61 
-## 3.229667 2.992101 3.229667 
-##       62       63       64 
-## 2.873319 2.635753 2.754536 
-##       65       66       67 
-## 2.754536 3.348449 2.754536 
-##       68       69       70 
-## 3.110884 2.992101 2.754536 
-##       71       72       73 
-## 3.110884 2.754536 2.873319 
-##       74       75       76 
-## 3.110884 2.754536 2.992101 
-##       77       78       79 
-## 3.467232 2.873319 2.754536 
-##       80       81       82 
-## 3.348449 3.467232 3.348449 
-##       83       84       86 
-## 3.229667 2.754536 3.229667 
-##       87       88       89 
-## 3.229667 2.754536 2.754536 
-##       90       91       92 
-## 2.873319 2.754536 2.873319 
-##       93       94       95 
-## 2.873319 2.754536 3.348449 
-##       96       97       98 
-## 3.229667 2.992101 2.992101 
-##       99      100      101 
-## 2.873319 2.992101 2.992101 
-##      102      103      104 
-## 2.873319 3.229667 2.754536 
-##      105      106      107 
-## 2.635753 2.873319 2.992101 
-##      108      109      110 
-## 3.110884 2.992101 3.467232 
-##      111      112      113 
-## 3.229667 3.348449 3.110884 
-##      114      115      116 
-## 3.586014 3.229667 3.229667 
-##      117      118      119 
-## 2.992101 2.873319 2.873319 
-##      120      121      122 
-## 2.992101 3.348449 3.348449 
-##      123      124      125 
-## 2.754536 2.873319 3.229667 
-##      126      127      128 
-## 3.348449 2.873319 3.110884 
-##      129      130      131 
-## 2.635753 3.229667 3.110884 
-##      132      133      134 
-## 3.467232 2.992101 3.467232 
-##      135      136      137 
-## 2.754536 3.586014 2.635753 
-##      138      139      140 
-## 2.754536 2.873319 2.873319 
-##      141      142      143 
-## 2.992101 2.873319 3.348449 
-##      144      145      146 
-## 3.110884 3.348449 2.992101 
-##      147      148      149 
-## 3.229667 3.110884 3.229667 
-##      150      151      152 
-## 3.348449 2.754536 2.873319 
-##      153      154      155 
-## 2.992101 3.348449 3.229667 
-##      156      157      158 
-## 2.992101 3.229667 3.348449 
-##      159      160      161 
-## 2.992101 2.635753 2.873319 
-##      162      163      164 
-## 2.873319 2.635753 3.348449 
-##      165      166      167 
-## 3.229667 3.229667 2.754536 
-##      168      169      170 
-## 3.229667 3.348449 3.110884 
-##      171      172      173 
-## 2.873319 2.992101 3.348449 
-##      174      175      176 
-## 3.586014 3.229667 2.873319 
-##      177      178      179 
-## 2.873319 2.873319 2.873319 
-##      180      181      182 
-## 3.229667 2.992101 2.992101 
-##      183      184      185 
-## 3.229667 3.348449 3.229667 
-##      186      187      188 
-## 3.586014 3.348449 2.873319 
-##      189      190      191 
-## 2.992101 3.110884 2.873319 
-##      192 
-## 2.635753
+##        1        2        3        4        5        6        7        8        9       10 
+## 3.532468 3.763963 3.648216 3.763963 3.590342 3.648216 3.532468 3.474594 3.706089 3.821837 
+##       11       12       13       14       15       16       17       18       19       20 
+## 3.648216 3.648216 3.590342 3.763963 3.706089 3.648216 3.532468 3.706089 3.590342 3.590342 
+##       21       22       23       24       25       26       27       28       29       30 
+## 3.532468 3.648216 3.706089 3.706089 3.648216 3.532468 3.706089 3.706089 3.474594 3.648216 
+##       31       34       35       36       37       38       39       40       41       42 
+## 3.648216 3.648216 3.763963 3.590342 3.648216 3.821837 3.706089 3.532468 3.706089 3.648216 
+##       43       44       45       46       47       48       50       51       52       53 
+## 3.648216 3.763963 3.706089 3.532468 3.590342 3.706089 3.706089 3.532468 3.590342 3.648216 
+##       54       55       56       57       58       59       60       61       62       63 
+## 3.706089 3.532468 3.763963 3.763963 3.821837 3.763963 3.648216 3.706089 3.648216 3.763963 
+##       64       65       66       67       68       70       71       72       73       74 
+## 3.706089 3.474594 3.648216 3.763963 3.532468 3.590342 3.590342 3.532468 3.763963 3.590342 
+##       75       76       77       78       79       80       81       82       83       84 
+## 3.706089 3.821837 3.532468 3.590342 3.706089 3.706089 3.648216 3.532468 3.648216 3.821837 
+##       85       86       87       88       89       90       91       92       94       95 
+## 3.532468 3.648216 3.706089 3.648216 3.590342 3.706089 3.474594 3.821837 3.474594 3.706089 
+##       96       97       98       99      100      101      102      103      104      105 
+## 3.648216 3.821837 3.821837 3.763963 3.532468 3.648216 3.706089 3.590342 3.590342 3.763963 
+##      106      107      108      110      111      112      113      114      115      116 
+## 3.706089 3.590342 3.590342 3.648216 3.763963 3.706089 3.763963 3.706089 3.474594 3.532468 
+##      117      118      119      120      121      122      123      124      125      126 
+## 3.532468 3.590342 3.474594 3.648216 3.648216 3.648216 3.532468 3.648216 3.648216 3.648216 
+##      127      128      129      130      131      132      133      134      135      136 
+## 3.821837 3.648216 3.706089 3.590342 3.706089 3.821837 3.648216 3.706089 3.821837 3.590342 
+##      137      138      139      140      141      142      143      144      145      146 
+## 3.763963 3.706089 3.706089 3.648216 3.706089 3.763963 3.648216 3.706089 3.763963 3.590342 
+##      147      148      149      150      151      152      153      154      155      156 
+## 3.590342 3.590342 3.763963 3.648216 3.706089 3.648216 3.763963 3.763963 3.821837 3.590342 
+##      157      158      159      160      161      162      163      164      165      166 
+## 3.706089 3.648216 3.763963 3.706089 3.763963 3.590342 3.763963 3.763963 3.532468 3.590342 
+##      167      168      169      170      172      173      174      175      176      177 
+## 3.532468 3.474594 3.590342 3.821837 3.706089 3.706089 3.706089 3.590342 3.821837 3.532468 
+##      178      179      180      181      182      183      184      185      186      187 
+## 3.648216 3.590342 3.763963 3.763963 3.706089 3.648216 3.706089 3.706089 3.706089 3.706089 
+##      188      189      190      191      192      193      194      195      196      197 
+## 3.590342 3.590342 3.821837 3.590342 3.706089 3.532468 3.532468 3.763963 3.474594 3.590342 
+##      198      199      200      201      202      203      204      205      206      207 
+## 3.706089 3.648216 3.590342 3.706089 3.590342 3.648216 3.532468 3.648216 3.532468 3.590342 
+##      208      209      210      211 
+## 3.763963 3.648216 3.821837 3.763963
 ```
 
-Per Voreinstellung werden hier die vorhergesagten Werte aus unserem ursprünglichen Datensatz dargestellt. `predict()` erlaubt uns aber auch Werte von "neuen" Beobachtungen vorherzusagen. Nehmen wir an, wir würden die Extraversion von 5 neuen Personen beobachten (sie haben - vollkommen zufällig - die Werte 1, 2, 3, 4 und 5) und diese Beobachtungen in einem neuem Datensatz `extra_neu` festhalten:
+Per Voreinstellung werden hier die vorhergesagten Werte aus unserem ursprünglichen Datensatz dargestellt. `predict()` erlaubt uns aber auch Werte von "neuen" Beobachtungen vorherzusagen. Nehmen wir an, wir würden die Gewissenhaftigkeit von 5 neuen Personen beobachten (sie haben - vollkommen zufällig - die Werte 1, 2, 3, 4 und 5) und diese Beobachtungen in einem neuem Datensatz `gewis_neu` festhalten:
 
 
-```r
-extra_neu <- data.frame(extra = c(1, 2, 3, 4, 5))
+``` r
+gewis_neu <- data.frame(gewis = c(1, 2, 3, 4, 5))
 ```
 
-Anhand unseres Modells können wir für diese Personen auch ihre Nerdiness vorhersagen, obwohl wir diese nicht beobachtet haben:
+Anhand unseres Modells können wir für diese Personen auch ihre Vertrauen in die Psychologie als Wissenschaft vorhersagen, obwohl wir diese nicht beobachtet haben:
 
 
-```r
-predict(lin_mod, newdata = extra_neu)
+``` r
+predict(lin_mod, newdata = gewis_neu)
 ```
 
 ```
-##        1        2        3 
-## 3.586014 3.348449 3.110884 
-##        4        5 
-## 2.873319 2.635753
+##        1        2        3        4        5 
+## 3.358847 3.474594 3.590342 3.706089 3.821837
 ```
 
-Damit diese Vorhersage funktioniert, muss im neuen Datensatz eine Variable mit dem Namen `extra` vorliegen. Vorhergesagte Werte liegen immer auf der Regressionsgeraden.
+Damit diese Vorhersage funktioniert, muss im neuen Datensatz eine Variable mit dem Namen `gewis` vorliegen. Vorhergesagte Werte liegen immer auf der Regressionsgeraden.
 
 ****
 
@@ -622,23 +412,20 @@ Damit diese Vorhersage funktioniert, muss im neuen Datensatz eine Variable mit d
 Nun möchten wir aber vielleicht wissen, ob der beobachtete Zusammenhang auch statistisch bedeutsam ist oder vielleicht nur durch Zufallen zustande gekommen ist. Zuerst kann die Betrachtung der Konfidenzintervalle helfen. Der Befehl `confint()` berechnet die Konfidenzintervalle der Regressionsgewichte.
 
 
-```r
+``` r
 #Konfidenzintervalle der Regressionskoeffizienten
 confint(lin_mod)
 ```
 
 ```
-##                  2.5 %
-## (Intercept)  3.5044578
-## extra       -0.3307513
-##                 97.5 %
-## (Intercept)  4.1427013
-## extra       -0.1443791
+##                  2.5 %    97.5 %
+## (Intercept) 2.94515317 3.5410448
+## gewis       0.03500078 0.1964944
 ```
 
 
 
-Das Konfidenzintervall von -0.331 und -0.144 ist der Bereich, in dem wir den wahren Wert vermuten können. Zur Erinnerung: das 95% Konfidenzintervall  besagt, dass, wenn wir diese Studie mit der selben Stichprobengröße sehr oft wiederholen, 95% aller realisierten Konfidenzintervalle den wahren Wert für $b_1$ enthalten werden. Da die 0 nicht in diesem Intervall enthalten ist, ist 0 ein eher unwahrscheinlicher wahrer Wert für $b_1$.
+Das Konfidenzintervall von 0.035 und 0.196 ist der Bereich, in dem wir den wahren Wert vermuten können. Zur Erinnerung: das 95% Konfidenzintervall  besagt, dass, wenn wir diese Studie mit der selben Stichprobengröße sehr oft wiederholen, 95% aller realisierten Konfidenzintervalle den wahren Wert für $b_1$ enthalten werden. Da die 0 nicht in diesem Intervall enthalten ist, ist 0 ein eher unwahrscheinlicher wahrer Wert für $b_1$.
 
 * $b_1$  
     + H0: $b_1 = 0$, das Regressionsgewicht ist nicht von 0 verschieden.  
@@ -653,7 +440,7 @@ Für beide Parameter ($b_1$ uns $b_0$) wird die H0 auf einem alpha-Fehler-Niveau
 Eine andere Möglichkeit zur interferenzstatistischen Überprüfung ergibt sich über die p-Werte der Regressionskoeffizienten. Diese werden über die `summary()`-Funktion ausgegeben. `summary()` fasst verschiedene Ergebnisse eines Modells zusammen und berichtet unter anderem auch Signifikanzwerte.
 
 
-```r
+``` r
 #Detaillierte Modellergebnisse
 summary(lin_mod)
 ```
@@ -661,41 +448,28 @@ summary(lin_mod)
 ```
 ## 
 ## Call:
-## lm(formula = nerd ~ extra, data = fb24)
+## lm(formula = trust ~ gewis, data = fb25)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -1.7775 -0.4801  0.0788 
-##      3Q     Max 
-##  0.4787  1.4370 
+##      Min       1Q   Median       3Q      Max 
+## -1.30793 -0.31488  0.01845  0.29565  1.40966 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.82358
-## extra       -0.23757
-##             Std. Error
-## (Intercept)    0.16177
-## extra          0.04724
-##             t value Pr(>|t|)
-## (Intercept)  23.636  < 2e-16
-## extra        -5.029 1.15e-06
-##                
-## (Intercept) ***
-## extra       ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.24310    0.15111  21.463  < 2e-16 ***
+## gewis        0.11575    0.04095   2.826  0.00518 ** 
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.6601 on 188 degrees of freedom
-##   (2 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.1186,	Adjusted R-squared:  0.1139 
-## F-statistic: 25.29 on 1 and 188 DF,  p-value: 1.146e-06
+## Residual standard error: 0.4657 on 202 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared:  0.03804,	Adjusted R-squared:  0.03328 
+## F-statistic: 7.989 on 1 and 202 DF,  p-value: 0.005179
 ```
 
-Aus `summary()`: $p < \alpha$ $\rightarrow$ H1: Das Regressionsgewicht für den Prädiktor Extraversion ist signifikant von 0 verschieden. Der Zusammenhang von Extraversion und Nerdiness ist statistisch bedeutsam. 
+Aus `summary()`: $p < \alpha$ $\rightarrow$ H1: Das Regressionsgewicht für den Prädiktor Gewissenhaftigkeit ist signifikant von 0 verschieden. Der Zusammenhang von Gewissenhaftigkeit und Vertrauen in die Psychologie als Wissenschaft ist statistisch bedeutsam. 
 
-Aus `summary()`: $p < \alpha$ $\rightarrow$ H1: der Achsenabschnitt ist signifikant von 0 verschieden. Beträgt die Extraversion 0 wird eine von 0 verschiedene Nerdiness vorhergesagt. 
+Aus `summary()`: $p < \alpha$ $\rightarrow$ H1: der Achsenabschnitt ist signifikant von 0 verschieden. Beträgt die Gewissenhaftigkeit 0 wird eine von 0 verschiedene Vertrauen in die Psychologie als Wissenschaft vorhergesagt. 
 
 Konfidenzinteralle und p-Werte für Regressionskoeffizienten kommen immer zu denselben Schlussfolgerungen in Bezug darauf, ob die H0 beibehalten oder verworfen wird!
 
@@ -705,35 +479,37 @@ Konfidenzinteralle und p-Werte für Regressionskoeffizienten kommen immer zu den
 
 Darüber hinaus können wir uns auch anschauen, wie gut unser aufgestelltes Modell generell zu den Daten passt und Varianz erklärt. Der Determinationskoeffizient $R^2$ ist eine Kennzahl zur Beurteilung der Anpassungsgüte einer Regression. Anhand dessen kann bewertet werden, wie gut Messwerte zu einem Modell passen. Das Bestimmtheitsmaß ist definiert als der Anteil, der durch die Regression erklärten Quadratsumme an der zu erklärenden totalen Quadratsumme. Es gibt somit an, wie viel Streuung in den Daten durch das vorliegende lineare Regressionsmodell „erklärt“ werden kann. Bei einer einfachen Regression entspricht $R^2$ dem Quadrat des Korrelationskoeffizienten, wie wir später noch sehen werden.
 
-Um $R^2$ zu berechnen, gibt es verschiedene Möglichkeiten.
+<details><summary>Händische Berechnung des Determinationskoeffizienten</summary>
 
 Für die Berechnung per Hand werden die einzelnen Varianzen benötigt:
 
 $R^2 = \frac{s^2_{\hat{Y}}}{s^2_{Y}} = \frac{s^2_{\hat{Y}}}{s^2_{\hat{Y}} + s^2_{E}}$
 
 
-```r
+``` r
 # Anhand der Varianz von lz
-var(predict(lin_mod)) / var(fb24$nerd, use = "na.or.complete")
+var(predict(lin_mod)) / var(fb25$trust, use = "na.or.complete")
 ```
 
 ```
-## [1] 0.1185758
+## [1] 0.03804456
 ```
 
-```r
+``` r
 # Anhand der Summe der Varianzen
 var(predict(lin_mod)) / (var(predict(lin_mod)) + var(resid(lin_mod)))
 ```
 
 ```
-## [1] 0.1185758
+## [1] 0.03804456
 ```
+</details>
 
-Jedoch kann dieser umständliche Weg mit der Funktion `summary()`, die wir vorhin schon kennen gelernt haben, umgangen werden. Anhand des p-Werts kann hier auch die Signifikanz des $R^2$ überprüft werden.
+
+Um $R^2$ zu bestimmen, braucht es gar keinen extra Schritt. In der Funktion `summary()`, die wir vorhin schon kennen gelernt haben, wird der Wert mit ausgegeben. Außerdem kann anhan des p-Werts hier auch die Signifikanz des $R^2$ überprüft werden.
 
 
-```r
+``` r
 #Detaillierte Modellergebnisse
 summary(lin_mod)
 ```
@@ -741,36 +517,23 @@ summary(lin_mod)
 ```
 ## 
 ## Call:
-## lm(formula = nerd ~ extra, data = fb24)
+## lm(formula = trust ~ gewis, data = fb25)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -1.7775 -0.4801  0.0788 
-##      3Q     Max 
-##  0.4787  1.4370 
+##      Min       1Q   Median       3Q      Max 
+## -1.30793 -0.31488  0.01845  0.29565  1.40966 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.82358
-## extra       -0.23757
-##             Std. Error
-## (Intercept)    0.16177
-## extra          0.04724
-##             t value Pr(>|t|)
-## (Intercept)  23.636  < 2e-16
-## extra        -5.029 1.15e-06
-##                
-## (Intercept) ***
-## extra       ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.24310    0.15111  21.463  < 2e-16 ***
+## gewis        0.11575    0.04095   2.826  0.00518 ** 
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.6601 on 188 degrees of freedom
-##   (2 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.1186,	Adjusted R-squared:  0.1139 
-## F-statistic: 25.29 on 1 and 188 DF,  p-value: 1.146e-06
+## Residual standard error: 0.4657 on 202 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared:  0.03804,	Adjusted R-squared:  0.03328 
+## F-statistic: 7.989 on 1 and 202 DF,  p-value: 0.005179
 ```
 
 Determinationskoeffizient $R^2$ ist signifikant, da $p < \alpha$.
@@ -778,17 +541,17 @@ Determinationskoeffizient $R^2$ ist signifikant, da $p < \alpha$.
 Der Determinationskoeffizient $R^2$ kann auch direkt über den Befehl `summary(lin_mod)$r.squared` ausgegeben werden:
 
 
-```r
+``` r
 summary(lin_mod)$r.squared
 ```
 
 ```
-## [1] 0.1185758
+## [1] 0.03804456
 ```
 
 
 
-11.86% der Varianz von `nerd` können durch `extra` erklärt werden. Dieser Effekt ist nach Cohens (1988) Konvention als mittelstark zu bewerten, wenn keine Erkenntnisse in dem spezifischen Bereich vorliegen.
+3.8% der Varianz von `trust` können durch `gewis` erklärt werden. Dieser Effekt ist nach Cohens (1988) Konvention als schwach bis mittel zu bewerten, wenn keine Erkenntnisse in dem spezifischen Bereich vorliegen.
 
 {{< intext_anchor Effekt >}}
 
@@ -804,32 +567,34 @@ Konventionen sind, wie bereits besprochen, heranzuziehen, wenn keine vorherigen 
 
 ### Standardisierte Regressionsgewichte {#Standardgewichte}
 
-Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufgenommen wird wie in der nächsten [Sitzung](/lehre/statistik-i/multiple-reg/)) kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
+Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufgenommen wird wie in der nächsten [Sitzung](/lehre/statistik-i/multiple-reg/)) kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `trust` und `gewis` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
+
 Die Variablen werden mit `scale()` standardisiert (z-Transformation; Erwartungswert gleich Null und die Varianz gleich Eins gesetzt). Mit `lm()` wird das Modell berechnet.
 
 
-```r
-s_lin_mod <- lm(scale(nerd) ~ scale(extra), fb24) # standardisierte Regression
+``` r
+s_lin_mod <- lm(scale(trust) ~ scale(gewis), fb25) # standardisierte Regression
 s_lin_mod
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = scale(nerd) ~ scale(extra), data = fb24)
+## lm(formula = scale(trust) ~ scale(gewis), data = fb25)
 ## 
 ## Coefficients:
-##  (Intercept)  scale(extra)  
-##     -0.00218      -0.34476
+##  (Intercept)  scale(gewis)  
+##   -0.0002555     0.1941450
 ```
-Gut zu wissen: `scale()` verwendet zur Standardisierung alle vorliegenden Werte der Variable. In unserem Datensatz hat allerdings eine Person einen  Wert auf `extra`, jedoch einen fehlenden Wert auf `nerd`. Die Standardisierung findet daher nicht an exakt den gleichen Personen statt.
+
+Gut zu wissen: `scale()` verwendet zur Standardisierung alle vorliegenden Werte der Variable. In unserem Datensatz gibt es allerdings einige Personen, die einen  Wert auf `gewis` haben, jedoch einen fehlenden Wert auf `trust`. Die Standardisierung findet daher nicht an exakt den gleichen Personen statt.
 
 Eine andere Variante, bei der die z-Standardisierung automatisch im Hintergrund passiert und nicht von uns manuell durch `scale()` erfolgen muss, liefert die Funktion `lm.beta()` aus dem gleichnamigen Paket `lm.beta`.   
 
 Nach der (ggf. nötigen) Installation müssen wir das Paket für die Bearbeitung laden.
 
 
-```r
+``` r
 # Paket erst installieren (wenn nötig):
 if (!requireNamespace("lm.beta", quietly = TRUE)) {
   install.packages("lm.beta")
@@ -837,16 +602,10 @@ if (!requireNamespace("lm.beta", quietly = TRUE)) {
 library(lm.beta)
 ```
 
-```
-## Warning: Paket 'lm.beta'
-## wurde unter R Version 4.3.1
-## erstellt
-```
-
 Die Funktion `lm.beta()` muss auf ein Ergebnis der normalen `lm()`-Funktion angewendet werden. Wir haben dieses Ergebnis im Objekt `lin_mod` hinterlegt. Anschließend wollen wir uns für die Interpretation wieder das `summary()` ausgeben lassen. Natürlich kann man diese Schritte auch mit der Pipe lösen, was als Kommentar noch aufgeführt ist.
 
 
-```r
+``` r
 lin_model_beta <- lm.beta(lin_mod)
 summary(lin_model_beta) # lin_mod |> lm.beta() |> summary()
 ```
@@ -854,44 +613,28 @@ summary(lin_model_beta) # lin_mod |> lm.beta() |> summary()
 ```
 ## 
 ## Call:
-## lm(formula = nerd ~ extra, data = fb24)
+## lm(formula = trust ~ gewis, data = fb25)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -1.7775 -0.4801  0.0788 
-##      3Q     Max 
-##  0.4787  1.4370 
+##      Min       1Q   Median       3Q      Max 
+## -1.30793 -0.31488  0.01845  0.29565  1.40966 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.82358
-## extra       -0.23757
-##             Standardized
-## (Intercept)           NA
-## extra           -0.34435
-##             Std. Error
-## (Intercept)    0.16177
-## extra          0.04724
-##             t value Pr(>|t|)
-## (Intercept)  23.636  < 2e-16
-## extra        -5.029 1.15e-06
-##                
-## (Intercept) ***
-## extra       ***
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)  3.24310           NA    0.15111  21.463  < 2e-16 ***
+## gewis        0.11575      0.19505    0.04095   2.826  0.00518 ** 
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.6601 on 188 degrees of freedom
-##   (2 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.1186,	Adjusted R-squared:  0.1139 
-## F-statistic: 25.29 on 1 and 188 DF,  p-value: 1.146e-06
+## Residual standard error: 0.4657 on 202 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared:  0.03804,	Adjusted R-squared:  0.03328 
+## F-statistic: 7.989 on 1 and 202 DF,  p-value: 0.005179
 ```
 
 Wir sehen, dass die ursprüngliche Ausgabe um die Spalte `standardized` erweitert wurde. An der standardisierten Lösung fällt auf, dass das Intercept als `NA` angezeigt wird. Dies liegt wie bereits besprochen daran, dass beim Standardisieren die Mittelwerte aller Variablen (Prädiktoren und Kriterium, bzw. unabhängige und abhängige Variable) auf 0 und die Standardabweichungen auf 1 gesetzt werden. Somit muss das Intercept hier genau 0 betragen, weshalb auf eine Schätzung verzichtet werden kann. 
 
-Die Interpretation standardisierter Regressionsgewichte weicht leicht von der Interpration unstandardisierter Regressionsgewichte ab. Der Achsenabschnitt ist 0, da die Regressionsgerade durch den Mittelwert beider Variablen geht, die beide auch 0 sind. Das Regressionsgewicht hingegen beinhaltet die erwartete Veränderung von -0.24 Standardabweichungen in Nerdiness bei einer Standardabweichung mehr in Extraversion.
+Die Interpretation standardisierter Regressionsgewichte weicht leicht von der Interpration unstandardisierter Regressionsgewichte ab. Der Achsenabschnitt ist 0, da die Regressionsgerade durch den Mittelwert beider Variablen geht, die beide auch 0 sind. Das Regressionsgewicht hingegen beinhaltet die erwartete Veränderung von 0.12 Standardabweichungen in Vertrauen in die Psychologie als Wissenschaft bei einer Standardabweichung mehr in Gewissenhaftigkeit.
 
 ****
 
@@ -899,84 +642,83 @@ Die Interpretation standardisierter Regressionsgewichte weicht leicht von der In
 
 Wie bereits weiter oben angesprochen, gibt es bei der einfachen linearen Regression (1 Prädiktor) einen Zusammenhang zur Produkt-Moment-Korrelation. Dies wollen wir jetzt uns nochmal genauer anschauen.
 
-In diesem Falle ist nämlich das standardisierte Regressionsgewicht identisch zur Produkt-Moment-Korrelation aus Prädiktor (`extra`) und Kriterium (`nerd`).
+In diesem Falle ist nämlich das standardisierte Regressionsgewicht identisch zur Produkt-Moment-Korrelation aus Prädiktor (`gewis`) und Kriterium (`trust`). Wir müssen bedenken, dass wir hier das Objekt `lin_mod_beta` nehmen müssen, da in `s_lin_mod` Personen in die Standardisierung eingeflossen sind, die bei den anderen Berechnungen komplett ausgeschlossen wurden.
 
 
-```r
-cor(fb24$nerd, fb24$extra, use = "pairwise")   # Korrelation
-```
-
-```
-## [1] -0.3443484
-```
-
-```r
-coef(s_lin_mod)["scale(extra)"] # Regressionsgewicht
+``` r
+cor(fb25$trust, fb25$gewis, use = "pairwise")   # Korrelation
 ```
 
 ```
-## scale(extra) 
-##   -0.3447595
+## [1] 0.1950501
 ```
 
-```r
-round(coef(s_lin_mod)["scale(extra)"],2) == round(cor(fb24$nerd, fb24$extra,use = "pairwise"),2)
-```
-
-```
-## scale(extra) 
-##         TRUE
-```
-Hier unterscheiden sich die Koeffizienten jedoch an der dritten Nachkommastlle. Das liegt daran, dass bei der Standardisierung von `extra` und `nerd` lediglich fehlende Werte auf der jeweiligen Variable ausgeschlossen werden mussten. Bei `cor()` müssen jedoch beide Variablen auf ihre fehlenden Werte hin betrachtet werden. Wie zuvor erwähnt, liegt in unserem Datensatz eine Person vor, die einen Wert auf `extra`, jedoch einen fehlenden Wert auf `nerd` aufweist. Der unterschiedliche Umgang mit fehlenden Werten führt hier daher zu einer kleinen Abweichung. Diese ist jedoch inhaltlich nicht relevant. Wir umgehen das Problem daher, indem wir uns lediglich die ersten beiden Nachkommastellen ausgebelen lassen.
-
-Entsprechend ist das Quadrat der Korrelation identisch zum Determinationskoeffizienten des Modells mit standardisierten Variablen...
-
-
-```r
-cor(fb24$nerd, fb24$extra,  use = "pairwise")^2   # Quadrierte Korrelation
+``` r
+coef(lin_model_beta)["gewis"] # Regressionsgewicht
 ```
 
 ```
-## [1] 0.1185758
+##     gewis 
+## 0.1950501
 ```
 
-```r
-summary(s_lin_mod)$r.squared  # Det-Koeffizient Modell mit standardisierten Variablen
+``` r
+round(coef(lin_model_beta)["gewis"],2) == round(cor(fb25$trust, fb25$gewis,use = "pairwise"),2)
 ```
 
 ```
-## [1] 0.1185758
+## gewis 
+##  TRUE
 ```
 
-```r
-round((cor(fb24$nerd, fb24$extra, use = "pairwise")^2),3) == round(summary(s_lin_mod)$r.squared, 3)
+Entsprechend ist das Quadrat der Korrelation identisch zum Determinationskoeffizienten des Modells mit standardisierten Variablen.
+
+
+``` r
+cor(fb25$trust, fb25$gewis,  use = "pairwise")^2   # Quadrierte Korrelation
+```
+
+```
+## [1] 0.03804456
+```
+
+``` r
+summary(lin_model_beta)$r.squared  # Det-Koeffizient Modell mit standardisierten Variablen
+```
+
+```
+## [1] 0.03804456
+```
+
+``` r
+round((cor(fb25$trust, fb25$gewis, use = "pairwise")^2),3) == round(summary(lin_model_beta)$r.squared, 3)
 ```
 
 ```
 ## [1] TRUE
 ```
 
-... und unstandardisierten Variablen.
+Die Gleichheit der quadrierten Korrelation und des Determinationskoeffizienten gilt auhc für die unstandardisierten Variablen.
 
 
-```r
-cor(fb24$nerd, fb24$extra,  use = "pairwise")^2   # Quadrierte Korrelation
+``` r
+cor(fb25$trust, fb25$gewis,  use = "pairwise")^2   # Quadrierte Korrelation
 ```
 
 ```
-## [1] 0.1185758
+## [1] 0.03804456
 ```
 
-```r
+``` r
 summary(lin_mod)$r.squared  # Det-Koeffizient Modell mit unstandardisierten Variablen
 ```
 
 ```
-## [1] 0.1185758
+## [1] 0.03804456
 ```
 
-```r
-round((cor(fb24$nerd, fb24$extra,  use = "pairwise")^2),3) == round(summary(lin_mod)$r.squared, 3)
+``` r
+round((cor(fb25$trust, fb25$gewis,  use = "pairwise")^2),3) == round(summary(lin_mod)$r.squared, 3)
 ```
 
 ```
