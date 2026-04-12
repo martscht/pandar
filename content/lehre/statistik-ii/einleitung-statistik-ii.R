@@ -1,21 +1,18 @@
 # Aktuelle R-Version kontrollieren
 R.Version()$version.string
 
-## # Updated Packages - auskommentiert, damit es nicht direkt ausgeführt wird
-## update.packages(ask = FALSE)
-
-# Ein Additionsbeispiel, dass in der Konsole ausgeführt wird
-2 + 1
+# # Updated Packages - auskommentiert, damit es nicht direkt ausgeführt wird
+# update.packages(ask = FALSE)
 
 #### Wiederholung in R ----
 
-1 + 2 # Addition
+1 + 2   # Addition
 
-3 == 4 # Logische Abfrage auf Gleichheit
+3 == 4   # Logische Abfrage auf Gleichheit
 
 sum(1, 2) # Addition durch Funktion
 
-# Listet die Argumente der Funktion, hier Zahl die Nachkommastellen angibt als Zusatz zu der zu rundenden Zahl
+#Listet die Argumente der Funktion, hier Zahl die Nachkommastellen angibt als Zusatz zu der zu rundenden Zahl
 args(round)
 
 # Demonstration von round und seinem Default-Wert für die Zahl!
@@ -39,12 +36,12 @@ sum(3, 4, 1, 2) |> sqrt() # Nutzung Pipe
 
 #### Vektoren ----
 
-zahlen <- c(8, 3, 4) # Vektorerstellung
+zahlen <- c(8, 3, 4) #Vektorerstellung
 
 zahlen * 3 # Multiplikation der Elemente des Vektors
 
-# Vier Typen von Vektor, logical/numeric/character/factor
-# str() ermittelt die Klasse
+#Vier Typen von Vektor, logical/numeric/character/factor
+#str() ermittelt die Klasse
 str(zahlen)
 
 # Umwandlung des Vektors in character
@@ -73,10 +70,10 @@ nrow(mat)
 ncol(mat)
 dim(mat) # alternativer Befehl
 
-## #### Datenmanagement ----
-##
-## # Beispiel, eine RDA zu laden, die sich auf dem eigenen Desktop befindet
-## load("C:/Users/Musterfrau/Desktop/mach.rda")
+# #### Datenmanagement ----
+# 
+# # Beispiel, eine RDA zu laden, die sich auf dem eigenen Desktop befindet
+# load("C:/Users/Musterfrau/Desktop/mach.rda")
 
 # Laden des Datensatz aus dem Internet
 load(url("https://pandar.netlify.app/daten/mach.rda"))
@@ -86,15 +83,16 @@ head(mach) # ersten 6 Zeilen
 
 names(mach) # Namen der Variablen
 
-dim(mach) # Anzahl der Zeilen und Spalten
+dim(mach) # Anzahl der Zeilen und Spalten 
 
 #### Deskriptivstatistik ----
 
-mean(mach$cvhn) # Mittelwert
-var(mach$cvhn) # geschätzte Populationsvarianz
+mean(mach$cvhn)    # Mittelwert
+var(mach$cvhn)     # geschätzte Populationsvarianz
 
-## # Beispiel der Indizierung über eckige Klammern statt Variablenname
-## mach[, 25] # Alle Zeilen, Spalte 25
+# # Beispiel der Indizierung über eckige Klammern statt Variablenname
+# mach[, 25] # Alle Zeilen, Spalte 25
+
 
 # Betrachten der Häufigkeit & Format der Variable
 table(mach$engnat)
@@ -102,18 +100,17 @@ str(mach$engnat)
 
 # Variable wird zum Faktor umgewandelt, da sie numerisch vorlag
 
-mach$engnat <- factor(mach$engnat, # Ausgangsvariable
-  levels = 1:2, # Faktorstufen
-  labels = c("Ja", "Nein")
-) # Bedeutung
+mach$engnat <- factor(mach$engnat,                # Ausgangsvariable
+                      levels = 1:2,               # Faktorstufen
+                      labels = c("Ja", "Nein"))   # Bedeutung
 
-str(mach$engnat) # Test der Umwandlung
+str(mach$engnat)                                  # Test der Umwandlung
 
 # Describe wird ohne Package ausgeführt um zu zeigen, dass es so einen Fehler wirft
 describe(mach$cvhn)
 
-## # Package installieren, falls nicht schon vorhanden
-## install.packages("psych")
+# # Package installieren, falls nicht schon vorhanden
+# install.packages("psych")
 
 # Package wird aus der Library geladen und danach erneut describe () ausgeführt
 library(psych)
@@ -126,42 +123,37 @@ plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtw
 
 lm(cvhn ~ pvhn, mach) # lineare Regression
 
-model <- lm(cvhn ~ pvhn, mach) # Objektzuweisung
+model <- lm(cvhn ~ pvhn, mach)  # Objektzuweisung
 
 summary(model) # Ergebniszusammenfassung
 
 # names() enthält unter anderem die 'residuals' für Voraussetzungsprüfung, als auch vorgehesagte Werte, 'fitted.values'
 names(model) # andere Inhalte der Liste
 
+
+
 #### T-test ----
 
 # t-Test; H0: Mittelwert von cvhn ist nicht signifikant verschieden zwischen non-native english speakers und native english speakers, Voraussetzungen werden als erfüllt angenommen
-t.test(cvhn ~ engnat, # abhängige Variable ~ unabhängige Variable
-  data = mach, # Datensatz
-  alternative = "two.sided", # zweiseitige Testung (Default)
-  var.equal = TRUE, # Homoskedastizität liegt vor (-> Levene-Test)
-  conf.level = .95
-) # alpha = .05 (Default)
+t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
+       data = mach, # Datensatz
+      alternative = "two.sided",        # zweiseitige Testung (Default)
+      var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
+      conf.level = .95)                 # alpha = .05 (Default)
+
+
+
+
+
+
 
 # T-test wird abgespeichert, im Nachhinein wird gezeigt, dass man sich mit names() wieder alle Variablen anzeigen lassen kann
 
-ttest <- t.test(cvhn ~ engnat, # abhängige Variable ~ unabhängige Variable
-  data = mach, # Datensatz
-  alternative = "two.sided", # zweiseitige Testung (Default)
-  var.equal = TRUE, # Homoskedastizität liegt vor (-> Levene-Test)
-  conf.level = .95
-) # alpha = .05 (Default)
-names(ttest) # alle möglichen Argumente, die wir diesem Objekt entlocken können
+ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
+       data = mach, # Datensatz
+      alternative = "two.sided",        # zweiseitige Testung (Default)
+      var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
+      conf.level = .95)                 # alpha = .05 (Default)
+names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken können
 ttest$statistic # (empirischer) t-Wert
-ttest$p.value # zugehöriger p-Wert
-
-set.seed(123)
-group1 <- rnorm(20, mean = 10, sd = 2)
-group2 <- rnorm(20, mean = 12, sd = 2)
-
-t.test(group1, group2)
-
-foo <- function(x) {
-  x <- na.omit(x)
-  sum((x - mean(x))^2) / length(x)
-}
+ttest$p.value   # zugehöriger p-Wert
