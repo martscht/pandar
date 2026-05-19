@@ -7,7 +7,7 @@ categories: ["Statistik II"]
 tags: ["ANOVA", "Post-Hoc", "Einfaktoriell"] 
 subtitle: '1-fakt. ANOVA'
 summary: ''
-authors: [nehler, scheppa-lahyani, irmer, wallot ]
+authors: [nehler, scheppa-lahyani, irmer, wallot, pommeranz]
 weight: 8
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -45,7 +45,7 @@ if (exists("figure_path")) {
 
 In den letzten Sitzungen haben wir uns mit der Beantwortung von Zusammenhangsfragestellungen im Rahmen von Korrelation und Regression beschäftigt. Wie auch im letzten Semester werden wir uns nun mit Fragestellungen zum Unterschied beschäftigen. Dort haben wir bereits den **t-Test** kennen gelernt, mit dem Mittelwertsunterschiede zwischen zwei Gruppen untersucht werden können. Wenn wir nun mehr als zwei Gruppen miteinander vergleichen möchten, müssten wir mehrere **t-Tests** mit allen Kombinationen durchführen. Bei z. B. 3 Gruppen müssten wir $\binom{3}{2}$ - also in diesem Fall 3  *t-Tests* durchführen. Dies führt aber zu einer $\alpha$**-Fehler-Inflation oder -Kumulierung**. 
 
-Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten Wochen beschäftigen wird. Heute fokussieren wir uns zunächst auf ein Setting, in dem *eine Gruppenvariable* vorliegt, auf der sich die Personen untereinander unterscheiden (auch als *between subject* bezeichnet). Es handelt sich also hierbei zunächst um die Erweiterung des t-Tests für *unabhängige* Stichproben (Erweiterung des t-Tests für abhängige gibt es [hier](/lehre/statistik-ii/anova-iii)). Die Gruppierungsvariable kann beliebig viele Ausprägungen haben - wir bleiben im Beispiel bei 3 Stück. Wir nutzen heute also eine *einfaktorielle ANOVA* - die eine Gruppenvariable stellt den einen Faktor dar. Wie das Verfahren für mehrere Gruppenvariablen ist, wird in der nächsten Sitzung besprochen. Mehr zur *einfaktoriellen ANOVA* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
+Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten Wochen beschäftigen wird. Heute fokussieren wir uns zunächst auf ein Setting, in dem *eine Gruppenvariable* vorliegt, auf der sich die Personen untereinander unterscheiden (auch als *between subject* bezeichnet). Es handelt sich also hierbei zunächst um die Erweiterung des t-Tests für *unabhängige* Stichproben (Erweiterung des t-Tests für abhängige gibt es [hier](/lehre/statistik-ii/anova-iii)). Die Gruppierungsvariable kann beliebig viele Ausprägungen haben - wir nutzen im Beispiel den einfachsten Fall mit 3 Ausprägungen. Das Verfahren wir dann *einfaktorielle ANOVA* genannt - die eine Gruppenvariable stellt den einen Faktor dar. Wie das Verfahren für mehrere Gruppenvariablen ist, wird in der nächsten Sitzung besprochen. Mehr zur *einfaktoriellen ANOVA* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
 Die praktische Umsetzung in `R` soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, der Skalenwerte enthält, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
@@ -74,13 +74,13 @@ Die **ersten vier Variablen** enthalten Informationen über den demographischen 
 
 ## Einfaktorielle ANOVA
 
-Die Durchführung der ANOVA benötigt natürlich Hypothesen, die uns bei der Auswertung interessieren. In unserem Beispiel soll untersucht werden, ob sich Personen je nach Ländlichkeit ihres Wohnortes (*rural*, *suburban*, *urban* - Variablenname `urban`) in der Überzeugung unterscheiden, inwiefern die Existenz von Außerirdischen (Skalenwert Variablenname `EC`) geheimgehalten wird (Beispielitem: Evidence of alien contact is being concealed from the public).
+Als inferenzstatistisches Verfahren benötigt die einfaktorielle ANOVA vor der Durchführung natürlich Hypothesen. In unserem Beispiel soll untersucht werden, ob sich Personen je nach Ländlichkeit ihres Wohnortes (*rural*, *suburban*, *urban* - Variablenname `urban`) in der Überzeugung unterscheiden, inwiefern die Existenz von Außerirdischen (Skalenwert Variablenname `EC`) geheimgehalten wird (Beispielitem: Evidence of alien contact is being concealed from the public).
 
-In der *einfaktoriellen ANOVA* wird die **Gleichheit aller Gruppenmittelwerte als Nullhypothese** postuliert. Dies bedeutet, dass sich Bewohner:innen des ländlichen Raums (`rural`), des vorstädtischen Raums (`suburban`) und der Stadt (`urban`) nicht hinsichtlich ihrer Zustimmung zur Verschwörungstheorie (`EC`) unterscheiden:
+In der einfaktoriellen ANOVA wird die **Gleichheit aller Gruppenmittelwerte als Nullhypothese** postuliert. Dies bedeutet, dass sich Bewohner:innen des ländlichen Raums (`rural`), des vorstädtischen Raums (`suburban`) und der Stadt (`urban`) nicht hinsichtlich ihrer Zustimmung zur Verschwörungstheorie (`EC`) unterscheiden:
   
 $H_0: \mu_{\text{rural}} = \mu_{\text{suburban}} = \mu_{\text{urban}}$
   
-Im Rahmen der vorliegenden Daten müssen wir beachten, dass der Variablenname `urban` genauso gewählt wurde, wie eine seiner Ausprägungen (für den städtischen Raum). Für bestimmte Code-Abschnitte ist es wichtig, das im Hinterkopf zu behalten, um nicht verwirrt zu werden.
+Im Rahmen der vorliegenden Daten müssen wir beachten, dass der Variablenname `urban` genauso gewählt wurde, wie eine seiner Ausprägungen (für den städtischen Raum). Für bestimmte Code-Abschnitte und die Interpretation ist es wichtig, das im Hinterkopf zu behalten, um nicht verwirrt zu werden.
 
 Bei der Alternativhypothese wird angenommen, dass sich **mindestens zwei dieser Subgruppen** im Mittel voneinander unterscheiden:
   
@@ -97,6 +97,8 @@ Schauen wir uns zunächst die mathematischen Grundlagen der einfaktoriellen ANOV
 $$QS_{tot} = QS_{zw} + QS_{inn}$$
     
 Die totale Quadratsumme als Repräsentant der Gesamtvariation kann auch als quadrierte Abstände aller Werte zum Gesamtmittelwert dargestellt werden. $i$ ist dabei der Index der Personen, $k$ der Index der Gruppe, $K$ die Gesamtanzahl der Gruppen und $n_k$ ist die Gruppengröße der k-ten Gruppen. 
+
+
 
 $$QS_{tot} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y})^2$$
     
@@ -259,18 +261,25 @@ Detaillierte Ergebnisse können wir natürlich erhalten, wenn wir die Berechnung
 einfakt <- aov_4(EC ~ urban + (1|id), data = conspiracy)
 ```
   
-Es entsteht eine verschachtelte Liste mit 5 Einträgen, welche weitere Untereinträge enthalten. Standardmäßig wird nur der `anova_table` beim Aufruf ausgegeben. Als Beispiel, welches für uns interessant ist, können wir uns die jeweiligen Quadratsummen ausgeben lassen. Mit diesen lässt sich auch der F-Wert händisch bestimmen (siehe vorherige Vertiefung zur händischen Berechnung).
+Es entsteht eine verschachtelte Liste mit 5 Einträgen, welche weitere Untereinträge enthalten. Standardmäßig wird nur der `anova_table` beim Aufruf ausgegeben. Beispielsweise können wir uns die jeweiligen Quadratsummen ausgeben lassen. 
 
 ```{r}
-# QS_zw
+# Quadratsumme zwischen den Gruppen
+# QS_zw in händischer Berechnung
 einfakt$Anova$`Sum Sq`[2]
-# QS_inn
+# Quadratsumme innerhalb der Gruppen
+# QS_inn in händischer Berechnung
 einfakt$Anova$`Sum Sq`[3]
 ```
 
-Gucken Sie sich die restlichen Bestandteile gerne selbst im Detail an.
+Mit diesen lässt sich auch der $F$-Wert händisch bestimmen (siehe vorherige Vertiefung zur händischen Berechnung). Die Formel beschreibt das Verhältnis zwischen der durch die Gruppierungsvariable erklärten Varianz und der Varianz innerhalb der Gruppen (Fehlervarianz):
 
-Wir nutzen das soeben erstellte Objekt im Tutorial nun für den folgenden Abschnitt.
+
+$$F_{emp} = \frac{MQS_{zw}}{MQS_{inn}} = \frac{\frac{QS_{zw}}{df_{zw}}}{\frac{QS_{inn}}{df_{inn}}}$$
+
+Dabei kann der $F$-Wert größer als 1 werden, obwohl $QS_{inn}$ häufig deutlich größer ist als $QS_{zw}$. Der Grund ist, dass nicht die Quadratsummen selbst verglichen werden, sondern die mittleren Quadratsummen, also die Quadratsummen relativ zu ihren Freiheitsgraden. Dadurch werden beide Varianzschätzungen vergleichbar gemacht. Diese Verrechnung ist gerechtfertigt, weil Quadratsummen mit zunehmender Anzahl an Beobachtungen allein aufgrund der größeren Informationsmenge anwachsen. Erst die mittleren Quadratsummen stellen daher vergleichbare Schätzungen von Varianz dar.
+
+Betrachten Sie die Struktur des Objekts gerne genauer, um zu verstehen, wie die Informationen hier abgelegt sind. Wir nutzen nun das soeben erstellte Objekt im Tutorial für den folgenden Abschnitt.
   
 ## Post-Hoc Analysen
   
