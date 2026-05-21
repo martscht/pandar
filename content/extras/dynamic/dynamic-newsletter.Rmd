@@ -40,6 +40,38 @@ if (exists("figure_path")) {
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
+This page contains a collection of newsletters distributed as part of the methodological consultation within the DYNAMIC project. These newsletters highlight recent papers covering potentially interesting methodological ideas in psychological network analysis and more general ESM research. However, the lists of papers are not intended to be exhaustive.
+
+## Newsletter 2026-02
+
+In this newsletter, we are including work on (1) fit assessment of cross-sectional network models, (2) study design in experience sampling research, (3) the utility of personalized networks, and (4) visual diagnostic checks for vector autoregressive models.
+
+1. Du, X., & Epskamp, S. (2026, Jan 19). Dynamical Fit Index Cutoffs for Gaussian Graphical Models. Retrieved from [osf.io/preprints/psyarxiv/5wj2y_v1](osf.io/preprints/psyarxiv/5wj2y_v1)
+
+    * The paper aims to support confirmatory network analysis by introducing fit index cutoffs for Gaussian graphical models.
+    * Because fixed cutoffs strongly depend on the model specifications and study characteristics under which they were originally derived, the authors propose dynamic cutoffs based on an algorithm that adapts to sample and model characteristics.
+    * The proposed approach shows promising performance across many scenarios compared to traditional approaches. While some aspects in the algorithm still require user decisions, the authors provide guidelines depending on the research goal.
+    * The dynamic cutoff algorithm is implemented in the `netDFI` R package, currently available on [GitHub](https://github.com/xinkaidupsy/netDFI)
+
+2. Peeters, Lisa, Wim Van Den Noortgate, M. A Blanchard, Marie Suenaert, Gudrun Eisele, Olivia J Kirtley, Richard Artner, and Ginette Lafit. Mapping Methodological Variation in Experience Sampling Research from Design to Data Analysis: A Systematic Review. PsyArXiv, September 23, 2025. doi:10.31234/osf.io/enqy9_v1.
+
+    * Experience Sampling Method (ESM) studies are highly heterogeneous in design, conduct, and analysis. When designing a new study, it is often difficult to get an overview over the choices of other authors due to the huge extent of the literature.
+    * Peeters and colleague analyzed the workflow of 162 ESM studies of recent years. They provide an extensive list of information across studies, which is available in their online supplements.
+    * Luckily, they observe some progress over time: Sample sizes and open science practices have increased in recent years, but there is still ample room for further improvement.
+
+3. Razum, J., Mehulić, J., Maciejewski, D., & Bringmann, L. F. (2026, May 12). Are personalized networks worth it? An experimental study. Retrieved from osf.io/preprints/psyarxiv/u3vzj_v1
+
+    * One of the key advantages of person-specific networks is their application in case conceptualisation. Creating and visualising personalised networks based on individuals' time series data could generate insights for both clients and psychotherapists. However, there is limited evidence regarding the effectiveness and validity of this approach. Since it is often very difficult to accurately estimate such networks based on the data of a single individual, it is important to verify whether these networks are actually useful.
+    * In their study, Razum and colleagues had 165 university students complete EMA surveys five times per day for three weeks, answering questions about momentary emotions and experiences. After the EMA period, each participant was provided with three networks: their own, another participant's randomly selected network, and a theoretical network.
+    * Participants were unable to recognise their own network above chance and did not prefer it to the others. They found time series annotations that were simpler to understand more useful, insightful and interesting than networks. These findings raise the question of whether generating person-specific networks for feedback purposes is worthwhile, or whether simpler forms of visualisation might be more appropriate.
+    * Future research could try to replicate this finding in clinical populations and in fully personalized networks, where individuals can choose the items that are relevant for them.
+
+4. Siepe, B.S., Haslbeck, J.M.B. (2026). VARcheck: Visual Diagnostic Checks for Vector Autoregressive Models. R Package. [https://bsiepe.github.io/VARcheck/](https://bsiepe.github.io/VARcheck/)
+
+    * Vector autoregressive (VAR) models form the basis of most time series analyses in psychology. Although they often contain many parameters and are highly complex, the model estimation process usually ends with the visualisation of the results without actually assessing how well the model fits the data. This is unfortunate because it is reasonable to expect that VAR models often do not fit psychological processes neatly. The resulting misspecifications are not just a statistical issue; they can actually help us to learn more about the individuals under study.
+    * In a [preprint](https://doi.org/10.31234/osf.io/k6uz4_v3), we introduced various graphical checks for model misspecification in VAR models. Based on these ideas, we created VARcheck, which creates a grid of diagnostic plots for you. As input, you can use output from any VAR model of choice, which includes person-specific and group-based network models and dynamic structural equation models.
+    * In our package [vignettes](https://bsiepe.github.io/VARcheck/articles/example-analyses.html) and in the paper, we provide different examples of misspecification, such as time trends, switching between states, or weekend effects. We discuss how you can diagnose each of them and how you can deal with them.
+
 
 ## Newsletter 2026-01
 
