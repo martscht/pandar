@@ -126,11 +126,6 @@ $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
 Folgende Grafik veranschaulicht die Zusammenhänge zwischen den einzelnen Quadratsummen anhand des Beispiels einer Person aus dem Datensatz.
 
-
-```
-## Warning: Removed 1258 rows containing missing values or values outside the scale range (`geom_point()`).
-```
-
 ![](/anova-i_files/unnamed-chunk-4-1.png)<!-- -->
 
 <details><summary><b>Vertiefung: Händische Quadratsummenrechnung</b></summary>    
@@ -175,7 +170,8 @@ names(temp)  # Spaltennamen des temporären Datensatzes
 ```
 
 ```
-##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "GC"        "EC"        "PW"        "CI"        "EC_mean_k"
+##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "GC"        "EC"        "PW"       
+##  [9] "CI"        "EC_mean_k"
 ```
 
 ``` r
