@@ -175,8 +175,7 @@ names(temp)  # Spaltennamen des temporären Datensatzes
 ```
 
 ```
-##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "GC"        "EC"        "PW"       
-##  [9] "CI"        "EC_mean_k"
+##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "GC"        "EC"        "PW"        "CI"        "EC_mean_k"
 ```
 
 ``` r
@@ -293,12 +292,6 @@ if (!requireNamespace("afex", quietly = TRUE)) {
   install.packages("afex")
 }
 ```
-
-```
-## Registered S3 method overwritten by 'lme4':
-##   method           from
-##   na.action.merMod car
-```
   
 Anschließend kann es geladen werden.
   
@@ -306,40 +299,6 @@ Anschließend kann es geladen werden.
 ``` r
 # Paket laden 
 library(afex)
-```
-
-```
-## Loading required package: lme4
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## ************
-## Welcome to afex. For support visit: http://afex.singmann.science/
-```
-
-```
-## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
-## - Methods for calculating p-values with mixed(): 'S', 'KR', 'LRT', and 'PB'
-## - 'afex_aov' and 'mixed' objects can be passed to emmeans() for follow-up tests
-## - Get and set global package options with: afex_options()
-## - Set sum-to-zero contrasts globally: set_sum_contrasts()
-## - For example analyses see: browseVignettes("afex")
-## ************
-```
-
-```
-## 
-## Attaching package: 'afex'
-```
-
-```
-## The following object is masked from 'package:lme4':
-## 
-##     lmer
 ```
   
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
@@ -477,12 +436,6 @@ Nun können wir das Paket einladen.
 ``` r
 library(emmeans)
 ```
-
-```
-## Welcome to emmeans.
-## Caution: You lose important information if you filter this package's results.
-## See '? untidy'
-```
   
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
   
@@ -568,24 +521,6 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ``` r
 library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:dplyr':
-## 
-##     recode
-```
-
-``` r
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```
 
