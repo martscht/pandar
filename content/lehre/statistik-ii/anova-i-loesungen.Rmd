@@ -1,23 +1,39 @@
 ---
-title: Unfertige Lösung
+title: Einfaktorielle ANOVA - Lösung
 type: post
 date: '2025-04-07'
 slug: anova-i-loesungen
 categories: Statistik II Übungen
-tags: []
-subtitle: Hier wird noch gegbaut...
-summary: Inhalte kommen noch!.
-authors: []
+tags: ["ANOVA", "Post-Hoc", "Einfaktoriell"]
+subtitle: '1-fakt. ANOVA Lösungen'
+summary: Lösungen der Übung zur einfaktoriellen ANOVA
+authors: [pommeranz]
 weight: 1
-lastmod: '`r format(Sys.Date(), ''%Y-%m-%d'')`'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: /header/under_construction.jpg
-caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/724752)'
+  image: "/header/earth_and_moon_space.jpg"
+caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/804791)"
 projects: []
 reading_time: no
 share: no
 private: 'true'
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-ii/anova-i
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/statistik-ii/anova-i.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/anova-i-uebungen
+output:
+  html_document:
+    keep_md: true
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
@@ -26,3 +42,30 @@ if (exists("figure_path")) {
 }
 ```
 
+
+## Vorbereitung
+
+Bitte laden Sie den folgenden Datensatz welcher Items aus einem Machiavellismus-Fragebogenenthält herunter, um die nachfolgende Aufgabe zu. Der Datensatz erhält viele Angaben zur Persönlichkeit und demografischen Daten. Kern ist aber der 20 Items umfassende Machiavellismusfragebogen von Christie und Geis (1970) und die daraus ableitbare 4-faktorielle Struktur des Konzepts (Corral & Calvete, 2000).
+
+```{r eval = FALSE}
+# Datensatz laden
+load(url("https://pandar.netlify.app/daten/mach.rda"))
+
+```
+
+Weiterhin wird auch für die Ausführung der ersten Aufgabe das Paket `afex` empfohlen.
+```{r eval = FALSE}
+# Paket für Anova-Durchführung
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("afex", quietly = TRUE)) {
+  install.packages("afex")
+}
+# Paket laden 
+library(afex)
+
+```
+
+## Aufgabe 1: Anova durchführen
+
+
+## Aufgabe 2: Post-hoc Tests
