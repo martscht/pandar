@@ -7,9 +7,9 @@ categories: ["DYNAMIC"]
 tags: [] 
 subtitle: ''
 summary: 'This page contains a collection of frequently asked questions concerning psychological network analysis in cross-sectional settings. The questions were collected as part of the methodological consultation within the DYNAMIC project.' 
-authors: [] 
+authors: [nehler] 
 weight: 1
-lastmod: "2025-12-29"
+lastmod: "2026-01-12"
 featured: no
 banner: 
   image: "/header/node_junctions.jpg"

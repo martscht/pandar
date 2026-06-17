@@ -7,9 +7,9 @@ categories: ["DYNAMIC"]
 tags: [] 
 subtitle: ''
 summary: 'This page contains a collection of frequently asked questions about the comparison of dynamic network models. The questions were collected as part of the methodological consultation within the DYNAMIC project.' 
-authors: [] 
+authors: [siepe] 
 weight: 2
-lastmod: "2025-12-29"
+lastmod: "2026-01-12"
 featured: no
 banner: 
   image: "/header/lightbeams_converging_night.jpg"
@@ -193,8 +193,8 @@ net_1 <- stan_gvar(data_1[,-7],
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001433 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 14.33 seconds.
+## Chain 1: Gradient evaluation took 0.000889 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 8.89 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -210,15 +210,15 @@ net_1 <- stan_gvar(data_1[,-7],
 ## Chain 1: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 1: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 10.904 seconds (Warm-up)
-## Chain 1:                71.405 seconds (Sampling)
-## Chain 1:                82.309 seconds (Total)
+## Chain 1:  Elapsed Time: 11.001 seconds (Warm-up)
+## Chain 1:                71.423 seconds (Sampling)
+## Chain 1:                82.424 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 0.000407 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 4.07 seconds.
+## Chain 2: Gradient evaluation took 0.00041 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 4.1 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -234,15 +234,15 @@ net_1 <- stan_gvar(data_1[,-7],
 ## Chain 2: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 2: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 10.501 seconds (Warm-up)
-## Chain 2:                81.543 seconds (Sampling)
-## Chain 2:                92.044 seconds (Total)
+## Chain 2:  Elapsed Time: 10.292 seconds (Warm-up)
+## Chain 2:                80.367 seconds (Sampling)
+## Chain 2:                90.659 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 0.000408 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 4.08 seconds.
+## Chain 3: Gradient evaluation took 0.000425 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 4.25 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -258,15 +258,15 @@ net_1 <- stan_gvar(data_1[,-7],
 ## Chain 3: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 3: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 11.036 seconds (Warm-up)
-## Chain 3:                82.425 seconds (Sampling)
-## Chain 3:                93.461 seconds (Total)
+## Chain 3:  Elapsed Time: 10.986 seconds (Warm-up)
+## Chain 3:                82.05 seconds (Sampling)
+## Chain 3:                93.036 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 0.000422 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 4.22 seconds.
+## Chain 4: Gradient evaluation took 0.000428 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 4.28 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -282,9 +282,9 @@ net_1 <- stan_gvar(data_1[,-7],
 ## Chain 4: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 4: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 11.429 seconds (Warm-up)
-## Chain 4:                90.469 seconds (Sampling)
-## Chain 4:                101.898 seconds (Total)
+## Chain 4:  Elapsed Time: 11.879 seconds (Warm-up)
+## Chain 4:                88.841 seconds (Sampling)
+## Chain 4:                100.72 seconds (Total)
 ## Chain 4:
 ```
 
@@ -298,8 +298,8 @@ net_2 <- stan_gvar(data_2[,-7],
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000442 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 4.42 seconds.
+## Chain 1: Gradient evaluation took 0.000417 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 4.17 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -315,15 +315,15 @@ net_2 <- stan_gvar(data_2[,-7],
 ## Chain 1: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 1: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 6.468 seconds (Warm-up)
-## Chain 1:                50.809 seconds (Sampling)
-## Chain 1:                57.277 seconds (Total)
+## Chain 1:  Elapsed Time: 6.243 seconds (Warm-up)
+## Chain 1:                49.267 seconds (Sampling)
+## Chain 1:                55.51 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 0.000449 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 4.49 seconds.
+## Chain 2: Gradient evaluation took 0.000423 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 4.23 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -339,15 +339,15 @@ net_2 <- stan_gvar(data_2[,-7],
 ## Chain 2: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 2: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 6.64 seconds (Warm-up)
-## Chain 2:                49.832 seconds (Sampling)
-## Chain 2:                56.472 seconds (Total)
+## Chain 2:  Elapsed Time: 6.459 seconds (Warm-up)
+## Chain 2:                47.521 seconds (Sampling)
+## Chain 2:                53.98 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 0.000463 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 4.63 seconds.
+## Chain 3: Gradient evaluation took 0.000437 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 4.37 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -363,15 +363,15 @@ net_2 <- stan_gvar(data_2[,-7],
 ## Chain 3: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 3: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 6.343 seconds (Warm-up)
-## Chain 3:                51.336 seconds (Sampling)
-## Chain 3:                57.679 seconds (Total)
+## Chain 3:  Elapsed Time: 6.144 seconds (Warm-up)
+## Chain 3:                48.805 seconds (Sampling)
+## Chain 3:                54.949 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'VAR_wishart' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 0.00046 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 4.6 seconds.
+## Chain 4: Gradient evaluation took 0.000435 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 4.35 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -387,9 +387,9 @@ net_2 <- stan_gvar(data_2[,-7],
 ## Chain 4: Iteration: 4000 / 4500 [ 88%]  (Sampling)
 ## Chain 4: Iteration: 4500 / 4500 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 6.768 seconds (Warm-up)
-## Chain 4:                50.755 seconds (Sampling)
-## Chain 4:                57.523 seconds (Total)
+## Chain 4:  Elapsed Time: 6.537 seconds (Warm-up)
+## Chain 4:                50.565 seconds (Sampling)
+## Chain 4:                57.102 seconds (Total)
 ## Chain 4:
 ```
 
@@ -522,20 +522,19 @@ nP = 2) # Should be much more in practice, see paper!
 
 ```
 ## 
-  |                                                                                
-  |                                                                          |   0%
+  |                                                                                                                                    
+  |                                                                                                                              |   0%
 ```
 
 ```
-## Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting
-## variable(s): m_data_cmb, vars, idvar, estimator, contemporaneous, temporal, totalN,
-## v_Ns, v_ids, pb, pbar, dayvar, beepvar, paired, quiet_library
+## Warning in e$fun(obj, substitute(ex), parent.frame(), e$data): already exporting variable(s): m_data_cmb, vars, idvar, estimator,
+## contemporaneous, temporal, totalN, v_Ns, v_ids, pb, pbar, dayvar, beepvar, paired, quiet_library
 ```
 
 ```
 ## 
-  |                                                                                
-  |==========================================================================| 100%
+  |                                                                                                                                    
+  |==============================================================================================================================| 100%
 ```
 
 ``` r
@@ -548,13 +547,13 @@ out$Pval
 ##      [,1] [,2] [,3]
 ## [1,]    1  0.0    0
 ## [2,]    0  0.5    1
-## [3,]    1  1.0    1
+## [3,]    0  1.0    1
 ## 
 ## $Lagged_random
 ##      [,1] [,2] [,3]
-## [1,]    1  0.0    0
-## [2,]    0  0.5    0
-## [3,]    0  1.0    0
+## [1,]  1.0    0  0.0
+## [2,]  0.5    0  0.5
+## [3,]  0.0    1  0.0
 ## 
 ## $Contemp_fixed
 ##      [,1] [,2] [,3]
@@ -565,8 +564,8 @@ out$Pval
 ## $Contemp_random
 ##      [,1] [,2] [,3]
 ## [1,]   NA   NA   NA
-## [2,]    1   NA   NA
-## [3,]    1    1   NA
+## [2,]  1.0   NA   NA
+## [3,]  0.5    1   NA
 ## 
 ## $Between
 ##      [,1] [,2] [,3]

@@ -7,7 +7,7 @@ categories: ["DYNAMIC"]
 tags: [] 
 subtitle: ''
 summary: 'This page contains a collection of frequently asked questions about the comparison of dynamic network models. The questions were collected as part of the methodological consultation within the DYNAMIC project.' 
-authors: [] 
+authors: [siepe] 
 weight: 2
 lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
 featured: no

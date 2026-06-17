@@ -45,7 +45,7 @@ if (exists("figure_path")) {
 
 ## Wiederholung von Grundlagen in R
 
-Für die Inhalte, die wir in diesem Semester behandeln setzen wir - naheliegenderweise - da an, wo wir im [letzten Semester](/category/statistik-i) aufgehört haben. Von besonderer Bedeutung, um direkt ins Semester starten zu können, ist es vor allem die [R Grundlagen](/lehre/statistik-i/crash-kurs) parat zu haben. Zum Einen gucken wir uns die wichtigsten Bestandteile hier an, zum Anderen können Sie aber auch [Otter](https://otter.uni-frankfurt.de) nutzen, um noch einmal aus einem anderen Blickwinkel die R Basics aufzuarbeiten. Neben diesen Grundlagen, betrachten wir hier auch ausgewählte Datenanalysen aus dem letzten Semester. Für interessierte Lesende gibt es im Anhang einführende Informationen dazu, wie man in `R` Dokumente mit Fließtext und Analyse in einer Datei - einem sogenannten R-Markdown - erstellen kann.
+Für die Inhalte, die wir in diesem Semester behandeln setzen wir - naheliegenderweise - da an, wo wir im [letzten Semester](/category/statistik-i) aufgehört haben. Von besonderer Bedeutung, um direkt ins Semester starten zu können, ist es vor allem die [R Grundlagen](/lehre/statistik-i/crash-kurs) parat zu haben. Zum Einen gucken wir uns die wichtigsten Bestandteile hier an, zum Anderen können Sie aber auch [Otter](https://otter.uni-frankfurt.de) nutzen, um noch einmal aus einem anderen Blickwinkel die R Basics aufzuarbeiten. Neben diesen Grundlagen, betrachten wir hier auch ausgewählte Datenanalysen aus dem letzten Semester und gucken genauer, wie man mit Hilfe von R-Markdown in einer Datei R-Code und Fließtext kombiniert.
 
 Wenn Sie sich nur bestimmte Abschnitte angucken wollen, um Ihre Unsicherheiten zu beseitigen, bevor wir in der kommenden Woche mit neuen Inhalten in `R` loslegen, können Sie die folgende Übersicht nutzen, um direkt zu den einzelnen Abschnitten zu springen:
 
@@ -53,6 +53,7 @@ Wenn Sie sich nur bestimmte Abschnitte angucken wollen, um Ihre Unsicherheiten z
 
 - [R Grundlagen](#wiederholung-von-grundlagen-in-r) (dieser Abschnitt...)
 - [Allgemeine Arbeitshinweise](#allgemeine-arbeitshinweise)
+- [R-Markdown](#r-markdown)
 - [`R`-Basics](#r-basics)
 - [Vektoren und Matrizen](#vektoren-und-matrizen) (könnte sogar etwas Neues enthalten!)
 - [Datenmanagement](#datenmanagement)
@@ -69,9 +70,7 @@ Wenn Sie sich nur bestimmte Abschnitte angucken wollen, um Ihre Unsicherheiten z
 
 ### Installation und Updates
 
-Wir beginnen dieses Tutorial noch einmal mit der Installation von `R` und RStudio - das ist nicht nur nützlich, wenn Sie R in den Wochen seit dem ersten Semester deinstalliert haben sollten, sondern auch, um Ihre Version von R zu aktualisieren.
-
-Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für eine bessere Bedienbarkeit die Benutzeroberfläche `RStudio` auf Ihrem Rechner. Sie haben beide Programme vermutlich schon runtergeladen und installiert, aber falls Sie zum Beispiel ein neues Gerät verwenden oder die Programme schon gelöscht haben, können Sie auf den folgenden Seiten einen kostenlosen Download durchführen.
+Wir beginnen dieses Tutorial noch einmal mit der Installation von `R` und RStudio - das ist nicht nur nützlich, wenn Sie R in den Wochen seit dem ersten Semester deinstalliert haben sollten, sondern auch, um Ihre Version von R zu aktualisieren. Zur Erinnerung: `R` ist die eigentliche Software, mit der wir die Berechnungen durchführen; RStudio ist das Frontend, was uns mit seinen diversen nützlichen Features die Bedienung dieser Software etwas vereinfachen soll. Daher ist es für die Dinge, die in diesem Semester passieren sollen, notwendig, dass beides installiert ist.
 
 **Downloadlinks:**
 
@@ -100,21 +99,28 @@ update.packages(ask = FALSE)
 
 Damit werden alle Pakete aktualisiert, für die es neuere Versionen gibt. Wenn Sie das Argument `ask = FALSE` weglassen, werden Sie bei jedem Paket einzeln gefragt, ob Sie es updaten möchten. Sollte Ihre letzte Aktualisierung ein wenig her sein, könnte dieser Prozess einen Moment dauern.
 
+Sollten Sie auch in einer Notfallsituation unterwegs in der Lage sein wollen, schnell und unkompliziert statistische Datenanalyse in R durchzuführen, können Sie [webRoid](https://webroid.caffeinatedmath.com/) bzw. [webRios](https://webrios.caffeinatedmath.com/) auf Ihrem Smartphone installieren! Für den - eventuell etwas realistischeren Fall - dass Sie sich gegen die Anschaffung eines traditionellen Laptops entschieden haben, funktionieren die beiden Apps auch auf Tablets und Sie können damit die Inhalte dieses Semesters problemlos umsetzen.
+
 ***
 
 ## Allgemeine Arbeitshinweise
 
 Wir können Ihnen im Studium nur so viel beibringen, wie es unsere und Ihre Zeit zulässt. Diese Zeit schwankt von Person zu Person, wir können aber in jedem Fall mit Sicherheit behaupten, dass es nicht genug ist, um für jedes Problem, dem Sie im Laufe ihrer akademischen Karriere begegnen könnten, eine spezifische Lösung zu besprechen. Stattdessen versuchen wir (und Sie hoffentlich auch) Sie darauf vorzubereiten, diese Probleme selbst lösen zu können. Daher ist unser Ziel nicht nur, Ihnen alle für diesen Kurs relevanten Kompetenzen beizubringen, sondern Sie darüber hinaus zu *kompetenten Problemlöser:innen* in Statistik - unter Verwendung von `R` - zu machen. Nachfolgend wollen wir Ihnen daher einige Tipps & Ressourcen an die Hand geben, die wir Ihnen beim Erlernen, Vertiefen und Problemlösen empfehlen können.
 
-### ChatGPT und andere KI-Tools
+### KI-Tools
 
-Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden. Auch wird dort ein Weg beschrieben, wie sie die Kommunikation mit ChatGPT in die R-Konsole einbinden können.
+Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Letztlich können Sie ganze Auswertungsskripte mit ChatGPT, Claude oder ähnlichen Tools quasi automatisch generieren lassen. In vielen Fällen wird dabei Code generiert, der sehr gut funktioniert und kohärente Ergebnisse produziert. Allerdings sollten Sie dabei beachten, dass die Übung im manuellen Coding zwei wesentliche Zwecke verfolgt:
 
-Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
+Sie lernen die Syntax und den Aufbau von R kennen, sodass Sie auch automatisch generierten Code darauf prüfen können, ob er (nur) das tut, was Sie wollten, und wo es dabei zu Fehlern gekommen sein könnte, und
+Sie lernen, in einer strukturierten und formalen Weise über Probleme der Datenanalyse und Aufbereitung nachzudenken.
+
+Letztlich ist die Idee des Lernens einer Programmiersprache die gleiche wie die beim Lernen einer Fremdsprache. Auch wenn andere Personen oder eine KI fehlerfreier und zielgerichteter schreiben können, werden Sie die erzeugten Texte niemals lesen können, wenn Sie nicht zumindest das Grundvokabular und die Kernregeln der Grammatik beherrschen. Durch Übung wird es Ihnen dann mit der Zeit möglich, eigene Ideen und Vorhaben in dieser Sprache zum Ausdruck zu bringen.
+
+Neben Web-Interfaces, die Sie für das Erzeugen und Checken von Code nutzen können, können Sie auch in RStudio direkt KI nutzen, um Code zu ergänzen oder komplett generieren zu lassen. Wie in allen Dingen moderner KI-Implementierung kostet hier mehr Komfort und besserer Output mehr Geld. So hat Posit vor Kurzem einen eigenen [KI-Assistenten für RStudio](https://posit.co/blog/introducing-ai-in-rstudio/) veröffentlicht, welcher in der billigsten Variante $20 pro Monat kostet. Derzeit erlaubt die RStudio-Oberfläche auch die Nutzung des [GitHub Copilot](https://docs.github.com/en/copilot), für den Sie kostenlos eine Academic License erhalten können, wenn Sie einen GitHub-Account haben.
 
 ### Offene Ressourcen
 
-Für R gibt es eine Vielzahl von online Ressourcen, die Sie beim Lernen nutzen können und sollten. Zum Einen gibt es online sehr viele kostenlose Informationsangebote (z.B. die [Introduction to R vom R Core Team](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf), das [R-Cookbook](http://www.cookbook-r.com), das Buch [R for Data Science](https://r4ds.had.co.nz), oder hier eine [Einführung in R für Psychologie-Studierende](https://r-intro.tadaa-data.de/book/was-ist-r.html), sowie teilweise kostenlosen Übungsplattformen (z.B. [Datacamp](https://www.datacamp.com), [Codecademy](https://www.codecademy.com) usw.). Von der Goethe Uni direkt produziert wurde hierfür z.B. auch [Otter](https://otter.uni-frankfurt.de), welches - anders als diese Seite - eine interaktive Oberfläche bietet (Sie den R-Code direkt auf der Seite ausführen können), aber nicht direkt auf die Inhalte des Psychologiestudiums angepasst ist. Für spezifische Aufgaben arbeiten wir (oder zumindest einige von uns) derzeit mit Hochdruck an neuen Aufgaben für [tigeR](https://tiger.uni-frankfurt.de/app/shinytigeR) - wenn Sie dafür gerne Zugangsdaten hätten, geben Sie uns Bescheid.
+Für R gibt es eine Vielzahl von online Ressourcen, die Sie beim Lernen nutzen können und sollten. Zum Einen gibt es online sehr viele kostenlose Informationsangebote (z.B. die [Introduction to R vom R Core Team](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf), das [R-Cookbook](http://www.cookbook-r.com), das Buch [R for Data Science](https://r4ds.had.co.nz), oder hier eine [Einführung in R für Psychologie-Studierende](https://r-intro.tadaa-data.de/book/was-ist-r.html), sowie teilweise kostenlosen Übungsplattformen (z.B. [Datacamp](https://www.datacamp.com), [Codecademy](https://www.codecademy.com) usw.). Von der Goethe Uni direkt produziert wurde hierfür z.B. auch [Otter](https://otter.uni-frankfurt.de), welches - anders als diese Seite - eine interaktive Oberfläche bietet (Sie den R-Code direkt auf der Seite ausführen können), aber nicht direkt auf die Inhalte des Psychologiestudiums angepasst ist.
 
 Dazu kommen die sehr aktiven Foren bzw. Communities, wie vor allem [Stack Overflow](https://stackoverflow.com) für R-Programmierung und [Cross Validated](https://stats.stackexchange.com) für allgemeine Statistikfragen. Lernen Sie, diese Ressourcen für sich zu nutzen!
 
@@ -124,86 +130,65 @@ Bei der Arbeit mit `R` sind Fehlermeldungen auch für langjährige Anwender:inne
 
 Lernen Sie außerdem, mit der `R`-internen Hilfefunktion zu arbeiten. Jede Funktion in `R` hat eine Hilfeseite, auf der die Anwendung dieser Funktion erklärt wird. Die Struktur ist immer ähnlich und wir hatten sie [hier](/lehre/statistik-i/crash-kurs#Hilfe) im Detail beschrieben. Oft gibt es darüber hinaus online noch ausführlichere Informationen zur Anwendung. Beispielsweise gibt es [hier](https://personality-project.org/r/psych/vignettes/intro.pdf) eine ausführliche Anleitung zum `Psych`-Package, oder auch so genannte Cheatsheets, die eine Übersicht der wichtigsten Befehle zu bestimmten Themen erhalten (hier beispielsweise für [Basics in R](https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf)). Lernen Sie, sich *selbstständig* Informationen zu beschaffen, denn auch nach langjähriger Erfahrung mit `R` wird das immer wieder notwendig sein. Häufig bedeutet die Arbeit an einer komplexen, neuen Fragestellung, dass Sie eine Vielzahl verschiedener Ressourcen zu Rate ziehen müssen. Wir können Ihnen in der Veranstaltung nicht alle vorhandenen Möglichkeiten vermitteln (weil das `R`-Universum so umfangreich ist), aber wir können Ihnen hoffentlich das Handwerkszeug geben, sich selbst zu helfen!
 
-### Dokumentation
-
-Dokumentieren Sie alle Schritte sorgfältig. Schreiben Sie dazu so viele Kommentare wie Sie für nötig halten (meistens mehr). In R werden Kommentare durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/statistik-i/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung. Wenn Sie dazu tendieren, sehr viel Text zu schreiben, können Sie Ihren R-Code in RMarkdowns integrieren, wie wir im [Anhang A](#AppendixA) dargestellt haben. Zunächst ist die Dokumentation ein zeitaufwendiger Schritt mehr, aber Future-You wird es Ihnen danken.
-
-{{<inline_image"/lehre/statistik-ii/comments.jpg">}}
-<!-- https://i.redd.it/b9e4xbeg40151.jpg Ich habe keine Ahnung, ob das Bild urheberechtlich geschützt ist, und weiß nicht wie ich es herausfinden könnte-->
-
-### Strukturierung
-
-Dinge gehen leichter von der Hand und sind im Nachhinein häufig leichter zu verstehen, wenn sie einer typischen Struktur folgen. Mein persönliches Template sieht dafür so aus:
-
-```{r, purl=FALSE}
-####   Titel des Skripts  ####
-#### Datum der Erstellung ####
-
-#### Vorbereitende Schritte ----
-
-# Pakete laden
-
-# Working directory setzen
-
-#### Daten importieren ----
-
-#### Daten aufbereiten ----
-
-# Skalenwerte erstellen
-
-# Fälle ausschließen
-
-# Auf relevante Daten reduzieren
-
-#### Deskriptivstatistik ----
-
-# Demografische Variablen
-
-# Outcomes und Kovariaten
-
-#### Voraussetzungsprüfung ----
-
-# Visuell
-
-# Tests
-
-#### Datenanalyse ----
-
-#### Grafische Aufbereitung ----
-
-```
-
-Ihr Template kann anders aussehen. Wichtig ist nur, dass Sie eine Struktur erzeugen und die relevanten Abschnitt wieder finden können. Insbesondere ist es immens wichtig, dass alle Pakete an einem gemeinsamen und sinnvollerweise sehr frühen Ort geladen werden, damit alle, die das Skript nutzen sofort sehen können, welche Pakete sie installieren müssen. Außerdem sollte die Datenaufbereitung immer gemeinsam an einem Ort erfolgen und nicht - je nach Analyse - über das Skript verteilt sein. So kann garantiert werden, dass nachvollziehbar ist, welche Personen ausgeschlossen werden und welche Variablen erstellt werden müssen.
 
 ### Ausprobieren
 
-Scheuen Sie sich nicht, viel auszuprobieren. Oft gibt es viele Wege zum Ziel, und durch das Ausprobieren mehrerer Möglichkeiten lernen Sie umso mehr Vorgehensweisen kennen. Suchen Sie gerne nach alternativen Wegen, probieren Sie andere Funktionen aus, laden Packages herunter und probieren Sie, damit zu arbeiten! Haben Sie keine Angst, etwas falsch zu machen. Durch die Dokumentation (s.o.) können Sie jederzeit, wenn etwas schief gegangen ist, zum vorherigen Schritt zurückkehren, und es nochmal probieren (auch das ist Alltag für alle Anwender:innen!). Behalten Sie immer ein Kopie der Rohdaten, die Sie nicht verändert haben, so können Sie beim Ausprobieren nichts kaputt machen! 
+Scheuen Sie sich nicht, viel auszuprobieren. Oft gibt es viele Wege zum Ziel, und durch das Ausprobieren mehrerer Möglichkeiten lernen Sie umso mehr Vorgehensweisen kennen. Suchen Sie gerne nach alternativen Wegen, probieren Sie andere Funktionen aus, laden Packages herunter und probieren Sie, damit zu arbeiten! Haben Sie keine Angst, etwas falsch zu machen. Durch Dokumentation können Sie jederzeit, wenn etwas schief gegangen ist, zum vorherigen Schritt zurückkehren, und es nochmal probieren (auch das ist Alltag für alle Anwender:innen!). Behalten Sie immer ein Kopie der Rohdaten, die Sie nicht verändert haben, so können Sie beim Ausprobieren nichts kaputt machen! 
+
+
+### Dokumentation
+
+Dokumentieren Sie alle Schritte sorgfältig. Schreiben Sie dazu so viele Kommentare wie Sie für nötig halten (meistens mehr). In R werden Kommentare durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/statistik-i/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung. Zunächst ist die Dokumentation ein zeitaufwendiger Schritt mehr, aber Future-You wird es Ihnen danken.
+
+{{<inline_image"/lehre/statistik-ii/comments.jpg">}}
+
+*** 
+
+## R-Markdown
+
+Ein R-Markdown ist ein Dokument, welches im R-Editor erstellt wird, und sowohl Textbestandteile als auch R-Code enthalten kann. Das Dokument wird in R erstellt und bearbeitet, und kann danach z.B. als Word-, PDF- oder HTML-Datei ausgegeben werden. Im Skript verknüpft es R-Code mit dem extrem verbreiteten Markdown, welches genutzt wird, um mit minimalem Aufwand Text zu formatieren - so besteht es aus freien Textbereichen und aus sogenannten R-Chunks (Absätzen mit R-Code). In Textabsätzen können bestimmte Befehle genutzt werden, um die Formatierung des Textes (Überschriften, Fettdruck, etc.) anzupassen. Markdowns sind beispielsweise nützlich, um Berichte über Datenauswertungen zu schreiben, in denen Analysen und deren Beschreibung sowie Interpretation in einem Dokument gebündelt werden. Ergebnisse können direkt in den Text übernommen werden, was viel Arbeit und Fehler sparen kann. Weil sich diese Form von Kombination aus Auswertung, Dokumentation und Erläuterung besonders gut eignet, um in Gruppen zu kollaborieren und wissenschaftliche Prozesse nachvollziehbar aufzubereiten (und z.B. anschließend auf eine Open Science Plattform zur Verfügung zu stellen), ist es empfehlenswert die Nutzung mal auszuprobieren. Das Format ist so flexibel und nützlich, dass wir dieses gesamte Website damit erstellt haben.
+
+Eine detaillierte Aufbereitung aller Möglichkeiten haben wir [hier für Sie zusammengestellt](/extras/rmarkdown/rmarkdown-intro/). Darüber hinaus finden Sie im [R-Markdown Cookbook](https://yihui.org/rmarkdown-cookbook/) die komplette Dokumentation.
+
+
+Um in RMarkdown zu arbeiten, können Sie in R-Studio direkt zu Beginn statt eines normalen Skripts ein R-Markdown anlegen. Dies finden Sie unter "File -> New File -> R Markdown..."
+
+<img src="../Screenshot1.png" width="30%"/>
+
+Wenn Sie ein R-Markdown anlegen, werden Sie um Autor:innen, einen Titel und ein Output-Format gebeten:
+
+<img src="../Screenshot2.png" width="60%"/>
+
+Wenn Sie Ihren Bericht anderen Personen zur Verfügung stellen wollen, können Sie ein Zielformat wählen, in dem die gerenderte Version erstellt werden soll. Typischerweise bieten sich hier PDFs und HTMLs an, weil diese meist ohne größere Formatierungsprobleme von jeder Person geöffnet werden können.
+
+Das Skript, das nun entsteht ist eine Schablone mit Vorlagen für Freitext und Code-Abschnitte (sog. R-Chunks) und wichtigen Hinweisen für die Erstellung. Hier finden Sie viele Informationen, die Ihnen beim Bearbeiten Ihres Markdowns helfen. Diese Vorlage können Sie ganz einfach weiterbearbeiten, um Ihr eigenes Dokument zu erstellen.
+
+<img src="../Screenshot3.png" width="60%"/>
+
+Indem Sie auf Knit (engl. "Stricken") klicken, wird das Dokument ins Zielformat gerendert. Ohne Änderungen an der Vorlage können Sie das Skript knitten, und sehen schon einmal, wie das finale Dokument aussehen wird. Wenn Sie Änderungen vornehmen, können Sie immer wieder überprüfen, wie sich das auf das erstellte Dokument auswirkt.
+
+<img src="../Screenshot4.png" width="60%"/>
+
+Um einen neuen Code-Abschnitt in das R-Markdown einzufügen können Sie entweder **Strg+Alt+i** (OS X: **Cmd+Option+i**) drücken, oder im Textfenster manuell Kopf- und Fußzeile eines Chunks eingeben. R-Chunks beginnen immer mit drei ticks und einem `{r}` und enden immer mit drei ticks. Alles was dazwischen passiert, wird als R-Code evaluiert. RStudio liefert praktischerweise an jedem R-Chunk oben rechts diese drei Buttons: {{<inline_image"/lehre/statistik-ii/Screenshot6.png">}} Wie sich vermuten lässt, können Sie mit dem Zahnrad Optionen für diesen Chunk festlegen. Der zweite Button führt alles an R-Code aus, was über diesem Chunk in der Datei enthalten ist. Der letzte Button führt nur diesen Chunk aus. In R-Studio werden die Ergebnisse von R-Chunks im Fließtext des R-Markdowns und nicht (wie bei normalen R-Skripten) in der Konsole dargestellt. Wenn Sie Ihre R-Markdowns direkt im APA Format erstellen möchten, können Sie das Paket `papaja` nutzen - ein paar mehr Details erfahren Sie durch Ausklappen des folgenden Abschnitts.
+
+<details><summary>APA-Format mit papaja</summary>
+
+Mit `papaja` (Prepare Reproducible APA Journal Articles with R Markdown) werden `R`Markdown-Dokumente automatisch in das APA-Format gebracht - neben der korrekten Zitierweise können damit Tabellen und Abbildungen im passenden Format erstellt werden. Leider ist das unterstützte Format derzeit APA 6 (die aktuelle Fassung der APA Richtlinien ist die 7). 
+
+Wenn Sie das `papaja`-Package installiert haben, können Sie bei der Erstellung eines Markdowns mit den gleichen Schritten wie oben, unter Template den "APA article" auswählen, wodurch automatisch alle Einstellungen passend vorgenommen werden:
+
+{{<inline_image"/lehre/statistik-ii/Screenshot5.png">}}
+
+Das [Manual für die Anwendung](http://frederikaust.com/papaja_man/index.html) finden Sie online. 
+
+</details>
 
 
 ***
 
 ## `R`-Basics
 
-### `RStudio`
-
-Das traditionelle `R` ist im Rahmen seiner Nutzeroberfläche einer Konsole ähnlich und damit nicht sehr benutzerfreundlich. Durch die Erweiterung mit `RStudio` wird die Verwendung deutlich erleichtert, weshalb wir dieses auch herunterladen. 
-
-{{<inline_image"/lehre/statistik-ii/rstudio.png">}}
-
-`RStudio` besteht aus vier Panels. Wenn wir `RStudio` zum ersten Mal öffnen sind jedoch nur drei sichtbar. Das vierte wird durch das Öffnen eines neuen Files sichtbar (oder auch durch **Strg+Shift+n** bzw. in OS X: **Cmd+Shift+n**). 
-
-Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann Code ausgeführt werden. Beispielsweise können wir dort eine Addition eingeben und erhalten nach dem Drücken von **Enter** dann das Ergebnis der Operation.
-
-```{r, echo=-1}
-# Ein Additionsbeispiel, dass in der Konsole ausgeführt wird
-2 + 1
-```
-
-Auf diese Weise kann man zwar Aktionen ausführen, hat nach dem Schließen von `RStudio` aber keine Dokumentation, was man durchgeführt hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit Run Button  {{<inline_image"/lehre/statistik-ii/run.png">}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
-
-Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich noch füllen werden. Unten rechts gibt es verschiedene Tabs wie beispielsweise die Hilfe und die Anzeige von Plots.
-
-Wenn Sie einmal etwas in der Konsole ausgeführt haben, anstatt es im Skript zu hinterlegen, können Sie anhand der **History** nachvollziehen, welche Schritte Sie durchlaufen haben. In dieser können Sie auch mehrere Zeilen bzw. Schritte markieren und diese über den {{<inline_image"/lehre/statistik-ii/tosource.png">}} Button in Ihre Syntax einfügen.
+In diesem Abschnitt gehen wir noch einmal die absoluten Grundlagen von `R` durch. Sollten Sie sich eigentlich recht sicher in den Inhalten aus dem 1. Semester fühlen, können Sie diesen Abschnitt bedenkenlos überspringen.
 
 ### Einfache Operationen
 
@@ -666,126 +651,6 @@ Da die Null-Hypothese verworfen wird, nehmen wir an, dass es in der Population e
 
 Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen. Die Grundlagen von `R` und einigen statistischen Verfahren sind nun aufgefrischt und wir können mit Mut ins zweite Semester starten! 
 
-
-
-***
-
-## Appendix
-
-### Appendix A {#AppendixA}
-
-<details><summary><b>Dokumente erstellen mit R</b></summary>
-
-#### Markdown-Dateien erstellen
-
-Ein R-Markdown ist ein Dokument, welches im R-Editor erstellt wird, und sowohl Textbestandteile als auch R-Code enthalten kann. Dieses Dokument wird in R erstellt und bearbeitet, und kann danach z.B. als Word-, PDF- oder HTML-Datei ausgegeben werden. Ein Markdown besteht aus freien Textbereichen und aus sogenannten R-Chunks (Absätzen mit R-Code). In Textabsätzen können bestimmte Befehle genutzt werden, um die Formatierung des Textes (Überschriften, Fettdruck, etc.) anzupassen. Markdowns sind beispielsweise nützlich, um Berichte über Datenauswertungen zu schreiben, in denen Analysen und deren Beschreibung sowie Interpretation in einem Dokument gebündelt werden. Ergebnisse können direkt in den Text übernommen werden, was viel Arbeit und Fehler sparen kann.
-
-Hier finden Sie eine sehr [ausführliche Anleitung](https://rmarkdown.rstudio.com/lesson-1.html) für die Arbeit mit Markdowns. Hier finden Sie ein sogenanntes [Cheatsheet](https://rstudio.com/wp-content/uploads/2015/06/rmarkdown-german.pdf) für R-Markdown, das viele wichtige Befehle kurz und knapp zusammenfasst.
-
-##### Schritte zur Erstellung eines Markdowns
-
-- File -> New File -> R Markdown 
-{{<inline_image"/lehre/statistik-ii/Screenshot1.png">}}
-
-- Zielformat festlegen (Word, PDF, HTML...) und Titel geben
-{{<inline_image"/lehre/statistik-ii/Screenshot2.png">}}
-
-- Das Skript, das dadurch erstellt wird ist eine Schablone mit Vorlagen für Freitext und R-Chunks und wichtigen Hinweisen für die Erstellung. Hier finden Sie viele Informationen, die Ihnen beim Bearbeiten Ihres Markdowns helfen. Diese Vorlage können Sie ganz einfach weiterbearbeiten, um Ihr eigenes Dokument zu erstellen.
-{{<inline_image"/lehre/statistik-ii/Screenshot3.png">}}
-
-- Indem Sie auf Knit (engl. "Stricken") klicken, wird das Dokument in Zielformat erstellt. Ohne Änderungen an der Vorlage können Sie das Skript knitten, und sehen schon einmal, wie das finale Dokument aussehen wird. Wenn Sie Änderungen vornehmen, können Sie immer wieder überprüfen, wie sich das auf das erstellte Dokument auswirkt.
-{{<inline_image"/lehre/statistik-ii/Screenshot4.png">}}
-
-
-#### Papaja
-
-Besonders hilfreich ist das Package *papaja* (Prepare Reproducible APA Journal Articles with R Markdown), mit dem `R`Markdown-Dokumente automatisch in das APA-Format gebracht werden. Neben der korrekten Zitierweise können damit Tabellen und Abbildungen im passenden Format erstellt werden. 
-
-Wenn Sie das *papaja*-Package installiert haben, können Sie bei der Erstellung eines Markdowns mit den gleichen Schritten wie oben, unter Template den "APA article" auswählen, wodurch automatisch alle Einstellungen passend vorgenommen werden:
-
-{{<inline_image"/lehre/statistik-ii/Screenshot5.png">}}
-
-Das [Manual für die Anwendung](http://frederikaust.com/papaja_man/index.html) finden Sie online. 
-
-</details>
-
-### Appendix B {#AppendixB}
-
-<details><summary><b>R-Code mit ChatGPT</b></summary>
-
-#### t-Test mit ChatGPT
-
-Wenn wir mit dem Datensatz `mach` prüfen wollen, ob Personen die nicht wählen (`voted`) insgesamt eine zynischere Betrachtung der Menschheit (`cvhn`) an den Tag legen, können wir ChatGPT darum bitten, den Code für uns zu generieren:
-
-{{<inline_image"/lehre/statistik-ii/chatGPT1.png">}}
-
-Diese Interaktion verdeutlicht bereits die oben genannten zwei wichtigen Aspekte, um ChatGPT sinnvoll für Hilfestellung mit `R`-Programmierung nutzen zu können: 
-
-  1. Sie müssen wissen, wie Sie diesen Code explizit auf Ihr Beispiel übertragen
-  2. Sie müssen einschätzen können, ob das was hier passiert auch das ist, was Sie wollen. 
-
-Punkt 1 kann eventuell dadurch umgangen werden, dass Sie bessere Prompts schreiben als ich, aber mit ChatGPT 3.5, kann hier kein Code evaluiert werden - es wird also darauf hinauslaufen, dass Sie den Code bei sich durchführen und ihn dafür entsprechend anpassen. Wir können uns das verdeutlichen, indem wir ChatGPT um ein Beispiel mit simulierten Fragen bitten (weil es ja keinen Zugriff auf unsere Daten hat):
-
-{{<inline_image"/lehre/statistik-ii/chatGPT3.png">}}
-
-
-Die Antwort, die ChatGPT produziert ist beeindruckend detailliert (und größtenteils sogar richtig), aber Sie sollten hier Folgendes berücksichtigen:
-
-```{r}
-set.seed(123)
-group1 <- rnorm(20, mean = 10, sd = 2)
-group2 <- rnorm(20, mean = 12, sd = 2)
-
-t.test(group1, group2)
-```
-
-Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbeitet haben. Wie wir in BSc2 [mehrmals](/lehre/statistik-i/verteilungen) [besprochen](/lehre/statistik-i/simulation-poweranalyse) haben, ist `set.seed` aber explizit dafür da, dass bei jeder Durchführung des Zufallsexperiments auch exakt die gleichen Ergebnisse erzeugt werden. Das ist auch ChatGPT "bewusst":
-
-{{<inline_image"/lehre/statistik-ii/chatGPT4.png">}}
-
-
-Was der KI hingegen an dieser Stelle nicht bewusst ist, ist dass Sie den Code nicht selbst ausgeführt hat, sondern es sich um eine (sehr komplexe) Zusammenstückelung von Informationen handelt, die online auffindbar sind. Sie können sich an dieser Stelle länger mit ChatGPT darüber streiten, wo dieser Unterschied herkommt, wenn Sie möchten (ich habe es probiert und irgendwann aufgegeben).
-
-Den Aufmerksamen unter Ihnen ist auch direkt aufgefallen, was den 2. Punkt bekräftigt: ChatGPT hat ins in der ursprünglichen Anfrage nicht den R-Code für einen $t$-Test, sondern für einen Welch-Test präsentiert:
-
-{{<inline_image"/lehre/statistik-ii/chatGPT2.png">}}
-
-
-Dieser kurze Exkurs soll Ihnen zeigen, dass Sie ChatGPT durchaus sehr gut nutzen können, um R-Code erzeugen zu lassen (insbesondere, wenn es sich um komplexere Vorhaben handelt, als einfache $t$-Tests) - Sie sollten allerdings immer einschätzen können, ob der erzeugte Code sinnvoll ist und auch tatsächlich das macht, was Sie wollten.
-
-#### Fehlerkorrektur mit ChatGPT
-
-Neben der Möglichkeit mit ChatGPT _neuen_ Code zu generieren, können Sie die Vorteile dieses Systems auch nutzen, um Fehler in Ihrem aktuellen Code zu identifizieren und zu beheben. Ein sehr vereinfachtes Beispiel:
-
-{{<inline_image"/lehre/statistik-ii/chatGPT5.png">}}
-
-
-In diesem Beispiel sollten Sie bereits selbst den Fehler identifiziert haben, aber die KI ist auch bei komplexeren, längeren Skripten in der Lage, die Fehlerquellen relativ zuverlässig zu identifizieren. In Fällen, in denen das Problem nicht eindeutig klar aus dem Code hervorgeht, ohne ihn Zeile für Zeile zu evaluieren (wie wir oben gesehen haben, etwas das ChatGPT nicht kann), wird Ihnen eine Liste von möglichen Fehlerquellen gegeben, die Sie selbst inspizieren können. 
-
-Auch dabei das Skript Anderer (oder das eigene, schlecht kommentierte Skript) zu verstehen, kann ChatGPT behilflich sein. Nehmen Sie z.B. diese Funktion, die ich für BSc2 erstellt habe:
-
-```{r}
-foo <- function(x) {
-  x <- na.omit(x)
-  sum((x - mean(x))^2)/length(x)
-}
-```
-
-Sollte Ihnen nicht klar sein, was hier passiert, kann ChatGPT Abhilfe schaffen:
-
-{{<inline_image"/lehre/statistik-ii/chatGPT6.png">}}
-
-
-Darüber hinaus, könnten wir die KI an dieser Stelle auch bitten, solche selbstgeschriebenen Funktionen zu verbessern. Z.B. die Anzahl der [Loops](/lehre/statistik-ii/loops-und-funktionen) in unseren Skripten zu minimieren, damit die Auswertung schneller und effizienter läuft.
-
-Generell sollten Sie ChatGPT als neues Werkzeug verstehen, welches Ihnen in vielen Belangen der R-Programmierung (und logischerweise auch darüber hinaus) behilflich sein kann. Wie bei jedem Werkzeug, sollte der Umgang aber gelernt und geübt sein, damit man für sich den meisten Nutzen daraus ziehen kann.
-
-
-## ChatGPT in R Konsole - Voraussetzungen
-
-Inzwischen gibt es auch eine Möglichkeit, direkt in der R-Konsole mit ChatGPT zu interagieren. Dazu benötigen Sie allerdings einen ChatGPT Account, der mit API credentials ausgestattet ist. Das zugehörige Paket für die Funktionalität von ChatGPT in der R-Konsole heißt `air`. Dieses Paket muss wie üblich installiert werden, damit Sie auf die Funktionen zugreifen können. Mehr zu diesem Thema finden Sie [hier](https://cran.r-project.org/web/packages/air/readme/README.html) in der Beschreibung des Pakets.
-
-</details>
 
 ***
 
