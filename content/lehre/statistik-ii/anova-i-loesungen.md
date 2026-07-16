@@ -9,11 +9,11 @@ subtitle: '1-fakt. ANOVA Lösungen'
 summary: Lösungen der Übung zur einfaktoriellen ANOVA
 authors: [pommeranz, nehler]
 weight: 1
-lastmod: '2026-07-08'
+lastmod: '2026-07-16'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
-caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/804791)"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/804791)"
 projects: []
 reading_time: no
 share: no
@@ -23,10 +23,6 @@ links:
     icon: book
     name: Inhalte
     url: /lehre/statistik-ii/anova-i
-  - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/statistik-ii/anova-i.R
   - icon_pack: fas
     icon: pen-to-square
     name: Übungen
@@ -83,27 +79,20 @@ head(mach)
 ```
 
 ```
-##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender
-## 1     6     5     6     1     7     3     7     4     7      1         2     3      1
-## 2     2     5     6     2     4     6     5     4     6      5         2     2      1
-## 3     1     7     6     7     5     7     1     4     1      4         1     1      2
-## 4     6     5     5     7     7     2     6     2     2      3         4     3      2
-## 5     2     5     5     6     7     6     5     3     4      5         2     2      1
-## 6     2     4     6     2     3     7     5     2     7      1         1     1      1
-##   engnat age hand religion orientation race voted married familysize  nit      pit
-## 1      1  26    1        7           1   30     1       2          5 4.00 2.666667
-## 2      1  18    1        1           1   60     2       1          2 5.00 1.166667
-## 3      1  15    1        2           2   10     2       1          2 5.00 1.000000
-## 4      2  31    1        6           1   60     1       3          2 3.75 2.166667
-## 5      2  20    1        4           3   60     1       1          2 4.75 1.666667
-## 6      2  17    1        1           1   70     2       1          3 4.00 2.666667
-##       cvhn pvhn
-## 1 3.833333 2.00
-## 2 3.833333 2.75
-## 3 4.000000 2.00
-## 4 3.000000 1.50
-## 5 2.666667 2.00
-## 6 3.166667 2.25
+##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age
+## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26
+## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18
+## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15
+## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31
+## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20
+## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17
+##   hand religion orientation race voted married familysize  nit      pit     cvhn pvhn
+## 1    1        7           1   30     1       2          5 4.00 2.666667 3.833333 2.00
+## 2    1        1           1   60     2       1          2 5.00 1.166667 3.833333 2.75
+## 3    1        2           2   10     2       1          2 5.00 1.000000 4.000000 2.00
+## 4    1        6           1   60     1       3          2 3.75 2.166667 3.000000 1.50
+## 5    1        4           3   60     1       1          2 4.75 1.666667 2.666667 2.00
+## 6    1        1           1   70     2       1          3 4.00 2.666667 3.166667 2.25
 ```
 
 Die interessierenden Variablen sind hier `education` für die Bildungsstufe und `cvhn` für den zynischen Blick auf die Natur des Menschen. Gleichzeitig sehen wir, dass es keine ID-Variable gibt, welche die Versuchspersonen identifiziert. Diese müssen wir daher zunächst ergänzen.

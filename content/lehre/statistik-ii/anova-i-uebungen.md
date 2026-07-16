@@ -9,11 +9,11 @@ subtitle: '1-fakt. ANOVA Übungen'
 summary: Übungsmaterial zur einfaktoriellen ANOVA
 authors: [pommeranz, nehler]
 weight: 1
-lastmod: '2026-07-08'
+lastmod: '2026-07-16'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
-caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/804791)"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/804791)"
 projects: []
 reading_time: no
 share: no
@@ -23,10 +23,6 @@ links:
     icon: book
     name: Inhalte
     url: /lehre/statistik-ii/anova-i
-  - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/statistik-ii/anova-i.R
   - icon_pack: fas
     icon: pen-to-square
     name: Lösungen

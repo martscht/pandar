@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA Übungen'
 summary: Übungsmaterial zur zweifaktoriellen ANOVA
 authors: [pommeranz]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2026-07-16'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -32,26 +32,23 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 
 ## Vorbereitung
 
 Bitte laden Sie den folgenden Datensatz welcher Items aus einem Machiavellismus-Fragebogen enthält herunter, um die nachfolgende Aufgabe zu lösen. Der Datensatz enthält viele Angaben zur Persönlichkeit und demografischen Daten. Kern ist aber der 20 Items umfassende Machiavellismusfragebogen von Christie und Geis (1970) und die daraus ableitbare 4-faktorielle Struktur des Konzepts (Corral & Calvete, 2000).
 
-```{r}
+
+``` r
 # Datensatz laden
 load(url("https://pandar.netlify.app/daten/mach.rda"))
-
 ```
 
 Weiterhin werden für die Ausführung der Aufgaben die Pakete `afex` und `emmeans` empfohlen. Eventuell müssen diese installiert werden. 
 
-```{r eval = FALSE}
+
+``` r
 # Paket für Anova-Durchführung
 # Paket installieren falls nicht vorhanden
 if (!requireNamespace("afex", quietly = TRUE)) {
@@ -64,7 +61,8 @@ if (!requireNamespace("emmeans", quietly = TRUE)) {
 
 In jedem Fall müssen sie aktiviert werden.
 
-```{r eval = FALSE}
+
+``` r
 # Paket laden 
 library(afex)
 library(emmeans)
