@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [nehler, scheppa-lahyani, irmer, wallot, pommeranz]
 weight: 8
-lastmod: '2026-05-19'
+lastmod: '2026-06-17'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -123,6 +123,10 @@ $$QS_{zw} = \sum_{k = 1}^{K} n_k* (\overline{y_k}-\overline{y})^2$$
 Die Quadratsumme innerhalb der Gruppen ist die Summe der quadrierten Abweichungen aller Werte vom jeweiligen Gruppenmittelwert.
   
 $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
+
+Folgende Grafik veranschaulicht die Zusammenhänge zwischen den einzelnen Quadratsummen anhand des Beispiels einer Person aus dem Datensatz.
+
+![](/anova-i_files/unnamed-chunk-4-1.png)<!-- -->
 
 <details><summary><b>Vertiefung: Händische Quadratsummenrechnung</b></summary>    
 
@@ -267,7 +271,7 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
   
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
   
-![](/anova-i_files/unnamed-chunk-43-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-14-1.png)<!-- -->
   
 Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Da der p-Wert hier niedriger als unser $\alpha$-Niveau von .05 ist, können wir die Nullhypothese verwerfen und die Alternativhypothese annehmen. Bevor wir genauer darauf eingehen, was diese Signifikanzentscheidung bedeutet, schauen wir uns zunächst die Durchführung mithilfe eines Pakets an.
 
@@ -291,51 +295,6 @@ Anschließend kann es geladen werden.
 ``` r
 # Paket laden 
 library(afex)
-```
-
-```
-## Loading required package: lme4
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## 
-## Attaching package: 'Matrix'
-```
-
-```
-## The following objects are masked from 'package:tidyr':
-## 
-##     expand, pack, unpack
-```
-
-```
-## ************
-## Welcome to afex. For support visit: http://afex.singmann.science/
-```
-
-```
-## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
-## - Methods for calculating p-values with mixed(): 'S', 'KR', 'LRT', and 'PB'
-## - 'afex_aov' and 'mixed' objects can be passed to emmeans() for follow-up tests
-## - Get and set global package options with: afex_options()
-## - Set sum-to-zero contrasts globally: set_sum_contrasts()
-## - For example analyses see: browseVignettes("afex")
-## ************
-```
-
-```
-## 
-## Attaching package: 'afex'
-```
-
-```
-## The following object is masked from 'package:lme4':
-## 
-##     lmer
 ```
   
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
@@ -473,12 +432,6 @@ Nun können wir das Paket einladen.
 ``` r
 library(emmeans)
 ```
-
-```
-## Welcome to emmeans.
-## Caution: You lose important information if you filter this package's results.
-## See '? untidy'
-```
   
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
   
@@ -532,7 +485,7 @@ Auch ein hübscher Plot für die Berichterstattung lässt sich erzeugen, der die
 plot(tukey)
 ```
 
-![](/anova-i_files/unnamed-chunk-56-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-27-1.png)<!-- -->
   
 *Tipp:* Man kann diese Grafik auch noch mit den bereits erlernten `ggplot2`-Funktionen anpassen.
   
@@ -564,30 +517,6 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ``` r
 library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:dplyr':
-## 
-##     recode
-```
-
-```
-## The following object is masked from 'package:purrr':
-## 
-##     some
-```
-
-``` r
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```
 
@@ -618,19 +547,19 @@ Nun können wir auf die Residuen einzelner Gruppen zugreifen und uns beispielswe
 hist(conspiracy$resid[conspiracy$urban == "rural"])
 ```
 
-![](/anova-i_files/unnamed-chunk-58-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-29-1.png)<!-- -->
 
 ``` r
 hist(conspiracy$resid[conspiracy$urban == "suburban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-58-2.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-29-2.png)<!-- -->
 
 ``` r
 hist(conspiracy$resid[conspiracy$urban == "urban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-58-3.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-29-3.png)<!-- -->
 
 Die Normalverteilung der Residuen scheint schwierig zu sein.
 

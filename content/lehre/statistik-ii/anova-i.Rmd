@@ -112,6 +112,64 @@ Die Quadratsumme innerhalb der Gruppen ist die Summe der quadrierten Abweichunge
   
 $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
+Folgende Grafik veranschaulicht die Zusammenhänge zwischen den einzelnen Quadratsummen anhand des Beispiels einer Person aus dem Datensatz.
+
+```{r, echo = FALSE,results='hide', warning=FALSE}
+library(ggplot2)
+library(dplyr)
+# data
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
+
+# Compute means
+means <- conspiracy %>%
+  group_by(urban) %>%
+  summarise(Mittelwert = mean(EC))
+gesamt_mean <- mean(conspiracy$EC)
+
+# Select one person (e.g., ID = 30)
+person <- conspiracy[14, ]
+group_mean <- means$Mittelwert[means$urban == person$urban]
+
+# Plot
+ggplot(conspiracy, aes(urban, EC)) +
+  geom_point() +
+  geom_hline(yintercept = gesamt_mean, color = "black") +
+  geom_hline(yintercept = group_mean, linetype = "dashed", color = "gray40") +
+  geom_hline(yintercept = person$EC, linetype = "dotted", color = "gray40") +
+  
+  annotate("segment", x = 2.2, xend = 2.2, y = group_mean, yend = person$EC,
+           arrow = arrow(length = unit(0.2, "cm"), ends = "both"), color = "red") +
+  annotate("text", x = 2.3, y = (person$EC + group_mean)/2,
+           label = "Fehlerwert", color = "red", hjust = 0) +
+  
+  annotate("segment", x = 2.3, xend = 2.3, y = group_mean, yend = gesamt_mean,
+           arrow = arrow(length = unit(0.2, "cm"), ends = "both"), color = "red") +
+  annotate("text", x = 2.4, y = (group_mean + gesamt_mean)/2,
+           label = "Gruppenzugehörigkeit", color = "red", hjust = 0) +
+  
+  # annotate("segment", x = 2.1, xend = 2.1, y = 0, yend = gesamt_mean,
+  #          arrow = arrow(length = unit(0.2, "cm"), ends = "both"), color = "red") +
+  # annotate("text", x = 2.2, y = (gesamt_mean)/2,
+  #          label = "Grundniveau", color = "red", hjust = 0) +
+  
+  annotate("segment", x = 2.0, xend = 2.0, y = gesamt_mean, yend = person$EC,
+           arrow = arrow(length = unit(0.2, "cm"), ends = "both"), color = "red") +
+  annotate("text", x = 1.9, y = (gesamt_mean + person$EC)/2,
+           label = "Zu erklärender Anteil", color = "red", hjust = 1) +
+  
+  annotate("text", x = Inf, y = gesamt_mean, label = "Gesamtmittelwert",
+           hjust = 1, vjust = -0.2, color = "black") +
+  annotate("text", x = Inf, y = group_mean, label = "Gruppenmittelwert",
+           hjust = 1, vjust = -0.2, color = "black") +
+  annotate("text", x = Inf, y = person$EC, label = "Wert der Person",
+           hjust = 1, vjust = -0.2, color = "black") + 
+  labs(x = "Wohnraum", y = "EC-Wert") +
+  ylim(2,5) +
+  scale_x_discrete(expand = expansion(mult = c(0.1, 0.3))) +
+  theme_minimal()
+
+```
+
 <details><summary><b>Vertiefung: Händische Quadratsummenrechnung</b></summary>    
 
 Um die Quadratsummen der einfaktoriellen ANOVA per Hand zu bestimmen, müssen wir einige vorbereitende Schritte vollziehen. Zunächst brauchen wir die `aggregate()`-Funktion, die es erlaubt, eine zusammenfassende Statistik (wie Mittelwert oder Standardabweichung) für eine Variable getrennt nach verschiedenen Subgruppen zu berechnen. Dabei können wir in `aggregate()` die Schreibweise nutzen, die wir aus der Regression gewohnt sind - `interessierende Variable ~ Gruppierungsvariable, data`. Bei uns ist die interessierende Variable `EC` und die Gruppierungsvariable `urban`. Als zusätzliches Argument wird die Funktion übergeben, die in der Aggregation durchgeführt werden soll - also der Mittelwert durch `mean()`.

@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA Übungen'
 summary: Übungsmaterial zur einfaktoriellen ANOVA
 authors: [pommeranz, nehler]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2026-07-16'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -32,24 +32,22 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
 Bitte laden Sie den folgenden Datensatz herunter, der Items aus einem Machiavellismus-Fragebogen enthält, um die nachfolgende Aufgabe bearbeiten zu können. Der Datensatz enthält verschiedene Angaben zur Persönlichkeit sowie demografische Informationen. Im Mittelpunkt steht jedoch der 20 Items umfassende Machiavellismus-Fragebogen von Christie und Geis (1970) sowie die daraus ableitbare vierfaktorielle Struktur des Konzepts (Corral & Calvete, 2000). Weitere Details zum Fragebogen und seinen Items finden Sie auch [hier](https://pandar.netlify.app/daten/datensaetze/#machiavellismus-fragebogen-mach).
 
-```{r}
+
+``` r
 # Datensatz laden
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
 Weiterhin werden die Pakete `afex` und `emmeans` benötigt, die eventuell auch noch installiert werden müssen.
 
-```{r}
+
+``` r
 # Pakete installieren falls nicht vorhanden
 if (!requireNamespace("afex", quietly = TRUE)) {
   install.packages("afex")
