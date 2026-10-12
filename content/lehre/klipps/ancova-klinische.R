@@ -1,115 +1,141 @@
-## source('https://pandar.netlify.app/daten/Data_Processing_cope.R')
+# load(url('https://pandar.netlify.app/daten/roma.rda'))
 
 
-# Ethnizität
-ethnicity <- aggregate(cope[, grep('race_', names(cope))], by = list(cope$condition), FUN = sum)
-names(ethnicity) <- c('condition', 'Native', 'Asian', 'Hispanic', 'Pacific Islander', 'White', 'Black', 'Other', 'Prefer not to say')
-ethnicity
+roma$condition <- roma$warm:roma$comp
 
-# Geschlecht
-gender <- aggregate(cope[, grep('gender_', names(cope))], by = list(cope$condition), FUN = sum)
-names(gender) <- c('condition', 'agender', 'not sure', 'other', 'androgynous', 'nonbinary', 'two spirited', 'Trangender female to male', 'trans female', 'trans male', 'Gender expansive', 'Third gender', 'Genderqueer', 'Transgender male to female', 'Man', 'Woman')
-gender
+roma$condition <- factor(roma$warm:roma$comp, labels = c('high warmth + high competence', 'high warmth + low competence', 'low warmth + high competence', 'low warmth + low competence'))
 
-# Biologisches Geschlecht
-table(cope$sex, cope$condition)
+psych::describeBy(roma[, c('condition', 'sss8', 'ssd12', 'phq9')], 'condition')
 
-# Sexuelle Orientierung
-table(cope$orientation, cope$condition)
-
-# Baseline CDI
-psych::describeBy(cope$CDI1*12, cope$condition)
-
-# Akzeptanz
-pfs <- subset(cope, select = c('condition', grep('pfs_', names(cope), value = TRUE))) |> na.omit()
-psych::describeBy(pfs, pfs$condition)
+library(gtsummary)
+# tbl_summary(data = roma,
+#   by = condition,
+#   include = c(age, gender, ssd12))
 
 
-dropouts <- table(cope$condition, cope$dropout1)
-dropouts
-prop.table(dropouts, margin = 1)
-chisq.test(dropouts)
+# tbl_summary(roma,
+#   by = condition,
+#   include = c(age, gender, education, occupation, sss8, ssd12, phq9, vignette, report),
+#   statistic = list(all_continuous() ~ "{mean} ({sd})", all_categorical() ~ "{n} ({p})"),
+#   digits = list(all_continuous() ~ 2, all_categorical() ~ c(0, 1)),
+#   label = list(age ~ "Age, y",
+#     gender ~ "Gender",
+#     education ~ "Educational level",
+#     occupation ~ "Occupation",
+#     sss8 ~ "SSS-8",
+#     ssd12 ~ "SSD-12",
+#     phq9 ~ "PHQ-9",
+#     vignette ~ "Had similar symptoms as described in the vignette",
+#     report ~ "Had a similar doctor's report in the past"),
+#   missing = "no") |>
+# add_overall(last = TRUE)
 
-# Datenauswahl zur Dropout-Vorhersage
-drop_dat <- cope[, c('dropout1', grep('^gender', names(cope), value = TRUE),
-    grep('^race', names(cope), value = TRUE),
-    'age', 'CDI1', 'CTS1', 'GAD1', 'SHS1', 'BHS1', 'DRS1')]
 
-# Vorhersage von Dropout mit logistischer Regression
-drop_mod <- glm(dropout1 ~ ., drop_dat, family = 'binomial')
+library(afex)
+ano1 <- aov_4(disease2 ~ comp * warm + (1 | id), roma)
+summary(ano1)
 
-summary(drop_mod)
+# Mittelwerte
+means <- aggregate(disease2 ~ comp * warm, roma, mean)
+means
+
+# Standardabweichungen
+sds <- aggregate(disease2 ~ comp * warm, roma, sd)
+sds
+
+# Kompetenz - dummy
+contrasts(roma$comp)
+
+# Wärme - dummy
+contrasts(roma$warm)
+
+reg1 <- lm(disease2 ~ comp * warm, roma)
+summary(reg1)
+
+# Kompetenz - Kontrast
+contrasts(roma$comp) <- 'contr.sum'
+contrasts(roma$comp)
+
+# Wärme - Kontrast
+contrasts(roma$warm) <- 'contr.sum'
+contrasts(roma$warm)
+
+reg2 <- lm(disease2 ~ comp * warm, roma)
+summary(reg2)
+
+mean(means$disease2)
+
+library(ggplot2)
+ggplot(means, aes(x = warm, y = disease2, group = comp, color = comp)) + 
+  geom_point() + geom_line() + 
+  labs(x = 'Wärme', y = 'Subjektive Wahrscheinlichkeit schwerer Erkrankung', color = 'Kompetenz') + 
+  theme_pandar() + scale_color_pandar()
+
+means$sds <- sds$disease2
+pd <- position_dodge(width = 0.2)
+
+ggplot(means, aes(x = warm, y = disease2, group = comp, color = comp)) + 
+  geom_point(position = pd) + geom_line(position = pd) +
+  geom_errorbar(aes(ymin = disease2 - sds, ymax = disease2 + sds), position = pd) + 
+  labs(x = 'Wärme', y = 'Subjektive Wahrscheinlichkeit schwerer Erkrankung', color = 'Kompetenz') + 
+  theme_pandar() + scale_color_pandar()
+
+# Effektstärke Kompetenz:
+effsize::cohen.d(disease2 ~ comp, roma)
+
+# Effektstärke Wärme:
+effsize::cohen.d(disease2 ~ warm, roma)
+
+aggregate(disease1 ~ comp * warm, roma, mean)
+
+ano2 <- aov_4(disease2 ~ comp * warm + disease1 + (1 | id), roma, factorize = FALSE)
+summary(ano2)
+
+# summary(ano2$lm)
 
 
 
-# Vorgesagte Werte
-cope$dropout_pred <- predict(drop_mod, cope, type = 'response') > .5
-cope$dropout_pred <- factor(cope$dropout_pred, labels = c('remain', 'dropout'))
+# Gruppenspezifische Regressionsgeraden bestimmen
+lines <- expand.grid(disease1 = range(roma$disease1, na.rm = TRUE),
+  warm = levels(roma$warm),
+  comp = levels(roma$comp))
 
-# Confusion Matrix
-caret::confusionMatrix(cope$dropout_pred, cope$dropout1)
+lines$disease2 <- predict(ano2$lm,
+  newdata = lines)
 
-locf <- cope
+lines$condition <- factor(lines$warm:lines$comp, labels = levels(roma$condition))
 
-# LOCF, post-intervention
-locf$SHS2 <- ifelse(is.na(locf$SHS2), locf$SHS1, locf$SHS2)
-locf$BHS2 <- ifelse(is.na(locf$BHS2), locf$BHS1, locf$BHS2)
+# Mittelwerte zusammenführen
+tmp <- aggregate(cbind(disease1, disease2) ~ condition + warm + comp,
+  data = roma, FUN = mean)
 
-# LOCF, follow-up
-locf$CDI3 <- ifelse(is.na(locf$CDI3), locf$CDI1, locf$CDI3)
-locf$CTS3 <- ifelse(is.na(locf$CTS3), locf$CTS1, locf$CTS3)
-locf$GAD3 <- ifelse(is.na(locf$GAD3), locf$GAD1, locf$GAD3)
-locf$SHS3 <- ifelse(is.na(locf$SHS3), locf$SHS2, locf$SHS3)
-locf$BHS3 <- ifelse(is.na(locf$BHS3), locf$BHS2, locf$BHS3)
-locf$DRS3 <- ifelse(is.na(locf$DRS3), locf$DRS1, locf$DRS3)
+# Plot erstellen
+ggplot(roma, aes(x = disease1, y = disease2, group = condition, color = condition)) + 
+  geom_point(alpha = .25) + 
+  geom_line(data = lines, aes(group = condition, color = condition)) + 
+  scale_color_pandar() + theme_pandar() + coord_cartesian(ylim = range(roma$disease2, na.rm = TRUE), xlim = range(roma$disease1, na.rm = TRUE)) +
+  geom_point(data = tmp, aes(x = disease1, y = disease2, color = condition), size = 4, pch = 18)
 
-# ANOVA model
-mod1 <- lm(CDI3 ~ condition, cope)
+# Mittelwerte zusammenführen
+tmp <- expand.grid(disease1 = 50,
+  warm = levels(roma$warm),
+  comp = levels(roma$comp))
+tmp$disease2 <- predict(ano2$lm,
+  newdata = tmp)
+tmp$condition <- factor(tmp$warm:tmp$comp, labels = levels(roma$condition))
 
-# Ergebniszusammenfassung
-summary(mod1)
+# Plot erstellen
+ggplot(roma, aes(x = disease1, y = disease2, group = condition, color = condition)) + 
+  geom_point(alpha = .25) + 
+  geom_line(data = lines, aes(group = condition, color = condition)) + 
+  scale_color_pandar() + theme_pandar() + coord_cartesian(ylim = range(roma$disease2, na.rm = TRUE), xlim = range(roma$disease1, na.rm = TRUE)) +
+  geom_point(data = tmp, aes(x = disease1, y = disease2, color = condition), size = 4, pch = 18)
 
-# Gruppenmittelwerte zur Baseline
-tapply(cope$CDI1, cope$condition, mean)
+contrasts(roma$warm)
 
-# Einfache ANCOVA
-mod2 <- lm(CDI3 ~ CDI1 + condition, cope)
 
-# Ergebniszusammenfassung
-summary(mod2)
 
-# Regressionsergebnisse zusammenführen
-lines <- data.frame(condition = c("Placebo Control", "Project Personality", "Project ABC"), 
-  int1 = coef(mod1)[1] + c(0,coef(mod1)[2:3]),
-  slo1 = 0,
-  int2 = coef(mod2)[1] + c(0,coef(mod2)[3:4]),
-  slo2 = coef(mod2)[2],
-  mns = tapply(cope$CDI1, cope$condition, mean))
-
-# Grafische Darstellung
-scatter <- ggplot(cope, aes(x = CDI1, y = CDI3, color = condition)) + 
-  theme_pandar() + scale_color_pandar() + geom_point(alpha = 0) + xlim(0.75, 1.25) + ylim(.6, 1.2) 
-
-# Regressionsgeraden
-scatter +
-  geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'solid') +
-  geom_point(data = lines, aes(x = mns, y = mns*slo2+int2))
-
-# Modell mit Last-Observation-Carried-Forward
-mod2_locf <- lm(CDI3 ~ CDI1 + condition, locf)
-
-# Ergebniszusammenfassung
-summary(mod2_locf)
-
-# Regressionsergebnisse zusammenführen
-lines$int3 <- coef(mod2_locf)[1] + c(0,coef(mod2_locf)[3:4])
-lines$slo3 <- coef(mod2_locf)[2]
-
-# Grafische Darstellung
-scatter +
-  geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'solid') +
-  geom_abline(data = lines, aes(intercept = int3, slope = slo3, color = condition), linetype = 'dashed') 
-
+#### Change-Modelle ----
 
 # Seed festlegen
 set.seed(123)
@@ -135,48 +161,49 @@ lord_change <- lm(y2 - y1 ~ g, d)
 summary(lord_change)
 
 # Change-Modell
-mod3 <- lm(CDI3 - CDI1 ~ condition, cope)
+reg3 <- lm(disease2 - disease1 ~ warm * comp, roma)
 
 # Ergebniszusammenfassung
-summary(mod3)
+summary(reg3)
 
 # Change zur ANOVA
-anova(mod3)
+anova(reg3)
 
-# Zenrierung der Kovariate
-cope$CDI1_c <- scale(cope$CDI1, scale = FALSE)
-
-# Generalisierte ANCOVA
-mod4 <- lm(CDI3 ~ CDI1_c * condition, cope)
-
-# Ergebniszusammenfassung
-summary(mod4)
-
-# ANCOVA mit zentriertem Prädiktor aufstellen (zum Vergleich)
-mod2b <- lm(CDI3 ~ CDI1_c + condition, cope)
-
-# Regressionsergebnisse zusammenführen
-lines <- data.frame(condition = c("Placebo Control", "Project Personality", "Project ABC"), 
-  int1 = coef(mod2b)[1] + c(0, coef(mod2b)[3:4]),
-  slo1 = coef(mod2b)[2],
-  int2 = coef(mod4)[1] + c(0, coef(mod4)[3:4]),
-  slo2 = coef(mod4)[2] + c(0, coef(mod4)[5:6]))
-
-# Grafische Darstellung
-scatter <- ggplot(cope, aes(x = CDI1_c, y = CDI3, color = condition)) + 
-  theme_pandar() + scale_color_pandar() + geom_point(alpha = 0) + xlim(-.25, .25) + ylim(.75, 1.25)
-
-scatter +
-  geom_abline(data = lines, aes(intercept = int1, slope = slo1, color = condition), linetype = 'solid') +
-  geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'dashed') 
+ano3 <- aov_4(disease2 ~ comp * warm * disease1 + (1 | id), roma, factorize = FALSE)
+summary(ano3)
 
 
-# Effekt bei überdurchschnittlicher Kovariate
-cope$CDI1_above <- cope$CDI1_c + sd(cope$CDI1_c)
-mod4b <- lm(CDI3 ~ CDI1_above * condition, cope)
-summary(mod4b)
+# Gruppenspezifische Regressionsgeraden bestimmen
+lines <- expand.grid(disease1 = range(roma$disease1, na.rm = TRUE),
+  warm = levels(roma$warm),
+  comp = levels(roma$comp))
 
-# Effekt bei unterdurchschnittlicher Kovariate
-cope$CDI1_below <- cope$CDI1_c - sd(cope$CDI1_c)
-mod4c <- lm(CDI3 ~ CDI1_below * condition, cope)
-summary(mod4c)
+lines$disease2 <- predict(ano3$lm,
+  newdata = lines)
+
+lines$condition <- factor(lines$warm:lines$comp, labels = levels(roma$condition))
+
+# Plot erstellen
+ggplot(roma, aes(x = disease1, y = disease2, group = condition, color = condition)) + 
+  geom_point(alpha = .25) + 
+  geom_line(data = lines, aes(group = condition, color = condition)) + 
+  scale_color_pandar() + theme_pandar() + coord_cartesian(ylim = range(roma$disease2, na.rm = TRUE), xlim = range(roma$disease1, na.rm = TRUE))
+
+roma$warm_cent <- scale(roma$warm_perc, scale = FALSE)
+roma$comp_cent <- scale(roma$comp_perc, scale = FALSE)
+
+mod1 <- lm(disease2 ~ warm_cent * comp_cent + disease1, roma)
+summary(mod1)
+
+library(lm.beta)
+lm.beta(mod1) |> summary()
+
+mod2 <- lm(cancer2 ~ warm_cent * comp_cent + cancer1, roma)
+lm.beta(mod2) |> summary()
+
+library(interactions)
+sim_slopes(mod2, pred = warm_cent, modx = comp_cent)
+
+interact_plot(mod2, pred = warm_cent, modx = comp_cent)
+
+interact_plot(mod2, modx = warm_cent, pred = comp_cent)

@@ -1,18 +1,18 @@
 ---
-title: ANCOVA
-date: '2024-09-26'
+title: Regression und ANCOVA
+date: '2026-10-07'
 slug: ancova-klinische
 categories: ["KliPPs"]
-tags: ["Regression", "ANCOVA", "Effektschätzer"]
+tags: ["Regression", "ANCOVA", "Effektschätzer", "Interaktion", "Moderation"]
 subtitle: ''
-summary: ''
-authors: [schultze, nehler, irmer]
-weight: 3
-lastmod: '2025-02-07'
+summary: 'In diesem Beitrag werden die Grundlagen der multiplen Regression und der (generalisierten) ANCOVA anhand eines klinischen Datenbeispiels von [Kube & Seewald (2026)](https://doi.org/10.1370/afm.250671) wiederholt.'
+authors: [schultze]
+weight: 1
+lastmod: '2026-10-12'
 featured: no
 banner:
-  image: "/header/canceled.jpg"
-  caption: "[Courtesy of pexels](https://www.pexels.com/photo/concrete-building-under-blue-sky-4004291/)"
+  image: "/header/doctor.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/647862)"
 projects: []
 share: false
 
@@ -28,11 +28,11 @@ links:
   - icon_pack: fas
     icon: newspaper
     name: Artikel
-    url: https://doi.org/10.1038/s41562-021-01235-0
+    url: https://doi.org/10.1370/afm.250671
   - icon_pack: fas
     icon: folder-open
     name: OSF
-    url: https://osf.io/8mk6x/
+    url: https://osf.io/8qf43/?view_only=25853cdacc6746168a0a38b1c91216d6
     
 output:
   html_document:
@@ -45,552 +45,593 @@ output:
 
 ## Einleitung
 
-Die **AN**alysis of **COVA**riance hatten wir bereits im [2. Semester der Bachelorstudiengangs behandelt](lehre/statistik-ii/ancova-regression/#ancova) und dabei schon vorausahnen lassen, dass wir uns das Ganze im Rahmen des KliPPs-Masters noch einmal detaillierter angucken werden. Dieser Spannungsbogen soll nun hier abgeschlossen werden. 
+In diesem ersten Beitrag zur Methodenlehre im Master "Klinische Psychologie und Psychotherapie" (ab sofort einfach immer auf KliPPs abgekürzt) geht es darum, an einem konkreten Beispiel aus der aktuellen klinischen Forschung noch einmal die Grundideen der multiplen Regression und ANCOVA zu wiederholen. Alle relevanten Informationen noch mal in einem Beitrag aufzubereiten kann etwas kurz geraten, deswegen möchte ich an dieser Stelle noch auf die etwas umfangreicheren Einzelbeiträge aus dem Bachelorstudiengang zur [multiplen Regression](/lehre/statistik-i/multiple-reg), der [Prüfung der Voraussetzungen in der multiplen Regression](/lehre/statistik-ii/regressionsdiagnostik), zur [Inferenz und Modellauswahl](/lehre/statistik-ii/multreg-inf-mod) und zur [moderierten Regression](/lehre/statistik-ii/moderierte-reg) hinweisen. Dort finden Sie mehr Details, falls Ihnen der Überblick hier etwas zu oberflächlich erscheint.
+
+Die **AN**alysis of **COVA**riance hatten wir bereits im [2. Semester der Bachelorstudiengangs behandelt](lehre/statistik-ii/ancova-regression/#ancova) und dabei schon vorausahnen lassen, dass wir uns das Ganze im Rahmen des KliPPs-Masters noch einmal detaillierter angucken werden. Dieser Spannungsbogen soll nun hier nun endlich geschlossen werden. 
 
 Im Allgemeinenen wird die ANCOVA in der Psychotherapieforschung immer dann genutzt, wenn wir Interventionsgruppen betrachten werden, die sich zum ersten Zeitpunkt hinsichtlich des Outcomes oder beliebiger Kovariaten unterscheiden *können*. Hierbei ist besonders wichtig zu unterscheiden, ob es sich um randomisierte Studien (üblicherweise "Randomized Controlled Trial", kurz RCT, genannt) handelt oder nicht. Üblicherweise sollten sich die Gruppen im ersten Fall nicht systematisch unterscheiden, aber wir werden im Abschnitt zum [Dropout](#dropout) noch genauer darauf eingehen, wie so etwas trotzdem entstehen kann. Darüber hinaus werden wir einige kritische Entscheidungen und Abgrenzungen besprechen, z.B. wann es empfehlenswert ist als abhängige Variable die Differenz aus den zwei Messzeitpunkten (also den Indikator der Veränderung) statt des Messwerts zum 2. Zeitpunkt zu nutzen.
 
-### Interventionsstudie zur Depression während der COVID Pandemie
+### Die Kommunikationskompetenz von Ärzt*innen
 
-Auch wenn dieser Beitrag etwas theorielastiger wird, als die vergangenen Abschnitte, werden wir uns auch dieses mal hauptsächlich an einer spezifische klinischen Studie orientieren. Die Basis für unsere Auswertungen liefert eine Studie von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0). Anders als bei den bisherigen Beiträgen muss ich allerdings von vornherein zugeben, dass wir die Ergebnisse nicht exakt reproduzieren werden - und das hier auch nicht direkt anpeilen werden - weil in der Studie mitunter etwas aufwändigere Datenauf- und -vorbereitungsschritte durchgeführt wurden, die uns hier etwas zu weit vom eigentlichen Thema ablenken würden.
+In einer recht aktuellen Studie von [Kube und Seewald (2026)](https://doi.org/10.1370/afm.250671) (der Erstautor wird Ihnen im Rahmen dieses Studiums vermutlich noch einmal über den Weg laufen), wurde experimentell untersucht, welchen Einfluss Wärme und Kompetenz von Ärzt\*innen auf die Reaktion von Patient\*innen haben, wenn ihnen unauffällige diagnostische Befunde mitgeteilt werden.
 
-Wie immer können Sie die Originaldaten direkt aus dem [OSF Repo](https://osf.io/8mk6x/) beziehen. Die relevante Auswahl aus dem sehr großen Datensatz habe ich schon einmal vorbereitet und hier hinterlegt:
+Diese Studie ist - wie alle Studien, mit denen wir uns in diesem Semester befassen werden - auf dem OSF zu finden. Dort wurden die Daten aber leider einer JASP Datei integriert hinterlegt, sodass wir sie nicht direkt in R importieren können. Stattdessen habe ich Ihnen eine bereinigte und aufbereitete Variante des [{{< icon name="download" pack="fas" >}} Datensatzes](/daten/roma.rda) hinterlegt, den Sie auch direkt mit 
 
 
-```r
-source('https://pandar.netlify.app/daten/Data_Processing_cope.R')
+``` r
+load(url('https://pandar.netlify.app/daten/roma.rda'))
 ```
 
 
-Im Datensatz sind insgesamt 51 Variablen enthalten, von denen zwar nicht alle zentral für die ANCOVA sind, aber zumindest in den Tabellen der Studie aufbereitet werden. Im Artikel werden die Ergebnisse einer großen Interventionsstudie vorgestellt, in der die Effektivität von zwei selbst-administrierten single-session interventions (SSI) mit Hinblick auf die Reduktion von depressiven Symptomen bei Jugendlichen während der COVID-19 Pandemie untersucht wurde. Die Studie ist im Journal [Nature Human Behavior](https://www.nature.com/nathumbehav), erschienen und gehört mit seinen [126 Zitationen](https://www.webofscience.com/wos/woscc/full-record/WOS:000728447200001) zum 1% der am häufigst zitierten psychologischen Publikationen des Jahres 2022. 
+laden können.
+
+Im Datensatz sind insgesamt 23 Variablen enthalten, von denen zwar nicht alle zentral für die ANCOVA Ergebnisse aus der Studie sind, aber zumindest in den Tabellen der Studie aufbereitet werden. 
 
 <details><summary><b>Variablenübersicht</b></summary>
 
 Variable | Beschreibung | Ausprägungen
 --- | ------ | ----- 
-`condition` | Experimentalbedingung | `Placebo Control`, `Project Personality`, `Project ABC`
-`race_...` | Verschiedene Angaben zur Ethnizität | `0` = identifiziert sich nicht als, `1` = identifiziert sich als
-`gender_...` | Verschiedene Angaben zum Geschlecht | `0` = identifiziert sich nicht als, `1` = identifiziert sich als
-`sex` | Geburtsgeschlecht | `Female`, `Male`, `Other`, `Prefer not to say`
-`orientation` | Sexuelle Orientierung | `Asexual`, `Bisexual`, `Gay/Lesbian/Homosexual`, `Heterosexual/Straight`, `I do not use a label`, `I do not want to respond`, `Other/Not listed (please specify)`, `Pansexual`, `Queer`, `Unsure/Questioning`
-`age` | Alter | Alter in Jahren
-`CDI1` | Children's Depression Inventory, Baseline | _Skalenmittelwert_, 0-2
-`CDI3` | Children's Depression Inventory, Follow-up | _Skalenmittelwert_, 0-2
-`CTS1` | COVID Trauma Symptoms, Baseline | _Skalenmittelwert_, 1-4
-`CTS3` | COVID Trauma Symptoms, Follow-up | _Skalenmittelwert_, 1-4
-`GAD1` | Generalized Anxiety Disorder, Baseline | _Skalenmittelwert_, 1-4
-`GAD3` | Generalized Anxiety Disorder, Follow-up | _Skalenmittelwert_, 1-4
-`SHS1` | State Hope Scale, Perceived Agency Subscale, Baseline | _Skalenmittelwert_, 1-8
-`SHS2` | State Hope Scale, Perceived Agency Subscale, Post-Intervention | _Skalenmittelwert_, 1-8
-`SHS3` | State Hope Scale, Perceived Agency Subscale, Follow-up | _Skalenmittelwert_, 1-8
-`BHS1` | Beck Hopelessness Scale, Baseline | _Skalenmittelwert_, 0-3
-`BHS2` | Beck Hopelessness Scale, Post-Intervention | _Skalenmittelwert_, 0-3
-`BHS3` | Beck Hopelessness Scale, Follow-up | _Skalenmittelwert_, 0-3
-`DRS1` | Dietary Restriction Screener, Baseline | _Skalenmittelwert_, 0-1
-`DRS3` | Dietary Restriction Screener, Follow-up | _Skalenmittelwert_, 0-1
-`pfs_1` | Program Feedback Scale, "Enjoyed" | 1-5
-`pfs_2` | Program Feedback Scale, "Understood" | 1-5
-`pfs_3` | Program Feedback Scale, "Easy to Use" | 1-5
-`pfs_4` | Program Feedback Scale, "Tried My Hardest" | 1-5
-`pfs_5` | Program Feedback Scale, "Helpful to Other Kids" | 1-5
-`pfs_6` | Program Feedback Scale, "Would Recommend to a Friend" | 1-5
-`pfs_7` | Program Feedback Scale, "Agree with Message" | 1-5
-`dropout1` | Abbruch der Teilnahme, Post-Intervention | `0` = nicht abgebrochen, `1` = abgebrochen
-`dropout2` | Abbruch der Teilnahme, Follow-Up | `0` = nicht abgebrochen, `1` = abgebrochen
-
+`id` | Personen-ID | 
+`age` | Alter | *in Jahren*
+`gender` | Geschlecht | `male`, `female`, `diverse`
+`education` | Bildungsniveau | `primary`, `high school`, `university`, `none`
+`occupation` | Aktuelles Beschäftigungsverhältnis | `full-time employ`, `part-time employ`, `stay at home`, `in training`, `unemployed`, `retired`, `disabled`
+`sss8` | Somatic Symptom Scale | *Skalenwert*, 0 - 32
+`ssd12` | Somatic Symptom Disorder-B Criteria Scale | *Skalenwert*, 0 - 48
+`phq9` | Patient Health Questionnaire | *Skalenwert*, 0 - 27
+`cimr` | Cognitive Immunization Against Medical Reassurance | *Skalenwert*, 1 - 7
+`vignette` | Ähnliche Symptome erlebt | `yes`, `no`
+`report` | Ähnlichen Befund erhaten | `yes`, `no`
+`comp` | Experimentelle Bedingung: Kompetenz | `high`, `low`
+`warm` | Experimentelle Bedingung: Wärme | `high`, `low`
+`comp_perc` | Wahrgenommene Kompetenz | VAS, 0-100
+`warm_perc` | Wahrgenommene Wärme | VAS, 0-100
+`disease1` | Wahrscheinlichkeit einer schweren Erkrankung (vor Befund) | VAS, 0-100
+`disease2` | Wahrscheinlichkeit einer schweren Erkrankung (nach Befund) | VAS, 0-100
+`cancer1` | Wahrscheinlichkeit von Darmkrebs (vor Befund) | VAS, 0-100
+`cancer2` | Wahrscheinlichkeit von Darmkrebs (nach Befund) | VAS, 0-100
+`cognitive` | Kognitive Wahrnehmung der eigenen Gesundheit | VAS, 0-100
+`emotional` | Besorgnis | VAS, 0-100
+`second` | Wunsch nach zweiter Meinung | VAS, 0-100
+`colonoscopy` | Wunsch nach Darmspiegelung | VAS, 0-100
 
 </details>
+
+Als zentrale Outcomes werden in dieser Studie die subjektiven Wahrscheinlichkeiten einer schweren Erkrankung (`disease2`) bzw. von Darmkrebs (`cancer2`) nach einem negativ-Befund (daher die `2`) definiert. Darüber sind die vier letzten Variablen als Sekundäroutcomes in Abbildung 3 des Artikels noch einmal genauer betrachtet. 
+
 
 ### Deskriptivstatistik
 
-Wie schon in den anderen Beiträgen, können wir zunächst checken, ob unsere Daten mit denen aus dem Artikel übereinstimmen, indem wir die deskriptivstatistischen Tabellen nachvollziehen. Tabelle 1 (S. 260) gibt dabei eine sehr detaillierte Übersicht über die die Verteilung der demografischen Variablen Ethnizität, Geschlecht und sexueller Orientierung. Diese Ergebnisse sind mit dem bereitgestellten Datensatz soweit reproduzierbar - allerdings aufgrund der fehlenden Exklusivität der Kategorien nicht so einfach zu erstellen, wie in den vergangenen beiden Beiträgen:
+In klinischen Studien ist es üblich (per [CONSORT](https://www.consort-spirit.org/) könnte man es fast schon vorgeschrieben nennen), in einer *Table 1* alle relevanten deskriptivstatistischen Maße zur Baselinemessung anzugeben. Detaillierte Informationen dazu, wie eine solche Tabelle aussehen sollte, liefern z.B. [Hayes-Larson et al., 2020](https://doi.org/10.1016/j.jclinepi.2019.06.011). Dieser "Empfehlung" folgt auch dieser Artikel, was uns die Möglichkeit gibt, zu überprüfen ob wir tatsächlich mit identischen Daten arbeiten oder schon jetzt Probleme in der Reproduzierbarkeit zu entdecken sind.
+
+Wir können die Table 1 berichteten Deskriptivstatistiken über die üblichen, einfachen Funktionen für einzelne Kennwerte bestimmen, die wir schon [zu Beginn](/lehre/statistik-i/deskriptiv-nominal-ordinal/) [des 1. Bachelorsemesters](/lehre/statistik-i/deskriptiv-intervall/) behandelt haben. Weil die Tabelle allerdings Personen aus den vier Experimentalbedingungen trennt, sollten wir zunächst eine solche Variable aus den beiden einzelnen Variablen erstellen:
 
 
-```r
-# Ethnizität
-ethnicity <- aggregate(cope[, grep('race_', names(cope))], by = list(cope$condition), FUN = sum)
-names(ethnicity) <- c('condition', 'Native', 'Asian', 'Hispanic', 'Pacific Islander', 'White', 'Black', 'Other', 'Prefer not to say')
-ethnicity
+``` r
+roma$condition <- roma$warm:roma$comp
 ```
 
-```
-##             condition Native Asian Hispanic Pacific Islander White Black Other Prefer not to say
-## 1     Placebo Control     36   101      159               14   546    85    19                 9
-## 2 Project Personality     29   100      148               14   550    88    11                10
-## 3         Project ABC     27   109      164               11   536    84    17                 5
-```
-
-```r
-# Geschlecht
-gender <- aggregate(cope[, grep('gender_', names(cope))], by = list(cope$condition), FUN = sum)
-names(gender) <- c('condition', 'agender', 'not sure', 'other', 'androgynous', 'nonbinary', 'two spirited', 'Trangender female to male', 'trans female', 'trans male', 'Gender expansive', 'Third gender', 'Genderqueer', 'Transgender male to female', 'Man', 'Woman')
-gender
-```
-
-```
-##             condition agender not sure other androgynous nonbinary two spirited Trangender female to male
-## 1     Placebo Control      19       71    32          50       128            5                        59
-## 2 Project Personality      23       65    28          55       129            6                        62
-## 3         Project ABC      12       60    27          52       127            5                        59
-##   trans female trans male Gender expansive Third gender Genderqueer Transgender male to female Man Woman
-## 1            7         67                7            2          46                          6 122    70
-## 2            9         64                9            3          49                          6 126    58
-## 3            9         65               11            1          45                          3 115    58
-##    NA
-## 1 514
-## 2 516
-## 3 514
-```
-
-Für das biologische Geschlecht und die sexuelle Orientierung können wir die Ergebnisse mittels einfacher Häufigkeitstabeller erzeugen:
-
-```r
-# Biologisches Geschlecht
-table(cope$sex, cope$condition)
-```
-
-```
-##                    
-##                     Placebo Control Project Personality Project ABC
-##   Female                        723                 719         718
-##   Male                           87                  78          86
-##   Other                           2                   7          12
-##   Prefer not to say               6                   9           5
-```
-
-```r
-# Sexuelle Orientierung
-table(cope$orientation, cope$condition)
-```
-
-```
-##                                    
-##                                     Placebo Control Project Personality Project ABC
-##   Asexual                                        39                  38          46
-##   Bisexual                                      228                 220         230
-##   Gay/Lesbian/Homosexual                         86                  91          76
-##   Heterosexual/Straight                         172                 165         161
-##   I do not use a label                           52                  47          41
-##   I do not want to respond                        3                   2           5
-##   Other/Not listed (please specify)              32                  38          23
-##   Pansexual                                      87                  79          98
-##   Queer                                          49                  51          47
-##   Unsure/Questioning                             70                  82          94
-```
-
-Und zu guter Letzt noch die mittlere Ausprägung des Primäroutcomes (Depressive Symptomatik) getrennt nach Interventionsgruppe zur Baseline. Dabei ist zu bedenken, dass die Variable im Datensatz als Mittelwert vorliegt (und auch in späteren Berechnungen so verwendet wird), in dieser Tabelle allerdings als Summenscore angegeben wird. Daher müssen wir den Mittelwert wieder mit der Anzahl der Items (12) multipliuieren:
+Faktoren können wir mit dem `:` einfach zu einer Kombination zusammenführen. Falls Sie (wie ich) leicht den Überblick verlieren, wenn alle Benennungen gleich sind, können Sie diese Faktorkombination natürlich auch wieder mit Labels versehen:
 
 
-```r
-# Baseline CDI
-psych::describeBy(cope$CDI1*12, cope$condition)
+``` r
+roma$condition <- factor(roma$warm:roma$comp, labels = c('high warmth + high competence', 'high warmth + low competence', 'low warmth + high competence', 'low warmth + low competence'))
+```
+
+Dann lassen sich z.B. mit dem altbekannten `describeBy()` aus dem `psych`-Paket gruppierte Statistiken ausgeben. 
+
+
+``` r
+psych::describeBy(roma[, c('condition', 'sss8', 'ssd12', 'phq9')], 'condition')
 ```
 
 ```
 ## 
 ##  Descriptive statistics by group 
-## group: Placebo Control
-##    vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 818 14.31 4.12   14.5   14.42 5.19   1  24    23 -0.25    -0.46 0.14
-## --------------------------------------------------------------------------------- 
-## group: Project Personality
-##    vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 813 14.22 4.13     14   14.35 4.45   3  24    21 -0.28    -0.28 0.15
-## --------------------------------------------------------------------------------- 
-## group: Project ABC
-##    vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 821 14.15 4.06     14   14.25 4.45   0  24    24 -0.25    -0.27 0.14
+## condition: 1
+##           vars  n  mean   sd median trimmed  mad min max range skew kurtosis   se
+## condition    1 89  1.00 0.00      1    1.00 0.00   1   1     0  NaN      NaN 0.00
+## sss8         2 89  8.54 5.04      7    8.00 2.97   1  23    22 1.09     0.76 0.53
+## ssd12        3 89 13.82 9.24     12   12.86 8.90   0  42    42 0.90     0.17 0.98
+## phq9         4 89  7.80 5.21      7    7.32 4.45   0  24    24 0.87     0.39 0.55
+## ------------------------------------------------------------------------------ 
+## condition: 2
+##           vars  n  mean   sd median trimmed  mad min max range skew kurtosis   se
+## condition    1 83  2.00 0.00      2    2.00 0.00   2   2     0  NaN      NaN 0.00
+## sss8         2 83  7.78 5.08      7    7.42 4.45   0  20    20 0.65    -0.49 0.56
+## ssd12        3 83 13.19 8.98     12   12.33 8.90   0  40    40 0.82     0.07 0.99
+## phq9         4 83  7.39 5.16      7    6.93 5.93   0  21    21 0.65    -0.34 0.57
+## ------------------------------------------------------------------------------ 
+## condition: 3
+##           vars  n  mean    sd median trimmed  mad min max range skew kurtosis   se
+## condition    1 93  3.00  0.00      3    3.00 0.00   3   3     0  NaN      NaN 0.00
+## sss8         2 93  8.37  5.27      7    8.01 4.45   0  26    26 0.78     0.56 0.55
+## ssd12        3 93 13.13 10.55     10   11.97 8.90   0  41    41 0.87    -0.11 1.09
+## phq9         4 93  7.62  5.83      6    6.97 5.93   0  26    26 0.94     0.25 0.60
+## ------------------------------------------------------------------------------ 
+## condition: 4
+##           vars  n  mean   sd median trimmed  mad min max range skew kurtosis   se
+## condition    1 84  4.00 0.00      4    4.00 0.00   4   4     0  NaN      NaN 0.00
+## sss8         2 84  8.36 4.59      8    8.01 5.93   0  22    22 0.53    -0.34 0.50
+## ssd12        3 84 14.06 8.57     13   13.54 8.90   0  42    42 0.65     0.05 0.94
+## phq9         4 84  7.61 4.71      7    7.18 4.45   1  24    23 0.97     0.96 0.51
+```
+Leider geht die Funktion nur bedingt gut mit unterschiedlichen Skalennvieaus um, sodass ich die Ausgabe hier auf die drei Skalenwerte (SSS-8, SSD-12 und PHQ-9) eingeschränkt habe. Für eine vollständig aufbereitete Table 1 gibt es aber inzwischen diverse Pakete und Funktionen. Eine Möglichkeit ist die `tbl_summary()` aus dem `gtsummary`-Paket, die wir z.B. gleichzeitig für verschiedene Formen von Variablen einsetzen können:
+
+
+``` r
+library(gtsummary)
 ```
 
-Im Artikel präsentieren [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) in Tabelle 2 außerdem die Akzeptanz bzw. Zufriedenheit mit der jeweiligen Intervention, die wir ebenfalls sehr leicht rekonstruieren können: 
-
-
-```r
-# Akzeptanz
-pfs <- subset(cope, select = c('condition', grep('pfs_', names(cope), value = TRUE))) |> na.omit()
-psych::describeBy(pfs, pfs$condition)
+``` r
+tbl_summary(data = roma,
+  by = condition,
+  include = c(age, gender, ssd12))
 ```
 
-```
-## 
-##  Descriptive statistics by group 
-## group: Placebo Control
-##            vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## condition*    1 630 1.00 0.00      1    1.00 0.00   1   1     0   NaN      NaN 0.00
-## pfs_1         2 630 3.80 0.79      4    3.83 0.00   1   5     4 -0.57     0.71 0.03
-## pfs_2         3 630 4.54 0.56      5    4.59 0.00   2   5     3 -0.86     0.66 0.02
-## pfs_3         4 630 4.46 0.64      5    4.53 0.00   2   5     3 -0.97     0.87 0.03
-## pfs_4         5 630 4.45 0.65      5    4.53 0.00   1   5     4 -0.97     0.91 0.03
-## pfs_5         6 630 4.24 0.81      4    4.34 1.48   1   5     4 -0.96     0.83 0.03
-## pfs_6         7 630 3.97 0.95      4    4.07 1.48   1   5     4 -0.67    -0.18 0.04
-## pfs_7         8 630 4.50 0.62      5    4.58 0.00   2   5     3 -0.98     0.49 0.02
-## --------------------------------------------------------------------------------- 
-## group: Project Personality
-##            vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## condition*    1 653 2.00 0.00      2    2.00 0.00   2   2     0   NaN      NaN 0.00
-## pfs_1         2 653 3.83 0.77      4    3.84 0.00   1   5     4 -0.41     0.36 0.03
-## pfs_2         3 653 4.48 0.64      5    4.55 0.00   1   5     4 -1.18     2.02 0.02
-## pfs_3         4 653 4.39 0.68      4    4.49 1.48   2   5     3 -0.94     0.73 0.03
-## pfs_4         5 653 4.45 0.67      5    4.55 0.00   1   5     4 -1.20     1.83 0.03
-## pfs_5         6 653 4.20 0.83      4    4.31 1.48   1   5     4 -1.09     1.50 0.03
-## pfs_6         7 653 3.93 1.00      4    4.05 1.48   1   5     4 -0.72    -0.07 0.04
-## pfs_7         8 653 4.47 0.70      5    4.59 0.00   1   5     4 -1.40     2.37 0.03
-## --------------------------------------------------------------------------------- 
-## group: Project ABC
-##            vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## condition*    1 729 3.00 0.00      3    3.00 0.00   3   3     0   NaN      NaN 0.00
-## pfs_1         2 729 3.93 0.73      4    3.95 0.00   1   5     4 -0.35     0.07 0.03
-## pfs_2         3 729 4.46 0.59      5    4.50 0.00   2   5     3 -0.64    -0.11 0.02
-## pfs_3         4 729 4.42 0.64      4    4.50 1.48   2   5     3 -0.81     0.32 0.02
-## pfs_4         5 729 4.42 0.69      5    4.52 0.00   1   5     4 -1.01     0.85 0.03
-## pfs_5         6 729 4.30 0.76      4    4.41 1.48   1   5     4 -0.92     0.52 0.03
-## pfs_6         7 729 4.12 0.89      4    4.22 1.48   1   5     4 -0.84     0.26 0.03
-## pfs_7         8 729 4.54 0.57      5    4.59 0.00   3   5     2 -0.76    -0.43 0.02
+|**Characteristic** | **high warmth + high competence**  N = 89 | **high warmth + low competence**  N = 83 | **low warmth + high competence**  N = 93 | **low warmth + low competence**  N = 84 |
+|:------------------|:-----------------------------------------:|:----------------------------------------:|:----------------------------------------:|:---------------------------------------:|
+|age                |                25 (22, 35)                |               26 (22, 37)                |               25 (21, 30)                |               24 (21, 30)               |
+|gender             |                                           |                                          |                                          |                                         |
+|male               |                 22 (25%)                  |                 16 (19%)                 |                 16 (17%)                 |                13 (16%)                 |
+|female             |                 63 (72%)                  |                 66 (80%)                 |                 76 (82%)                 |                70 (84%)                 |
+|diverse            |                 3 (3.4%)                  |                 1 (1.2%)                 |                 1 (1.1%)                 |                 0 (0%)                  |
+|Unknown            |                     1                     |                    0                     |                    0                     |                    1                    |
+|ssd12              |                12 (7, 19)                 |                12 (6, 19)                |                10 (5, 20)                |               13 (7, 20)                |
+
+Wie zu sehen ist, sind wir schon mit dieser "out-of-the-box" Variante sehr nah an dem dran, wie eine Table 1 in einer Publikation aussieht. Die Dokumentation des Pakets enthält ein [hervorragendes Tutorial](https://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html) zu den möglichen Einstellungen, die Sie so vornehmen können, um eine solche Tabelle nach Ihren Bedürfnissen anzupassen. Eine ziemlich gute Annäherung klapp schon mit diesen paar Zeilen:
+
+
+``` r
+tbl_summary(roma, 
+  by = condition,
+  include = c(age, gender, education, occupation, sss8, ssd12, phq9, vignette, report),
+  statistic = list(all_continuous() ~ "{mean} ({sd})", all_categorical() ~ "{n} ({p})"),
+  digits = list(all_continuous() ~ 2, all_categorical() ~ c(0, 1)),
+  label = list(age ~ "Age, y",
+    gender ~ "Gender",
+    education ~ "Educational level",
+    occupation ~ "Occupation",
+    sss8 ~ "SSS-8",
+    ssd12 ~ "SSD-12",
+    phq9 ~ "PHQ-9",
+    vignette ~ "Had similar symptoms as described in the vignette",
+    report ~ "Had a similar doctor's report in the past"),
+  missing = "no") |>
+add_overall(last = TRUE)
 ```
 
+|**Characteristic**                                | **high warmth + high competence**  N = 89 | **high warmth + low competence**  N = 83 | **low warmth + high competence**  N = 93 | **low warmth + low competence**  N = 84 | **Overall**  N = 349 |
+|:-------------------------------------------------|:-----------------------------------------:|:----------------------------------------:|:----------------------------------------:|:---------------------------------------:|:--------------------:|
+|Age, y                                            |               30.43 (13.00)               |              31.64 (13.56)               |              29.03 (13.17)               |              28.62 (12.53)              |    29.91 (13.07)     |
+|Gender                                            |                                           |                                          |                                          |                                         |                      |
+|male                                              |                 22 (25.0)                 |                16 (19.3)                 |                16 (17.2)                 |                13 (15.7)                |      67 (19.3)       |
+|female                                            |                 63 (71.6)                 |                66 (79.5)                 |                76 (81.7)                 |                70 (84.3)                |      275 (79.3)      |
+|diverse                                           |                  3 (3.4)                  |                 1 (1.2)                  |                 1 (1.1)                  |                 0 (0.0)                 |       5 (1.4)        |
+|Educational level                                 |                                           |                                          |                                          |                                         |                      |
+|primary                                           |                  6 (6.7)                  |                 3 (3.6)                  |                 3 (3.2)                  |                 1 (1.2)                 |       13 (3.7)       |
+|high school                                       |                 51 (57.3)                 |                41 (49.4)                 |                50 (53.8)                 |                50 (59.5)                |      192 (55.0)      |
+|university                                        |                 31 (34.8)                 |                39 (47.0)                 |                40 (43.0)                 |                33 (39.3)                |      143 (41.0)      |
+|none                                              |                  1 (1.1)                  |                 0 (0.0)                  |                 0 (0.0)                  |                 0 (0.0)                 |       1 (0.3)        |
+|Occupation                                        |                                           |                                          |                                          |                                         |                      |
+|full-time employ                                  |                 19 (21.3)                 |                17 (20.5)                 |                22 (23.7)                 |                14 (16.7)                |      72 (20.6)       |
+|part-time employ                                  |                 9 (10.1)                  |                15 (18.1)                 |                 9 (9.7)                  |                12 (14.3)                |      45 (12.9)       |
+|stay at home                                      |                  1 (1.1)                  |                 1 (1.2)                  |                 2 (2.2)                  |                 0 (0.0)                 |       4 (1.1)        |
+|in training                                       |                 53 (59.6)                 |                47 (56.6)                 |                54 (58.1)                 |                53 (63.1)                |      207 (59.3)      |
+|unemployed                                        |                  1 (1.1)                  |                 1 (1.2)                  |                 1 (1.1)                  |                 1 (1.2)                 |       4 (1.1)        |
+|retired                                           |                  4 (4.5)                  |                 2 (2.4)                  |                 4 (4.3)                  |                 4 (4.8)                 |       14 (4.0)       |
+|disabled                                          |                  2 (2.2)                  |                 0 (0.0)                  |                 1 (1.1)                  |                 0 (0.0)                 |       3 (0.9)        |
+|SSS-8                                             |                8.54 (5.04)                |               7.78 (5.08)                |               8.37 (5.27)                |               8.36 (4.59)               |     8.27 (5.00)      |
+|SSD-12                                            |               13.82 (9.24)                |               13.19 (8.98)               |              13.13 (10.55)               |              14.06 (8.57)               |     13.54 (9.37)     |
+|PHQ-9                                             |                7.80 (5.21)                |               7.39 (5.16)                |               7.62 (5.83)                |               7.61 (4.71)               |     7.61 (5.24)      |
+|Had similar symptoms as described in the vignette |                 74 (83.1)                 |                62 (74.7)                 |                80 (86.0)                 |                60 (71.4)                |      276 (79.1)      |
+|Had a similar doctor's report in the past         |                 48 (53.9)                 |                39 (47.0)                 |                45 (48.4)                 |                42 (50.6)                |      174 (50.0)      |
 
-## Dropout
-
-Schwieriger als im letzten Abschnitt wird es, wenn wir versuchen die Werte in Tabelle 3 des Artikels zu reproduzieren. Das liegt an folgendem Vorgehen, das auf S. 266 von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) beschrieben wird:
-
-> We imputed participant-level missing data using the expectation-maximization and bootstrapping algorithm implemented with Amelia II in R, allowing more conservative intent-to-treat analyses than other approaches
-
-Was hier beschrieben wird, ist der Umgang mit einem zentralen Problem in jeder Form längsschnittlicher Datenerhebung, das aber in der Psychotherapieforschung besonders relevant ist: dem Studienabbruch von Teilnehemden. Generell können wir niemals davon ausgehen, dass alle Personen, die zum ersten Zeitpunkt an einer Studie teilnehmen, dieser auch langfristig erhalten bleiben. Insbesondere, wenn die Studienteilnahme mit Anstrengungen oder Zeitaufwand verbunden ist (was quasi unumgänglich ist) oder wir z.B. Personen mit psychischen Störungen untersuchen, ist die Rate an Studienabbrüchen oft sehr hoch. [Cooper und Conklin (2015)](https://doi.org/10.1016/j.cpr.2015.05.001) zeigen in einer Meta-Analyse eine Drop-Out Rate von 17,5% bis 20% (wobei einzelne Studien von 0% bis 50% reichen) in klinischen RCT Studien. Generell ist es natürlich "schade" wenn Personen zu späteren Zeitpunkten nicht mehr an der Studie teilnehmen, weil wir so für Veränderungshypothesen weniger Power haben, aber das eigentliche Problem stellt sogenannter _differentieller Dropout_ dar. Damit ist gemeint, dass Personen aus unterschiedlichen Experimentalgruppen in unterschiedlichem Umfang und aus unterschiedlichen Gründen die Teilnahme an der Studie abbrechen. Das kann dazu führen, dass die Gruppen sich in ihrer Zusammensetzung verändern und damit die schönen Gruppeneigenschaften, für die wir uns extra ein Randomisierungsschema ausgedacht haben, wieder verloren gehen. So kann es passieren, dass Gruppen, die zwar zur Baseline noch direkt vergleichbar waren, im Verlauf der Zeit immer unterschiedlicher werden.
-
-Der erste logische Schritt mit diesem Problem umzugehen ist es, festzustellen in welchem Ausmaß der Dropout über die Gruppen hinweg unterschiedlich ist. Im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) wird auf S. 259 genau das getan. Um Häufigkeitsverteilung zwischen mehreren Gruppen zu vergleichen, wird üblicherweise der $\chi^2$ herangezogen:
-
-
-```r
-dropouts <- table(cope$condition, cope$dropout1)
-dropouts
-```
-
-```
-##                      
-##                       remain dropout
-##   Placebo Control        631     187
-##   Project Personality    653     160
-##   Project ABC            730      91
-```
-
-```r
-prop.table(dropouts, margin = 1)
-```
-
-```
-##                      
-##                          remain   dropout
-##   Placebo Control     0.7713936 0.2286064
-##   Project Personality 0.8031980 0.1968020
-##   Project ABC         0.8891596 0.1108404
-```
-
-```r
-chisq.test(dropouts)
-```
-
-```
-## 
-## 	Pearson's Chi-squared test
-## 
-## data:  dropouts
-## X-squared = 41.469, df = 2, p-value = 9.888e-10
-```
-Wir sehen hier die Ergebnisse, die auch von  [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) berichtet werden: es gibt einen statistisch bedeutsamen Unterschied in den Häufigkeiten des Teilnahmeabbruchs über die Gruppen hinweg ($\chi^2 = 41.47$, $df = 2$, $p < .001$) und zwar in der Form, dass im Project ABC deutlich seltener abgebrochen wird, als in den anderen beiden Gruppen. Diese unterschiedliche Quote des Abbruchs kann kausale Schlüsse hinsichtlich der Interventionen gefährden. Nähere Informationen dazu, wie wir bessere kausale Effektschätzer ermitteln können und was wir dabei bedenken müssen, finden Sie unter anderem in den beiden Beiträgen zur Kausaleffektschätzung mit [EffectLite](/lehre/klipps-legacy/kausaleffekte1-legacy/) bzw. [Propensity-Scores](/lehre/klipps-legacy/kausaleffekte2-legacy/).
-
-Bevor wir untersuchen, ob die Tendenz zum Dropout auch mit anderen relevanten Variablen zusammenhängt, an dieser Stelle ein extrem kurzer Überblick über die drei Kategorien, anhand derer fehlende Werte statistisch unterschieden werden:
-
-Typ | Abkürzung | Implikation
---- | -- | -------
-Missing Completely at Random | MCAR | Fehlende Werte sind unabhängig von den beobachteten und nicht beobachteten Werten
-Missing at Random | MAR | Fehlende Werte sind abhängig von den beobachteten Werten, aber nicht von den nicht beobachteten Werten
-Missing Not at Random | MNAR | Fehlende Werte sind abhängig von den nicht beobachteten Werten
-
-Was mit der Abhängigkeit von beobachteten bzw. nicht-beobachteten Werten gemeint ist, wir am besten mit ein paar Beispielen deutlich. MCAR sind üblicherweise fehlende Werte, die durch den Versuchsaufbau gezielt herbei geführt werden. Wenn wir zum Beispiel an extrem vielen Konstrukten interessiert sind, aber unsere Studienteilnehmenden nicht alle durch eine 4-stündige Erhebung quälen wollen, können wir die Personen randomisiert in Gruppen zuweisen, die jeweils unterschiedliche Kombinationen von Fragebögen in der Erhebung durchlaufen müssen. In diesem Fall hängt das Fehlen der Werte ausschließlich von dieser zufälligen Einteilung ab. Wenn wir zum Beispiel eine Erhebung mit Kindern in einer Schulstunde durchführen und die Befragung ziemlich genau auf die 45 Minuten angelegt ist, kann es vorkommen, dass einige Kinder aufgrund einer Dyslexie die Fragebögen sehr viel langsamer bearbeiten und so deren Werte auf den letzten Skalen fehlen. In diesem Fall liegt das Fehlen der Werte an der Dyslexie, also einer anderen Variablen, die wir (idealerweise) bereits zuvor irgendwo erfasst haben. Solche Fälle bezeichnet man als MAR (missing at random), weil sie nach der Kontrolle auf diese Störvariablen zufällig fehlen. Missing not at random (MNAR) sind Werte dann, wenn sie fehlen, weil Personen auf der spezifische Variable eine besondere Ausprägung haben. So kann es sein, dass Personen sich weigern Fragen zu ihrem Alkoholkonsum zu beantworten, wenn sie diesen selbst bereits als problematisch wahrnehmen und daher versuchen, ihn zu verbergen. Da in diesen Fällen das Fehlen von Werten von den Werten abhängt, die wir _nicht_ beobachten konnten, ist es hier sehr viel schwieriger das Problem fehlender Werte nach der Erhebung mit statistischen Modellen zu lösen. Gerade in der Psychotherapieforschung ist es aber nicht unwahrscheinlich, dass Personen die Studienteilnahme abbrechen, weil sie die Intervention nicht als wirksam erleben oder z.B. eine so schwere Episode erleiden, dass sie stationär behandelt werden müssen und somit nicht mehr an der Erhebung in der Ambulanz teilnehmen können.
-
-### Prädiktoren des Dropouts
-
-Wie Sie aus diesem (etwas zu lang geratenen) Absatz vermutlich ableiten können, sollten Entscheidungen zur Behandlung fehlender Werte vor allem auf inhaltlichen Überlegungen fußen. Statistisch können wir zumindest prüfen, ob die Variablen, die wir zum 1. Messzeitpunkt erhoben haben, prädiktiv für einen Teilnahmeabbruch sind und demzufolge die inhaltlichen und kausalen Schlussfolgerungen hinsichtlich der Interventionseffektivität gefährden würden. Dazu können wir im einfachsten Fall die logistische Regression, die wir im [letzten Beitrag](/lehre/klipps/logistische-regression-klinische) erarbeiteten hatten, nutzen, um das Fehlen von Werten vorherzusagen.
-
-Für den Dropout während der Intervention gibt es die Variable `dropout1` als Indikator. Auf dieser Variable ist kodiert, ob Teilnehmende die 1. Frage des Fragebogen direkt nach Abschluss der Intervention ausgefüllt haben. In logistischer Regression können wir diese also relativ einfach durch die Baselinevariablen vorhersagen, um zu sehen, ob es spezifische Prädiktoren für den Abbruch gibt. Damit ich die Namen der Prädiktoren nicht alle einzeln hinschreiben muss, erzeuge ich mir erst einen Datensatz, der nur die relevanten Variablen enthält und nutze dann alle darin enthaltenen Variablen als Prädiktoren.
-
-
-```r
-# Datenauswahl zur Dropout-Vorhersage
-drop_dat <- cope[, c('dropout1', grep('^gender', names(cope), value = TRUE),
-    grep('^race', names(cope), value = TRUE),
-    'age', 'CDI1', 'CTS1', 'GAD1', 'SHS1', 'BHS1', 'DRS1')]
-
-# Vorhersage von Dropout mit logistischer Regression
-drop_mod <- glm(dropout1 ~ ., drop_dat, family = 'binomial')
-```
-
-<details><summary><b>Die etwas lange Ergebnistabelle</b></summary>
-
-```r
-summary(drop_mod)
-```
-
-```
-## 
-## Call:
-## glm(formula = dropout1 ~ ., family = "binomial", data = drop_dat)
-## 
-## Coefficients:
-##                                                             Estimate Std. Error z value Pr(>|z|)  
-## (Intercept)                                               -1.1265595  0.9556823  -1.179   0.2385  
-## gender_agender                                             0.3519673  0.3396431   1.036   0.3001  
-## gender_not_sure                                            0.3402405  0.1911349   1.780   0.0751 .
-## gender_other_please_specify                               -0.2544671  0.3329464  -0.764   0.4447  
-## gender_androgynous                                         0.1737942  0.2319843   0.749   0.4538  
-## gender_nonbinary                                          -0.0975538  0.1828862  -0.533   0.5937  
-## gender_two_spirited                                       -0.2538865  0.6957078  -0.365   0.7152  
-## gender_female_to_male_transgender_ftm                     -0.1902710  0.3378816  -0.563   0.5733  
-## gender_trans_female_trans_feminine                        -0.3975158  0.6297381  -0.631   0.5279  
-## gender_trans_male_trans_masculine                          0.0045856  0.3441799   0.013   0.9894  
-## gender_gender_expansive                                   -0.4966064  0.5822746  -0.853   0.3937  
-## gender_third_gender                                        0.5610380  0.9150772   0.613   0.5398  
-## gender_genderqueer                                         0.1308056  0.2427265   0.539   0.5900  
-## gender_male_to_female_transgender_mtf                      0.5355085  0.6830419   0.784   0.4330  
-## gender_man_boy                                            -0.0676839  0.2185922  -0.310   0.7568  
-## gender_transgender                                         0.1316265  0.3060697   0.430   0.6672  
-## gender_woman_girl                                         -0.0771633  0.1724972  -0.447   0.6546  
-## race_american_indian_or_alaska_native                      0.5570829  0.2467266   2.258   0.0240 *
-## race_asian_including_asian_desi                            0.1100817  0.1935428   0.569   0.5695  
-## race_hispanic_latinx                                       0.1191387  0.1677376   0.710   0.4775  
-## race_native_hawaiian_or_other_pacific_islander            -0.3416961  0.4929787  -0.693   0.4882  
-## race_white_caucasian_non_hispanic_includes_middle_eastern  0.2468457  0.1657302   1.489   0.1364  
-## race_black_african_american                               -0.0415952  0.2034652  -0.204   0.8380  
-## race_other_specify                                         0.3813399  0.3768827   1.012   0.3116  
-## race_prefer_not_to_answer                                 -0.6705623  0.7603591  -0.882   0.3778  
-## age                                                       -0.0476536  0.0567854  -0.839   0.4014  
-## CDI1                                                      -0.1423414  0.2471832  -0.576   0.5647  
-## CTS1                                                       0.0017235  0.0985556   0.017   0.9860  
-## GAD1                                                      -0.0507514  0.0924135  -0.549   0.5829  
-## SHS1                                                       0.0174072  0.0499594   0.348   0.7275  
-## BHS1                                                       0.2132303  0.1010266   2.111   0.0348 *
-## DRS1                                                       0.0002739  0.1357147   0.002   0.9984  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 2290.4  on 2446  degrees of freedom
-## Residual deviance: 2262.4  on 2415  degrees of freedom
-##   (5 Beobachtungen als fehlend gelöscht)
-## AIC: 2326.4
-## 
-## Number of Fisher Scoring iterations: 4
-```
-</details>
-
-
-
-
-Von den 32 Tests der Regressionsgewichte sind insgesamt 2 statistisch bedeutsam, was zunächst nicht vielsagend wirkt (wenn man die 5% Irrtumswahrscheinlichkeit bedenkt). Oder etwas wissenschaftlicher ausgedrückt: nach Bonferroni-Holm Adjustierung liegt der niedrigste $p$-Wert der Regressionsgewichte bei 0.766. Auch die Confusion-Matrix, die wir [im letzten Beitrag](/lehre/klipps/logistische-regression-klinische#klassifikationsgute) genutzt hatten, um die Güte des Modells genauer zu beurteilen, deutet darauf hin, dass wir nicht besonders gut in der Lage sind, den Dropout anhand der Baselinevariablen vorherzusagen (weil wir für beinahe alle Personen vorhersagen, dass sie zum 2. Zeitpunkt teilnehmen):
-
-
-```r
-# Vorgesagte Werte
-cope$dropout_pred <- predict(drop_mod, cope, type = 'response') > .5
-cope$dropout_pred <- factor(cope$dropout_pred, labels = c('remain', 'dropout'))
-
-# Confusion Matrix
-caret::confusionMatrix(cope$dropout_pred, cope$dropout1)
-```
-
-```
-## Confusion Matrix and Statistics
-## 
-##           Reference
-## Prediction remain dropout
-##    remain    2012     434
-##    dropout      0       1
-##                                           
-##                Accuracy : 0.8226          
-##                  95% CI : (0.8069, 0.8376)
-##     No Information Rate : 0.8222          
-##     P-Value [Acc > NIR] : 0.4917          
-##                                           
-##                   Kappa : 0.0038          
-##                                           
-##  Mcnemar's Test P-Value : <2e-16          
-##                                           
-##             Sensitivity : 1.000000        
-##             Specificity : 0.002299        
-##          Pos Pred Value : 0.822567        
-##          Neg Pred Value : 1.000000        
-##              Prevalence : 0.822231        
-##          Detection Rate : 0.822231        
-##    Detection Prevalence : 0.999591        
-##       Balanced Accuracy : 0.501149        
-##                                           
-##        'Positive' Class : remain          
-## 
-```
-
-### Umgang mit Dropouts 
-
-Dass sich Abbrecher*innen hinsichtlich ihrer Baselineeigenschaften kaum von Personen unterscheiden, die zum 2. Zeitpunkt teilgenommen haben, bietet jedoch keine Sicherheit, dass die Dropouts tatsächlich MCAR sind. Genausogut könnten die fehlenden Werte davon abhängen, dass die Personen die Intervention nicht gut fanden (und dementsprechend andere Effekte der Interventionen für sie gelten) oder durch andere Baseline-Kovariaten gesteuert sein, die einfach nicht erhoben wurden (z.B. Gewissenhaftigkeit). Üblicherweise werden daher in der Psychotherapieforschung mehrere Schätzer der Effekte bestimmt, welche eine Einengung des tatsächlichen Effekts erlauben sollen. Als "Obergrenze" wird dabei die Schätzung angesehen, die aus der Analyse der vollständigen Beobachtungen (sogenannte _Complete Case Analysis_, CCA) hervorgeht. Die Annahme ist dabei, dass Personen deren Outcomes besonders gut sind, dem Treatment treu bleiben. Dem gegenüber kann als "Untergrenze" die Analyse aller Personen angesehen werden, die mit dem Treatment begonnen haben (sogennantes _Intent-to-Treat_, ITT). Dabei stellt sich natürlich die Frage, welche Werte genutzt werden sollen, um die fehlenden Werte zu ersetzen. Eine der klassischen Methoden ist es, die zuletzt gemachte Beobachtung zu kopieren und somit für die Personen, die abgebrochen haben, anzunehmen, dass sie sich nicht verändert hätten. In der Psychotherapieforschung wird diese Methode oft als _Last Observation Carried Forward_ (LOCF) bezeichnet. Neben diesen eher klassischen Methoden gibt es außerdem eine Vielzahl von modernen statistischen Verfahren, welche verwendet werden können, um bessere Schätzungen dieser fehlenden Werte zu erhalten. Im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) wird die multiple Imputation verwendet, die in R zum Beispiel im Paket `Amelia` oder `mice` implementiert ist. Andere Methoden sind zum Beispiel die Nutzung von Propensity scores (wie sie im [dazugehörigen Beitrag](/lehre/klipps-legacy/kausaleffekte2-legacy/) vorgestellt werden) oder generalized estimating equations.
-
-Hier werden wir uns erst einmal auf die klassischen Methoden beschränken und CCA und LOCF nutzen, um eine grobe Vorstellung von den Interventionseffekten zu bekommen. Die Umsetzung mit Amelia, die im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) durchgeführt wurde ist aber im entsprechenden [Skript im OSF-Repo](https://osf.io/uhzdx) zu finden. Um LOCF auch umsetzen zu können, müssen wir einen Datensatz erstellen, in dem alle fehlenden Werte durch den vorangegangenen Wert ersetzt sind:
-
-
-```r
-locf <- cope
-
-# LOCF, post-intervention
-locf$SHS2 <- ifelse(is.na(locf$SHS2), locf$SHS1, locf$SHS2)
-locf$BHS2 <- ifelse(is.na(locf$BHS2), locf$BHS1, locf$BHS2)
-
-# LOCF, follow-up
-locf$CDI3 <- ifelse(is.na(locf$CDI3), locf$CDI1, locf$CDI3)
-locf$CTS3 <- ifelse(is.na(locf$CTS3), locf$CTS1, locf$CTS3)
-locf$GAD3 <- ifelse(is.na(locf$GAD3), locf$GAD1, locf$GAD3)
-locf$SHS3 <- ifelse(is.na(locf$SHS3), locf$SHS2, locf$SHS3)
-locf$BHS3 <- ifelse(is.na(locf$BHS3), locf$BHS2, locf$BHS3)
-locf$DRS3 <- ifelse(is.na(locf$DRS3), locf$DRS1, locf$DRS3)
-```
-
-Hier nutzen wir `ifelse`, um zu prüfen, ob auf einer Variable ein fehlender Wert vorliegt. Wenn dem so ist (zweites Argument) wird der Wert durch den Wert der vorherigen Messung ersetzt, ansonsten durch den beobachteten Werte (drittes Argument).
+Wie wir sehen können, sind die Ergebnisse des Artikels soweit ziemlich genau reproduzierbar.
 
 ## ANCOVA
 
-Nachdem wir uns nun ausführlich mit dem Problem des Dropouts beschäftigt haben, kommen wir zum eigentlich Punkt dieses Beitrags zurück. Mit der ANCOVA können wir Gruppenunterschiede testen, während wir gleichzeitig auf Kovariaten kontrollieren. Häufig ist dabei der Wert des Outcomes zur Baseline die zentrale Kovariate, aber letztlich ist jede Kovariate dabei denkbar. Im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) werden anhand verschiedener ANCOVAs die Effekt der Intervention auf dem Primär- und allen Sekundäroutcomes überprüft. Die Ergebnisse werden allerdings nicht im Artikel selbst, sondern in der [Supplementary Information](https://static-content.springer.com/esm/art%3A10.1038%2Fs41562-021-01235-0/MediaObjects/41562_2021_1235_MOESM1_ESM.docx) berichtet.
+Die zentralen statistischen Analysen des Artikels stellen die beiden ANCOVAs dar, in welchen untersucht wird, ob die Wärme und Kompetenz der Ärztin bzw. des Arztes einen Einfluss auf die subjektive Wahrscheinlichkeit einer schweren Erkrankung bzw. von Darmkrebs haben. Mit den Ansätzen [aus Statistik II](/lehre/statistik-ii/anova-ii/) (spezifisch mit der `aov_4()` aus dem `afex`-Paket) können wir versuchen die berichteten Statistiken auf direktem Weg zu reproduzieren.
 
-Wir können uns hier zunächst auf das Primäroutcome konzentrieren und werden dabei auch ein wenig vom Vorgehen von Schleider et al. (2022) abweichen. Zum Einen haben wir nicht mit der Multiple Imputation gearbeitet, zum Anderen werden wir auch noch die _generalisierte_ ANCOVA nutzen, um zu untersuchen, ob die unterschiedlichen Interventionen differentielle Effekte aufweisen. Zunächst aber die klassische ANCOVA.
+### Die einfache Variante: ANOVA
 
-Im Artikel wird die ANCOVA genutzt, um sicherzustellen, dass die Unterschiede zwischen den Gruppen _bedingt auf_ die Werte zum ersten Zeitpunkt interpretiert werden können. Gucken wir uns am besten genauer an, was ich damit meine:
+Im Wesentlichen folgt das Vorgehen hier den Prinzipien mit denen wir in [Statistik II](/lehre/statistik-ii/anova-ii/) eine zweifaktorielle ANOVA umgesetzt hatten. Dafür waren die abhängige Variable (hier subjektive Wahrscheinlichkeit einer schweren Erkrankung nach dem Video, `disease2`) und die experimentellen Bedingungen (hier Kompetenz `comp` und Wärme `warm`) relevant. Darüber hinaus hatten wir die Personen-ID (hier `id`) benötigt, weil der `aov_4()` Ansatz auch für messwiederholte Konstellationen eingesetzt werden kann und dafür eine klare Zuordnung der Beobachtungen zu den Personen vonnöten ist. Die ANOVA sieht dann so aus:
 
 
-```r
-# ANOVA model
-mod1 <- lm(CDI3 ~ condition, cope)
-
-# Ergebniszusammenfassung
-summary(mod1)
+``` r
+library(afex)
+ano1 <- aov_4(disease2 ~ comp * warm + (1 | id), roma)
+summary(ano1)
 ```
 
 ```
+## Anova Table (Type 3 tests)
 ## 
-## Call:
-## lm(formula = CDI3 ~ condition, data = cope)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.02153 -0.28108 -0.01913  0.31180  1.06420 
-## 
-## Coefficients:
-##                              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                   1.02153    0.01858  54.967  < 2e-16 ***
-## conditionProject Personality -0.06424    0.02662  -2.413  0.01594 *  
-## conditionProject ABC         -0.08573    0.02619  -3.273  0.00109 ** 
+## Response: disease2
+##           num Df den Df    MSE       F      ges    Pr(>F)    
+## comp           1    345 391.26 14.8933 0.041382 0.0001358 ***
+## warm           1    345 391.26  4.6637 0.013338 0.0314951 *  
+## comp:warm      1    345 391.26  0.0172 0.000050 0.8957264    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.4185 on 1500 degrees of freedom
-##   (949 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.007637,	Adjusted R-squared:  0.006314 
-## F-statistic: 5.772 on 2 and 1500 DF,  p-value: 0.003183
-```
-Im klassischen ANOVA-Modell als Prädiktor genutzt, um die abhängige Variable vorherzusagen. Die jeweilige Regressionsgewichte sind also die _mittleren_ Gruppenunterschiede (zur Äquivalenz von ANOVA und Regression gibt es [hier noch einen expliziten Beitrag](/lehre/klipps-legacy/anova-regression-legacy)). Das heißt, wenn wir die Gruppenmittelwerte des CDI zur Baseline betrachten:
-
-
-```r
-# Gruppenmittelwerte zur Baseline
-tapply(cope$CDI1, cope$condition, mean)
 ```
 
+So können wir Testatistiken berichten, welche generelle Aussagen über die Effekte in eine ja/nein Aussage überführen. Letztlich wird so in den meisten Artikel der klinischen Forschung die extreme Variante des Nullhypothesen-Signifikanz-Testens (NHST) umgesetzt. Anhand der Teststatistik wird festgehalten, dass der Effekt bedeutsam von 0 verschieden ist (z.B. dass es einen Haupteffekt der Kompetenz des Arztes bzw. der Ärztin gibt) und mit dieser binären Interpretation eine Reflektion des theoretischen Frameworks betrieben. An dieser Stelle wäre es aber sicherlich sinnvoll, detaillierter in die Bedeutung dieser Effekt einzutauchen.
+
+### Ein bisschen Detail
+
+Eine ANOVA ist letztlich "nur" ein Vergleich von Diskrepanzen zwischen Gruppenuntermittelwerten, welcher ins Verhältnis zu Unterschieden zwischen Personen in den gleichen Gruppen gesetzt wird. Gucken wir uns diese beiden Komponenten also direkt mal an:
+
+
+``` r
+# Mittelwerte
+means <- aggregate(disease2 ~ comp * warm, roma, mean)
+means
 ```
-##     Placebo Control Project Personality         Project ABC 
-##            1.192274            1.184912            1.178755
+
 ```
-dass wir Personen aus der Kontrollgruppe nutzen, die einen `CDI1`-Wert von $1.19$ hatten, wärend die Personen aus Project ABC einen Wert von $1.18$ hatten. Dieser Unterschied mag numerisch klein wirken, aber wir vergleichen eben (aufgrund des Dropouts) _leicht_ unterschiedliche Personen miteinander. In der ANCOVA ziehen wir zusätzlich den CDI-Wert aus der Baselinebefragung als Prädiktor heran:
+##   comp warm disease2
+## 1 high high 18.34831
+## 2  low high 26.80723
+## 3 high  low 23.20430
+## 4  low  low 31.10714
+```
+
+``` r
+# Standardabweichungen
+sds <- aggregate(disease2 ~ comp * warm, roma, sd)
+sds
+```
+
+```
+##   comp warm disease2
+## 1 high high 17.90575
+## 2  low high 19.65027
+## 3 high  low 20.81573
+## 4  low  low 20.60648
+```
+
+Ich habe mich hier für `aggregate()` entschieden, weil es mit genau der gleichen Modellsyntax auskommt, mit der wir auch gerade in `aov_4()` gearbeitet haben und weil wir mit den Ergebnissen (anders als z.B. mit dem Output von `describeBy()`) sehr leicht weiter arbeiten können. Wir sehen also, dass Personen, die ihre negativ-Befunde von einer kompetenten, warmen Person erhalten auf einer Skala von 0 bis 100 nur lediglich eine 18-prozentige Wahrscheinlichkeit einer schweren Erkrankung wahrnehmen und es im Extremfall bis 31% sein kann.
+
+Wenn wir das Ganze in seine Einzelteile zerlegen wollen, können wir (wie [im Bachelor](/lehre/statistik-ii/ancova-regression/)) mit einfachen Regressionen arbeiten. Dort hatten wir noch mit *Dummy-Kodierung* gearbeitet, wohingegen die ANOVA (und auch die Darstellung im Artikel) mit der *Kontrast-Kodierung* arbeitet. In der Dummy-Kodierung (die Voreinstellung in R), werden nominalskalierte Prädiktoren mit 0 und 1 kodiert, wodurch Referenzkategorien gesetzt werden, mit denen andere Ausprägungen verglichen werden. Für die beiden experimentellen Bedingungen des Artikels:
 
 
-```r
-# Einfache ANCOVA
-mod2 <- lm(CDI3 ~ CDI1 + condition, cope)
+``` r
+# Kompetenz - dummy
+contrasts(roma$comp)
+```
 
-# Ergebniszusammenfassung
-summary(mod2)
+```
+##      low
+## high   0
+## low    1
+```
+
+``` r
+# Wärme - dummy
+contrasts(roma$warm)
+```
+
+```
+##      low
+## high   0
+## low    1
+```
+
+So ergibt sich die Kombination "hohe Kompetenz, hohe Wärme" als Referenz und in einem Regressionsmodell wird mit dieser Konstellation verglichen:
+
+
+``` r
+reg1 <- lm(disease2 ~ comp * warm, roma)
+summary(reg1)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = CDI3 ~ CDI1 + condition, data = cope)
+## lm(formula = disease2 ~ comp * warm, data = roma)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -1.1849 -0.2145  0.0147  0.2341  1.0395 
+## -31.107 -14.348  -6.107  11.652  66.796 
 ## 
 ## Coefficients:
-##                              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                   0.28877    0.03473   8.314  < 2e-16 ***
-## CDI1                          0.63254    0.02668  23.712  < 2e-16 ***
-## conditionProject Personality -0.07184    0.02271  -3.163 0.001592 ** 
-## conditionProject ABC         -0.08561    0.02234  -3.831 0.000133 ***
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)      18.3483     2.0967   8.751  < 2e-16 ***
+## complow           8.4589     3.0183   2.803  0.00536 ** 
+## warmlow           4.8560     2.9331   1.656  0.09872 .  
+## complow:warmlow  -0.5561     4.2397  -0.131  0.89573    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.357 on 1499 degrees of freedom
-##   (949 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.2783,	Adjusted R-squared:  0.2769 
-## F-statistic: 192.7 on 3 and 1499 DF,  p-value: < 2.2e-16
+## Residual standard error: 19.78 on 345 degrees of freedom
+## Multiple R-squared:  0.0534,	Adjusted R-squared:  0.04517 
+## F-statistic: 6.488 on 3 and 345 DF,  p-value: 0.0002784
 ```
-Der deutliche Sprung im $R^2$ weist darauf hin, dass die Depressionsymptomatik über die Zeit deutlich korreliert ist. Wie immer in der multiplen Regression ist der Effekt der Prädiktoren jetzt unter der Bedingungen zu interpretieren, dass die Werte auf den anderen Prädiktoren konstant sind. Heißt in unserem Fall, dass wir hier nun im Regressionsgewicht von `Project Personality` den Unterschied zwischen Personen aus den beiden Gruppen sehen, die mit dem gleichen BDI zur Baseline gestartet sind. Als Bild ausgedrückt:
+Hier ist das Intercept der Mittelwert der Referenzkategorie ($b_0 = $18.35) und z.B. der Effekt von Kompetenz ($b_1 = $ 8.46`) der Unterschied der Mittelwerte aus der Gruppe "hohe Kompetenz, hohe Wärme" und der Gruppe "niedrige Kompetenz, hohe Wärme". 
 
-![](/ancova-klinische_files/anova-vs-ancova-1.png)<!-- -->
-In der ANCOVA ist der Abstand zwischen den _bedingten_ Gruppenmittelwerten über alle Ausprägungen von `CDI1` der Gleiche - wir können den Abstand der Linien an jeden Punkt bestimmen und es sind immer die Regressionsgewichte aus `mod2`. In der ANOVA hingegen haben wir konkret die drei eingezeichneten Punkte verglichen, die sich nicht nur deswegen unterscheiden, weil die Linien (die bedingten Gruppenmittelwerte) um $b_2$ bzw. $b_3$ versetzt sind, sondern auch, weil wir an unterschiedlichen Stellen der x-Achse nachgucken. In diesem Fall ist der Unterschied zwischen beiden zwar minimal (weil es sich um einen immens großen RCT handelt), aber prinzipiell könnten wir so auf diese Unterschiede kontrollieren.
-
-Im Abgleich der Wege die fehlenden Werte zu behandeln, können wir die ANCOVA auch noch einmal für den `locf` Datensatz durchführen:
+In der ANOVA-typischen Kontrastkodierung sind die Effekte ein wenig anders zu interpretieren. Wie Sie sich vermutlich erinnern, müssen sich Kontrastkoeffizienten in der ANOVA zu 0 addieren - deswegen werden sie in R `contr.sum` genannt. In unserem Fall sehen diese Kontraste so aus:
 
 
-```r
-# Modell mit Last-Observation-Carried-Forward
-mod2_locf <- lm(CDI3 ~ CDI1 + condition, locf)
+``` r
+# Kompetenz - Kontrast
+contrasts(roma$comp) <- 'contr.sum'
+contrasts(roma$comp)
+```
 
-# Ergebniszusammenfassung
-summary(mod2_locf)
+```
+##      [,1]
+## high    1
+## low    -1
+```
+
+``` r
+# Wärme - Kontrast
+contrasts(roma$warm) <- 'contr.sum'
+contrasts(roma$warm)
+```
+
+```
+##      [,1]
+## high    1
+## low    -1
+```
+
+Mit der Zuweisung der neuen Kontrasteinstellung, wir die Kodierung *global* geändert. (Wenn wir zur Dummy-Kodierung zurückkehren wollen, müssen wir statt `'contr.sum'` an der Stelle `'contr.treatment'` setzen.) Wenn wir das Modell mit diesen Kontrasten rechnen:
+
+
+``` r
+reg2 <- lm(disease2 ~ comp * warm, roma)
+summary(reg2)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = CDI3 ~ CDI1 + condition, data = locf)
+## lm(formula = disease2 ~ comp * warm, data = roma)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.30808 -0.13580  0.07954  0.17221  1.05887 
+##     Min      1Q  Median      3Q     Max 
+## -31.107 -14.348  -6.107  11.652  66.796 
 ## 
 ## Coefficients:
-##                              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                   0.16312    0.02383   6.846 9.55e-12 ***
-## CDI1                          0.79201    0.01790  44.249  < 2e-16 ***
-## conditionProject Personality -0.04305    0.01501  -2.869 0.004159 ** 
-## conditionProject ABC         -0.05722    0.01497  -3.821 0.000136 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   24.867      1.060  23.461  < 2e-16 ***
+## comp1         -4.090      1.060  -3.859 0.000136 ***
+## warm1         -2.289      1.060  -2.160 0.031495 *  
+## comp1:warm1   -0.139      1.060  -0.131 0.895726    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3031 on 2448 degrees of freedom
-## Multiple R-squared:  0.4471,	Adjusted R-squared:  0.4465 
-## F-statistic:   660 on 3 and 2448 DF,  p-value: < 2.2e-16
+## Residual standard error: 19.78 on 345 degrees of freedom
+## Multiple R-squared:  0.0534,	Adjusted R-squared:  0.04517 
+## F-statistic: 6.488 on 3 and 345 DF,  p-value: 0.0002784
 ```
-Oder für die optischeren unter uns:
+Im Vergleich zu oben ändern sich so die Interpretationen der einzelnen Regressionskoeffizienten, während das Gesamtmodell (also $R^2$ und dessen Test) gleich bleibt. Hier ist das Intercept $b_0$ jetzt der Mittelwert der Gruppenmittelwerte - als Gegencheck:
 
-![](/ancova-klinische_files/ancova-locf-1.png)<!-- -->
-Es lässt sich sofort erkennen, dass im LOCF-Ansatz der Zusammenhang zwischen `CDI1` und `CDI3` deutlich größer wird. Das überrascht wenig, wenn man bedenkt, dass wir für einige Personen den Werte aus der ersten einfach in die zweite Variable kopiert haben. Eine Überschätzung der Stabilität liegt also in der Natur der Sache. Es wird außerdem deutlich, dass der Effekt der Interventionen deutlich kleiner geworden ist, weil wir für die fehlenden Personen eine Veränderung von 0 angenommen haben. Die Schlussfolgerungen bleiben dennoch erhalten: beide Interventionen haben einen statistisch bedeutsamen Effekt über die Plazebo-Kontrollbedingung hinaus.
+
+``` r
+mean(means$disease2)
+```
+
+```
+## [1] 24.86675
+```
+
+Die Regressionsgewichte ändern hierbei auch die Bedeutung. So ist der Effekt der Kompetenz ($b_1 =$24.87) jetzt die Abweichung von diesem Durchschnitt, die sich durch die niedrige Kompetenz ergibt. Genau dieses Modell ist auch im Ergebnisobjekt unserer ANOVA hinterlegt - `ano1$lm`.
+
+Für ein bisschen mehr Übersichtlichkeit solcher Ergebnisse sorgen üblicherweise Bilder (hier noch einmal der Hinweis auf unsere [Beiträge zu `ggplot2`](/lehre/statistik-ii/grafiken-ggplot2/)):
+
+
+``` r
+library(ggplot2)
+ggplot(means, aes(x = warm, y = disease2, group = comp, color = comp)) + 
+  geom_point() + geom_line() + 
+  labs(x = 'Wärme', y = 'Subjektive Wahrscheinlichkeit schwerer Erkrankung', color = 'Kompetenz') + 
+  theme_pandar() + scale_color_pandar()
+```
+
+![](/ancova-klinische_files/unnamed-chunk-22-1.png)<!-- -->
+Wenn wir der Abbildung mit den beobachteten Standardabweichungen noch ein bisschen Kontext geben möchten:
+
+
+``` r
+means$sds <- sds$disease2
+pd <- position_dodge(width = 0.2)
+
+ggplot(means, aes(x = warm, y = disease2, group = comp, color = comp)) + 
+  geom_point(position = pd) + geom_line(position = pd) +
+  geom_errorbar(aes(ymin = disease2 - sds, ymax = disease2 + sds), position = pd) + 
+  labs(x = 'Wärme', y = 'Subjektive Wahrscheinlichkeit schwerer Erkrankung', color = 'Kompetenz') + 
+  theme_pandar() + scale_color_pandar()
+```
+
+![](/ancova-klinische_files/unnamed-chunk-23-1.png)<!-- -->
+sehen wir, dass ein Großteil der zu beobachtenden Unterschiede *innerhalb* der Gruppen entsteht. Zur detaillierteren Interpretation kann es also von Vorteil sein, die mittleren Gruppenunterschiede in Relation zu den Unterschieden zu betrachten, die wir "auch so" zwischen Personen erwarten würden.
+
+Zu unser aller immensem Glück, haben wir genau ein solches Maß schon in den [ersten Wochen von Statistik I](/lehre/statistik-i/gruppenvergleiche-unabhaengig/) im Bachelor kennengelernt. Wenn wir Mittelwertsunterschiede an Streuung innerhalb der Gruppen relativieren, entsteht Cohen's $d$:
+
+<math>
+$$
+d = \frac{\bar{x}_1 - \bar{x}_2}{\hat\sigma_{\mathrm{inn}}}
+$$
+</math>
+
+Dafür hatten wir das Paket `effsize` benutzt, das - wie der Name impliziert - das Berechnen von Effektstärken immens vereinfacht.
+
+
+``` r
+# Effektstärke Kompetenz:
+effsize::cohen.d(disease2 ~ comp, roma)
+```
+
+```
+## 
+## Cohen's d
+## 
+## d estimate: -0.4099412 (small)
+## 95 percent confidence interval:
+##      lower      upper 
+## -0.6228974 -0.1969850
+```
+
+``` r
+# Effektstärke Wärme:
+effsize::cohen.d(disease2 ~ warm, roma)
+```
+
+```
+## 
+## Cohen's d
+## 
+## d estimate: -0.224605 (small)
+## 95 percent confidence interval:
+##       lower       upper 
+## -0.43585274 -0.01335724
+```
+
+Um der starken Verführung entgegenzuwirken, auch dieses Maß wieder in Kategorien zu interpretieren, können wir uns diese Unterschiede auch in Relation zu den erwartbaren Unterschieden vorstellen. Wenn wir zwei Personen zufällig ziehen, würden wir (unter Annahme der Normalverteilung der Variable) einen Unterschied von knapp 1.13 Standardabweichungen erwarten. Der Effekt der Kompetenz entspricht also ca. 35% des erwarteten "zufälligen" Unterschieds zwischen zwei Personen; ein Ausmaß, dass bei konsistenten Effekten nicht zu vernachlässigen ist.
+
+## ANCOVA
+
+In der ANOVA vergleichen wir Gruppenmittelwerte. Soweit erst einmal unproblematisch. Ein Problem entsteht, wenn wir bedenken müssen, dass Gruppen in ihren Eigenschaften eventuell nicht identisch sind. Auch wenn in den klassischen Goldstandarderhebungen der Psychotherapieforschung - den Randomized Controlled Trials - das *randomized* eigentlich sicherstellen sollte, dass am Ende die Personeneigenschaften in den Gruppen gleich verteilt sind, kann das nicht immer garantiert werden. Wie Sie sicherlich noch aus den Vorlesungen zur Versuchsplanung wissen, funktioniert Randomisierung z.B. erst ab relativ großem $N$ ausreichend zuverlässig. Darüber hinaus können auch in RCTs Proband\*innen nicht zur Teilnahme gezwungen werden, wodurch sich systematischer Dropout ergeben kann (z.B. könnten in einer aufwändigen Experimentalbedingung Personen mit niedriger Gewissenhaftigkeit überproportional häufig abbrechen). In dieser Studie ist z.B. die subjektive Wahrscheinlichkeit einer schweren Erkrankung vor der experimentellen Manipulation so verteilt:
+
+
+``` r
+aggregate(disease1 ~ comp * warm, roma, mean)
+```
+
+```
+##   comp warm disease1
+## 1 high high 43.85393
+## 2  low high 45.13253
+## 3 high  low 42.84946
+## 4  low  low 47.27381
+```
+
+Eine Möglichkeit auf solche Kovariaten zu kontrollieren stellt die ANCOVA dar. Weil unter der Phrase "auf Kovariaten kontrollieren" sehr viel falsch verstanden werden kann, dröseln wir das Konzept an dieser Stelle noch einmal ein bisschen auf.
+
+Um eine Kovariate aufzunehmen, können wir unsere ANOVA aus `aov_4()` erweitern. Dafür müssen wir lediglich über `factorize = FALSE` festhalten, dass nun nicht mehr alle Variable auf der rechten Seite der Gleichung in `factor` umgewandelt werden sollen, weil dort auch intervallskalierte Variablen stehen können:
+
+
+``` r
+ano2 <- aov_4(disease2 ~ comp * warm + disease1 + (1 | id), roma, factorize = FALSE)
+```
+
+```
+## Warning: Numerical variables NOT centered on 0 (matters if variable in interaction):
+##    disease1
+```
+
+```
+## Contrasts set to contr.sum for the following variables: comp, warm
+```
+
+``` r
+summary(ano2)
+```
+
+```
+## Anova Table (Type 3 tests)
+## 
+## Response: disease2
+##           num Df den Df    MSE        F     ges    Pr(>F)    
+## comp           1    344 233.09  16.7279 0.04637 5.377e-05 ***
+## warm           1    344 233.09   6.8526 0.01953  0.009242 ** 
+## disease1       1    344 233.09 235.0972 0.40597 < 2.2e-16 ***
+## comp:warm      1    344 233.09   0.4457 0.00129  0.504848    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Wie wir sehen entsprechen die Ergebnisse den berichteten Teststatistiken aus dem Artikel. Um aber wieder einen Einblick in die Ergebnisse zu erhalten, können wir uns wieder die Regression angucken (lassen Sie sich nicht von dem exzessiv langen output einschüchtern, wenn Sie den Befehl bei sich selbst ausführen):
+
+
+``` r
+summary(ano2$lm)
+```
+
+
+```
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -50.242  -9.367  -1.728   8.573  52.661 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  1.66938    1.71995   0.971  0.33243    
+## comp1       -3.35182    0.81952  -4.090 5.38e-05 ***
+## warm1       -2.14174    0.81816  -2.618  0.00924 ** 
+## disease1     0.51806    0.03379  15.333  < 2e-16 ***
+## comp1:warm1 -0.54644    0.81854  -0.668  0.50485    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 15.27 on 344 degrees of freedom
+## Multiple R-squared:  0.4377,	Adjusted R-squared:  0.4312 
+## F-statistic: 66.94 on 4 and 344 DF,  p-value: < 2.2e-16
+```
+Gucken wir uns am Besten wieder mit ein paar Abbildung an, was dieser Ergebnisse heißen sollen. In der ANOVA hatten wir die globalen Mittelwerte verglichen (als Karos in der Abbildung gekennzeichnet). 
+
+![](/ancova-klinische_files/unnamed-chunk-29-1.png)<!-- -->
+Das kann insofern problematisch sein, dass bei sehr ungleichen Gruppen, falsche Schlüsse entstehen, weil wir Personengruppen miteinander vergleichen, die unterschiedliche Startbedingungen hatten. Nehmen wir ein Extrembeispiel: hätten die Bedingung "hohe Kompetenz, hohe Wärme" vor dem Video mit einem Wert von 75 gestartet und die Gruppe "niedrige Kompetenz, hohe Wärme" mit einem Wert von 25, hätten wir geschlussfolgert, dass Kompetenz für die subjektive Krankheitswahrscheinlichkeit schädlich ist. Um solche Probleme zu umgehen, werden in der ANCOVA *bedingte* Mittelwerte (genau genommen: bedingte Erwartungswerte) verglichen - wir vergleichen also, wie stark der Mittelwert von Personen mit z.B. 50% subjektiver Krankheitswahrscheinlichkeit vor dem Video sich über die Gruppen hinweg unterscheidet:
+
+
+``` r
+# Mittelwerte zusammenführen
+tmp <- expand.grid(disease1 = 50,
+  warm = levels(roma$warm),
+  comp = levels(roma$comp))
+tmp$disease2 <- predict(ano2$lm,
+  newdata = tmp)
+tmp$condition <- factor(tmp$warm:tmp$comp, labels = levels(roma$condition))
+
+# Plot erstellen
+ggplot(roma, aes(x = disease1, y = disease2, group = condition, color = condition)) + 
+  geom_point(alpha = .25) + 
+  geom_line(data = lines, aes(group = condition, color = condition)) + 
+  scale_color_pandar() + theme_pandar() + coord_cartesian(ylim = range(roma$disease2, na.rm = TRUE), xlim = range(roma$disease1, na.rm = TRUE)) +
+  geom_point(data = tmp, aes(x = disease1, y = disease2, color = condition), size = 4, pch = 18)
+```
+
+![](/ancova-klinische_files/unnamed-chunk-30-1.png)<!-- -->
+
+Dieser bedingte Vergleich wird im ANCOVA Modell in den Gewichten der Gruppierungsvariablen festgehalten. Wie immer in Regression ist die korrekte Interpretation der Regressionsgewichte also "der Unterschied zwischen zwei Personen, die sich in $x$ um eine Einheit unterscheiden, wenn alle anderen Prädiktoren gleich sind". Gerade durch die Kombination mit der Kontrast-Kodierung erfordert die Interpretation ein bisschen Geschick. Zur Erinnerung:
+
+
+``` r
+contrasts(roma$warm)
+```
+
+```
+##      [,1]
+## high    1
+## low    -1
+```
+
+
+und das Regressionsgewicht von `comp1` aus unserem Modell:
+
+
+```
+##      Estimate    Std. Error       t value      Pr(>|t|) 
+## -3.351823e+00  8.195217e-01 -4.089975e+00  5.377187e-05
+```
+
+Hier ist also die Aussage, dass eine Person aus der Gruppe "high warmth" ($x_1 = 1$) sich von einer Person aus einer "durchschnittlichen" Gruppe ($x_1 = 0$) um -3.35 Einheiten unterscheidet, gegeben Sie kommt aus der "durchschnittlichen" Kondition hinsichtlich der Kompetenz ($x_2$) und hat mit dem gleichen Wert der subjektiven Wahrscheinlichkeit ($x_3$) das Experiment gestartet. Weil Personen aus der "low warmth" Bedingung den Wert $x_1 = -1$ haben, ist der vorhergesagte Unterschied zwischen Personen aus entgegengesetzten Bedingungen (high vs. low) $2 \times -3.35 = -6.7$. 
+
+Im Gegensatz zur ANOVA wird hier also explizit darauf eingegangen, dass wir Personen nur dann direkt über Gruppen hinweg vergleichen sollten, wenn sie mit der gleichen Ausprägung auf der subjektiven Wahrscheinlichkeit gestartet sind. Das erzeugt allerdings immer dann Probleme, wenn die Gruppen, die wir untersuchen, nur wenig bis keine Überlappung in den Ausprägungen solcher Kontrollvariablen haben (z.B. wenn wir die Effektivität von Förderprogrammen bei Lernstörungen mit dem "treatment-as-usual" von anderen Schüler*innen vergleichen wollen).    
 
 ### Change-Modelle
 
-Eine naheliegende Alternative zu den ANCOVA Modellen ist es, statt des zweiten Zeitpunkts die Veränderung zwischen den Zeitpunkten $Y_2 - Y_1$ durch Kovariaten vorherzusagen. Mit dem Vergleich dieser, sogenannten "Change-Modelle" mit der ANCOVA haben sich diverse Studien und methodische Arbeiten befasst. Ein klassisches Argument gegen die ANCOVA ist [Lord's Paradox](https://arxiv.org/pdf/2302.01822), in dem es zu unterschiedlichen Ergebnissen kommt, je nachdem ob man eine Veränderung mit einer ANCOVA oder einem Veränderungsmodell analysiert, wenn die Gruppen sich zum 1. Messzeitpunkt unterscheiden.
+Eine naheliegende Alternative zu den ANCOVA Modellen ist es, statt des zweiten Zeitpunkts die Veränderung zwischen den Zeitpunkten $Y_2 - Y_1$ durch die Gruppen vorherzusagen. Mit dem Vergleich dieser, sogenannten "Change-Modelle" mit der ANCOVA haben sich diverse Studien und methodische Arbeiten befasst. Ein klassisches Argument gegen die ANCOVA ist [Lord's Paradox](https://arxiv.org/pdf/2302.01822), in dem es zu unterschiedlichen Ergebnissen kommt, je nachdem ob man eine Veränderung mit einer ANCOVA oder einem Veränderungsmodell analysiert, wenn die Gruppen sich zum 1. Messzeitpunkt unterscheiden.
 
 <details><summary><b>Lord's Paradox</b></summary>
 
 Im ursprünglichen Kommentar von [Lord (1967)](https://psycnet.apa.org/doi/10.1037/h0025105) wird eine Situation beschrieben, in der eine Universität ihr Mensa-Essen evaluieren möchte. Dazu wird das Gewicht von Männern und Frauen zu Beginn des Wintersemesters und zum Ende des folgenden Sommersemesters erhoben. Nehmen wir als extremes Beispiel, dass beide Gruppen im Mittel 5kg zugelegt hätten:
 
 
-```r
+``` r
 # Seed festlegen
 set.seed(123)
 
@@ -610,7 +651,7 @@ d <- data.frame(y1 = c(y1f, y1m), y2 = c(y2f, y2m),
 In den Termini des bisherigen Beitrags ist das Geschlecht die Gruppen-Zuweisung. Wenn wir also untersuchen wollen, ob es einen Effekt der Variable Geschlecht gibt und dabei eventuelle Unterschiede in der Baseline berücksichtigen wollen (die es ja gibt), finden wir einen signifikanten Effekt:
 
 
-```r
+``` r
 # ANCOVA
 lord_ancova <- lm(y2 ~ y1 + g, d)
 summary(lord_ancova)
@@ -640,7 +681,7 @@ summary(lord_ancova)
 Die ANCOVA würde uns also zurückmelden, dass das Geschlecht selbst nach Kontrolle auf die Baselineunterschiede einen signifikanten Effekt auf die Gewichtszunahme hat. Wenn wir aber die Veränderung zwischen den Zeitpunkten betrachten, finden wir keinen signifikanten Effekt:
 
 
-```r
+``` r
 # Change-Modell
 lord_change <- lm(y2 - y1 ~ g, d)
 summary(lord_change)
@@ -670,188 +711,370 @@ Frauen verändern sich bedeutsam (im Intercept dargestellt) und die Veränderung
 
 </details>
 
-Wenn wir einen Change-Ansatz nutzen möchten, um die Effekte der Interventionen auf das primäre Outcome (den CDI Depressionsscore) zu untersuchen, sieht das relativ einfach so aus:
+Wenn wir einen Change-Ansatz nutzen möchten, um die Effekte zu untersuchen, sieht das relativ einfach so aus:
 
 
-```r
+``` r
 # Change-Modell
-mod3 <- lm(CDI3 - CDI1 ~ condition, cope)
+reg3 <- lm(disease2 - disease1 ~ warm * comp, roma)
 
 # Ergebniszusammenfassung
-summary(mod3)
+summary(reg3)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = CDI3 - CDI1 ~ condition, data = cope)
+## lm(formula = disease2 - disease1 ~ warm * comp, data = roma)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.28683 -0.19642  0.04651  0.22245  1.22025 
+##     Min      1Q  Median      3Q     Max 
+## -70.833 -12.833   1.645  14.645  56.645 
 ## 
 ## Coefficients:
-##                              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                  -0.13692    0.01682  -8.139 8.26e-16 ***
-## conditionProject Personality -0.07626    0.02410  -3.165 0.001583 ** 
-## conditionProject ABC         -0.08554    0.02371  -3.608 0.000319 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -19.9107     1.0306 -19.320   <2e-16 ***
+## warm1        -2.0048     1.0306  -1.945   0.0525 .  
+## comp1        -2.6647     1.0306  -2.586   0.0101 *  
+## warm1:comp1  -0.9255     1.0306  -0.898   0.3698    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3788 on 1500 degrees of freedom
-##   (949 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.01025,	Adjusted R-squared:  0.008929 
-## F-statistic: 7.766 on 2 and 1500 DF,  p-value: 0.0004412
+## Residual standard error: 19.23 on 345 degrees of freedom
+## Multiple R-squared:  0.03169,	Adjusted R-squared:  0.02327 
+## F-statistic: 3.764 on 3 and 345 DF,  p-value: 0.01106
 ```
-Numerisch sind die Effekte der beiden Gruppen beinahe identisch. Allerdings ist die inhaltliche Interpretation ein wenig unterschiedlich: in der ANCOVA war die Bedeutung des Regressionsgewichts von `Project Personality`, dass es den Unterschied zwischen Personen aus der Kontrollgruppe und dieser Gruppe zum zweiten Zeitpunkt beschreibt, wenn sie zum ersten Zeitpunkt den gleichen CDI Wert hatten. Im Change-Modell beschreibt das Regressionsgewicht hingegen den Unterschied zwischen zwei Personen aus den beiden Gruppen hinsichtlich ihrer Veränderung zwischen dem 1. und dem 2. Messzeitpunkt. Wenn wir dieses Modell jetzt in eine ANOVA überführen:
+Numerisch unterscheiden sich die Effekte gegenüber der ANCOVA - besonders auffällig ist dabei, dass in diesem Kontext der Effekt der Wärme so reduziert wird, dass er nicht bedeutsam ausfällt. Deshalb, kann es wichtig sein, die Interpretation der Effekte hier noch einmal genauer unter die Lupe zu nehmen. In diesem Fall ist das Intercept die Verringerung der subjektiven Wahrscheinlichkeit einer ernsthaften Krankheit, wenn der Negativbefund von einem durchschnittlichen Arzt übermittelt wird. Wenn der Arzt empathisch ist ("high warmth"), verringert sich diese um *zusätzliche* -2 Einheiten (was keinen statistisch bedeutsamen Unterschied darstellt). Wenn der Arzt kompetent ist ("high competence"), ist diese zusätzliche Verringerung hingegen statistisch bedeutsam. Allerdings sei an dieser Stelle - ganz im Sinne der Effektstärke, die wir oben besprochen hatten - darauf hingewiesen, dass die Wärme und Kompetenz des Arztes nur ca. 3% der interindividuellen Unterschiede in der Veränderung der wahrgenommenen Krankheitswahrscheinlichkeit ausmachen.
+
+Wenn wir dieses Modell jetzt in eine ANOVA überführen:
 
 
-```r
+``` r
 # Change zur ANOVA
-anova(mod3)
+anova(reg3)
 ```
 
 ```
 ## Analysis of Variance Table
 ## 
-## Response: CDI3 - CDI1
-##             Df  Sum Sq Mean Sq F value    Pr(>F)    
-## condition    2   2.228 1.11414   7.766 0.0004412 ***
-## Residuals 1500 215.195 0.14346                      
+## Response: disease2 - disease1
+##            Df Sum Sq Mean Sq F value  Pr(>F)  
+## warm        1   1428 1428.24  3.8613 0.05021 .
+## comp        1   2450 2450.01  6.6237 0.01048 *
+## warm:comp   1    298  298.28  0.8064 0.36981  
+## Residuals 345 127609  369.88                  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Entspricht der Test der `condition` genau dem Test, den wir für den Interaktionseffekt in der Messwiederholten ANOVA erhalten hätten. (Probieren Sie es gerne mit der [Messwiederholten ANOVA](/lehre/statistik-ii/anova-iii) aus!) Letztlich ist die Entscheidung zwischen Change-Model oder ANCOVA also die gleiche wie die zwischen Messwiederholter ANOVA und ANCOVA.
 
-Wenn Sie eine Interventionsstudie durchführen, für welchen der beiden Ansätze sollten Sie sich jetzt also Entscheiden? Generell gibt es ein paar handfeste Empfehlungen: [van Breukelen (2013)](https://www.tandfonline.com/doi/abs/10.1080/00273171.2013.831743) konnte zeigen, dass beide Ansätze zu den gleichen Ergebnissen führen, wenn die Gruppen randomisiert zugewiesen werden, in solchen Fällen aber die ANCOVA mehr Power hat. Wenn "natürliche" Gruppen verglichen werden, die sich in der Variable vor der Intervention unterscheiden können und die Kovariaten mit Messfehler behaftet sind, wird generell empfohlen den Change-Ansatz zu verwenden. [Lüdtke und Robitzsch (2023)](https://doi.org/10.1080/00220973.2023.2246187) zeigen darüber hinaus, dass der Change-Ansatz dann genutzt werden sollte, wenn nicht alle potentiellen Kovariaten erhoben wurden, weil es in diesem Ansatz (unter der Annahme, dass die Konfundierung zu allen Zeitpunkten identisch ist) durch die Bildung der Differenz nicht notwendig ist, alle Kovariaten in das Modell aufzunehmen. Allerdings wird dabei Vorausgesetzt, dass das Outcome zum 1. Messzeipunkt keine Auswirkung auf die Gruppenzuordnung hat. In Fällen, in denen vorab eine sinnvolle und stichhaltige Erhebung potentieller Störvariablen geplant wurde, ist die Nutzung der ANCOVA empfehlenswert, sofern sie nicht aufgrund von Baselineunterschieden in Variablen mit fehlenden Werte zu potentiellen Problemen des Lord's Paradox führt.
+Wenn Sie eine Interventionsstudie durchführen, für welchen der beiden Ansätze sollten Sie sich jetzt also Entscheiden? Generell gibt es ein paar handfeste Empfehlungen: [van Breukelen (2013)](https://www.tandfonline.com/doi/abs/10.1080/00273171.2013.831743) konnte zeigen, dass beide Ansätze zu den gleichen Ergebnissen führen, wenn die Gruppen randomisiert zugewiesen werden, in solchen Fällen aber die ANCOVA mehr Power hat. Wenn "natürliche" Gruppen verglichen werden, die sich in der Variable vor der Intervention unterscheiden können und die Kovariaten mit Messfehler behaftet sind, wird generell empfohlen den Change-Ansatz zu verwenden. [Lüdtke und Robitzsch (2023)](https://doi.org/10.1080/00220973.2023.2246187) zeigen darüber hinaus, dass der Change-Ansatz dann genutzt werden sollte, wenn nicht alle potentiellen Kovariaten erhoben wurden, weil es in diesem Ansatz (unter der Annahme, dass die Konfundierung zu allen Zeitpunkten identisch ist) durch die Bildung der Differenz nicht notwendig ist, alle Kovariaten in das Modell aufzunehmen. Allerdings wird dabei Vorausgesetzt, dass das Outcome zum 1. Messzeitpunkt keine Auswirkung auf die Gruppenzuordnung hat. In Fällen, in denen vorab eine sinnvolle und stichhaltige Erhebung potentieller Störvariablen geplant wurde, ist die Nutzung der ANCOVA empfehlenswert, sofern sie nicht aufgrund von Baselineunterschieden in Variablen mit fehlenden Werte zu potentiellen Problemen des Lord's Paradox führt.
 
 ## Generalisierte ANCOVA
 
-Die oben vorgestellte ANCOVA lässt sich nach Belieben um mehr Kovariaten erweitern. Das sollte (wie gerade besprochen) auch passieren, da sie besonders dann gut geeignet ist, wenn auf viele relevante Störvariablen kontrolliert werden kann. Dabei gehen wir bereits etwas über die ursprüngliche Auswertung von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) hinaus, die nur die Baselinevariable als Kovariate genutzt hatten. Das Besondere an der ANCOVA ist darüber hinaus aber, dass wir sie in den Fall der _generalisierten ANCOVA_ erweitern können. 
+Die oben vorgestellte ANCOVA lässt sich nach Belieben um mehr Kovariaten erweitern. Das sollte (wie gerade besprochen) auch passieren, da sie besonders dann gut geeignet ist, wenn auf viele relevante Störvariablen kontrolliert werden kann. Dabei gehen wir bereits etwas über die ursprüngliche Auswertung von [Kube & Seewald](https://doi.org/10.1370/afm.250671) hinaus, die nur die Baselinevariable als Kovariate genutzt hatten. Das Besondere an der ANCOVA ist aber, dass wir sie in den Fall der _generalisierten ANCOVA_ erweitern können, um differentielle Interventionseffekt aufzudecken und so immer detailliertere, personalisiertere Empfehlungen geben zu können.
 
-Im vorherigen Abschnitt zur ANCOVA hatten wir angenommen, dass Kovariaten den Effekt eventuell verzerren könnten und sie daher aufgenommen, um einen "bereinigten" Effektschätzer der Intervention zu erhalten. Dabei wird allerdings (wie an den parallelen Linien zu sehen war) davon ausgegangen, dass der Interventionseffekt bei allen Ausprägungen der Kovariate der Gleiche ist. Diese Annahme lässt sich prüfen, indem wir einen Interaktionseffekt in die ANCOVA aufnehmen. Dafür gilt, wie schon im [Beitrag zur moderierten Regression](/lehre/klipps/moderierte-regression-klinische), dass wir kontinuierliche Variablen unbedingt zentrieren sollten. Das hilft zum Einen bei der Interpretaion, aber kann auch Multikollinearität verringern.
+Für den hier untersuchten Fall könnte sich zum Beispiel die Annahme einschleichen, dass Personen mit sehr hohen Werten der subjektiven Wahrscheinlichkeit einer ernsthaften Erkrankung besonders stark von einfühlsamer und/oder kompetenter ärztlicher Betreuung profitieren könnten. Technisch ist die Umsetzung erneut denkbar einfach:
 
 
-```r
-# Zenrierung der Kovariate
-cope$CDI1_c <- scale(cope$CDI1, scale = FALSE)
+``` r
+ano3 <- aov_4(disease2 ~ comp * warm * disease1 + (1 | id), roma, factorize = FALSE)
+```
 
-# Generalisierte ANCOVA
-mod4 <- lm(CDI3 ~ CDI1_c * condition, cope)
+```
+## Warning: Numerical variables NOT centered on 0 (matters if variable in interaction):
+##    disease1
+```
 
-# Ergebniszusammenfassung
-summary(mod4)
+```
+## Contrasts set to contr.sum for the following variables: comp, warm
+```
+
+``` r
+summary(ano3)
+```
+
+```
+## Anova Table (Type 3 tests)
+## 
+## Response: disease2
+##                    num Df den Df    MSE        F     ges Pr(>F)    
+## comp                    1    341 233.89   2.6057 0.00758 0.1074    
+## warm                    1    341 233.89   0.4863 0.00142 0.4861    
+## disease1                1    341 233.89 233.2718 0.40620 <2e-16 ***
+## comp:warm               1    341 233.89   0.3345 0.00098 0.5634    
+## comp:disease1           1    341 233.89   0.1201 0.00035 0.7291    
+## warm:disease1           1    341 233.89   0.4008 0.00117 0.5271    
+## comp:warm:disease1      1    341 233.89   1.0810 0.00316 0.2992    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Das Einzige, das wir in diesem Fall ändern ist, dass wir mit dem `*` auch die Interaktion zwischen den experimentellen Bedingungen und der Baselinevariable zulassen. Wie Sie inzwischen vielleicht festgestellt haben, bin ich ein Freund der grafischen Aufbereitung:
+
+![](/ancova-klinische_files/unnamed-chunk-39-1.png)<!-- -->
+
+Da keiner der Effekte (außer der Zusammenhang zwischen Baseline und Post-Erhebung) statistisch bedeutsam ist, sind alle folgenden Sätze lediglich anekdotische Spekulation, die ich hier mal festhalte, um das Potential der generalisierten ANCOVA aufzuzeigen. Rein optisch zeigt sich, dass bei geringen Ausprägungen der subjektiven Wahrscheinlichkeit zur Baseline die Wärme eines komptenten Arztes bzw. einer kompetenten Ärztin sehr viel weniger relevant ist, als bei starker subjektiver Krankheitswahrscheinlichkeit (daran zu erkennen, dass die gelbe und die blaue Linien sich auseinander entwickeln). Dieser Effekt führt sogar dazu, dass die Kompetenz keinen wesentlichen Einfluss mehr hat, wenn die Ärztin/der Arzt kalt sind und Patient*innen mit einer sehr hohen subjektiven Krankeitheitswahrscheinlichkeit in die Befundbesprechung hineingehen. Intuitiv scheinen diese Effekt nachvollziehbar, aber zumindest angesichts der vorhandenen Teststärke sind sie nicht bedeutsam.
+
+## Moderierte Regression
+
+In der ANOVA hatten wir bereits eine Interaktion zwischen zwei nominalskalierten Variablen (die beiden Experimentalbedingungen), welche erlaubt, dass durch Kombinationen von Interventionen andere Effekte entstehen, als man bei durch pure Addition der Effekte erwarten würde (ein klassisches Beispiel hierfür ist, dass der Effekt von Psychotherapie bei mittel- bis schwergradiger Depression durch die hinzunahme von Psychopharmaka drastisch verstärkt werden kann). In der generalisierten ANCOVA kam gerade die Interaktion zwischen einer nominalskalierten und einer intervallskalierten Variable hinzu. Diese hat erlaubt, dass z.B. der Effekt einer Intervention von der Symptomschwere vor der Behandlung (manche Interventionen können besser für mittelgradige, andere besser für schwere Depression geeignet sein) oder anderen Personeneigenschaften sein kann. Im letzten Schritt fehlt jetzt noch die Interaktion zwischen zwei intervallskalierten Variablen, wodurch der Zusammenhang zwischen einer Personeneigenschaft und dem Outcome von einer anderen Personeneigenschaft abhängen kann. Diese Konstellation hatten wir bereits [in Statistik II](/lehre/statistik-ii/moderierte-reg/) behandelt - hier gucken wir uns das Ganze nochmal im Kontext des Artikels von [Kube und Seewald (2026)](https://doi.org/10.1370/afm.250671) an.
+
+Bei den bisherigen Analysen hatten wir die Implikation hingenommen, dass die Zuweisung zu einer experimentellen Bedingung (der Arzt bzw- die Ärztin wird als kompetent dargestellt) die Ursache für eine Änderung in der subjektiven Wahrsceinlichkeit einer ernsthaften Krankheit ist. Dieser Idee liegt aber eigentlich die Annahme zugrunde, dass die Darstellungen in den Videos auch so wahrgenommen werden, wie sie intendiert sind. Bei manchen Personen, könnte das "kompetente Video" z.B. einfach nicht den Eindruck einer kompetenten Person erwecken und somit keinen Effekt zeigen. Bei [Kube und Seewald (2026)](https://doi.org/10.1370/afm.250671) wird dieser Punkt als *perceptual-level model* bezeichnet und in den [Zusatzanalysen](https://www.annfammed.org/content/annalsfm/suppl/2026/08/25/afm.250671.DC1/Kube_Supp_App_Supp_Tables_1-9.pdf) als Ergänzung zum Artikel dargestellt. 
+
+### Umsetzung mit `lm`
+
+Bevor wir in moderierter Regression *irgendwas* rechnen, errinern wir uns an das, was wir in den Beiträgen zu [moderierter](/lehre/statistik-ii/moderierte-reg/) und [nicht-linearer](/lehre/statistik-ii/nichtlineare-reg/) Regression im Bachelor detailliert begründet hatten: wir müssen die Variablen zentrieren, um nicht-essentielle Multikollinearität zu minimieren und unsere Ergebnisse interpretierbarer zu machen. Also, der erste Schritt:
+
+
+``` r
+roma$warm_cent <- scale(roma$warm_perc, scale = FALSE)
+roma$comp_cent <- scale(roma$comp_perc, scale = FALSE)
+```
+
+Mit diesen zentrierten Variablen können wir jetzt mit dem üblichen `lm()`-Befehl eine moderierte Regression berechnen:
+
+
+``` r
+mod1 <- lm(disease2 ~ warm_cent * comp_cent + disease1, roma)
+summary(mod1)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = CDI3 ~ CDI1_c * condition, data = cope)
+## lm(formula = disease2 ~ warm_cent * comp_cent + disease1, data = roma)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.18191 -0.21888  0.01634  0.23083  1.03391 
+##     Min      1Q  Median      3Q     Max 
+## -34.305  -8.837  -0.304   7.779  40.067 
 ## 
 ## Coefficients:
-##                                     Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                          1.03821    0.01591  65.270  < 2e-16 ***
-## CDI1_c                               0.62109    0.04581  13.557  < 2e-16 ***
-## conditionProject Personality        -0.07191    0.02276  -3.160 0.001612 ** 
-## conditionProject ABC                -0.08427    0.02242  -3.759 0.000178 ***
-## CDI1_c:conditionProject Personality -0.01406    0.06499  -0.216 0.828708    
-## CDI1_c:conditionProject ABC          0.04964    0.06546   0.758 0.448373    
+##                      Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          1.887130   1.583180   1.192 0.234088    
+## warm_cent           -0.355288   0.098056  -3.623 0.000335 ***
+## comp_cent           -0.686631   0.103121  -6.658  1.1e-10 ***
+## disease1             0.500382   0.029676  16.862  < 2e-16 ***
+## warm_cent:comp_cent  0.009997   0.009239   1.082 0.280008    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3571 on 1497 degrees of freedom
-##   (949 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
-## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
+## Residual standard error: 13.39 on 344 degrees of freedom
+## Multiple R-squared:  0.5678,	Adjusted R-squared:  0.5627 
+## F-statistic:   113 on 4 and 344 DF,  p-value: < 2.2e-16
 ```
-Die Ergebnisse zeigen keine bedeutsamen Interaktionseffekte. Das bedeutet also, dass die Interventionen in ihrer Wirksamkeit nicht statistisch bedeutsam davon abhängen, mit welchem Depressionsscore die Personen die Studie gestartet haben. 
-
-![](/ancova-klinische_files/ancova-generalized-1.png)<!-- -->
-
-Erneut sind sowohl optisch als auch numerisch die Unterschiede zwischen den Interventionsansätzen minimal. Dennoch sehen wir, dass im Bereich der unterdurchschnittlichen `CDI1`-Werte Teilnehmende des Project ABC niedrigere Depressionswerte zum Follow-Up aufweisen, während sich dieser Effekt bei überdurchschnittlichen Werten zugunsten von Project Personality verschiebt. Um diese Effekte zu testen, können wir in unserem Modell die `CDI1`-Variable so transformieren, dass die Gruppenunterschiede sich auf andere Ausprägungen dieser Variable beziehen. Z.B.:
+Hier sehen wir, dass die von uns produzierten Ergebnisse zumindest schon einmal hinsichtlich der Signifikanzmuster konsistent mit dem sind, was im [Supplement (S. 18)](https://www.annfammed.org/content/annalsfm/suppl/2026/08/25/afm.250671.DC1/Kube_Supp_App_Supp_Tables_1-9.pdf) berichtet wird. Allerdings scheinen die Regressionsgewichte nicht dem zu entsprechen, was wir hier erzeugt haben. In englischsprachiger Literatur ist das $\beta$ für Regressionsgewichte häufig ein Hinweis darauf, dass es sich hier um standardisierte Regressionsgewichte handelt. In altbekannter Weise, nutzen wir also noch `lm.beta()` aus dem gleichnnamigen Paket und übergeben die Ergebnisse erst dann an die `summary()`:
 
 
-```r
-# Effekt bei überdurchschnittlicher Kovariate
-cope$CDI1_above <- cope$CDI1_c + sd(cope$CDI1_c)
-mod4b <- lm(CDI3 ~ CDI1_above * condition, cope)
-summary(mod4b)
+
+``` r
+library(lm.beta)
+lm.beta(mod1) |> summary()
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = CDI3 ~ CDI1_above * condition, data = cope)
+## lm(formula = disease2 ~ warm_cent * comp_cent + disease1, data = roma)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.18191 -0.21888  0.01634  0.23083  1.03391 
+##     Min      1Q  Median      3Q     Max 
+## -34.305  -8.837  -0.304   7.779  40.067 
 ## 
 ## Coefficients:
-##                                         Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                              0.82577    0.02145  38.502  < 2e-16 ***
-## CDI1_above                               0.62109    0.04581  13.557  < 2e-16 ***
-## conditionProject Personality            -0.06710    0.03086  -2.175 0.029809 *  
-## conditionProject ABC                    -0.10125    0.03041  -3.329 0.000893 ***
-## CDI1_above:conditionProject Personality -0.01406    0.06499  -0.216 0.828708    
-## CDI1_above:conditionProject ABC          0.04964    0.06546   0.758 0.448373    
+##                      Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          1.887130           NA   1.583180   1.192 0.234088    
+## warm_cent           -0.355288    -0.159739   0.098056  -3.623 0.000335 ***
+## comp_cent           -0.686631    -0.294312   0.103121  -6.658  1.1e-10 ***
+## disease1             0.500382     0.600157   0.029676  16.862  < 2e-16 ***
+## warm_cent:comp_cent  0.009997     0.038651   0.009239   1.082 0.280008    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3571 on 1497 degrees of freedom
-##   (949 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
-## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
+## Residual standard error: 13.39 on 344 degrees of freedom
+## Multiple R-squared:  0.5678,	Adjusted R-squared:  0.5627 
+## F-statistic:   113 on 4 and 344 DF,  p-value: < 2.2e-16
 ```
 
-```r
-# Effekt bei unterdurchschnittlicher Kovariate
-cope$CDI1_below <- cope$CDI1_c - sd(cope$CDI1_c)
-mod4c <- lm(CDI3 ~ CDI1_below * condition, cope)
-summary(mod4c)
+In diesem Fall zeigt sich keine bedeutsame Interaktion zwischen den beiden Eigenschaften, sodass wir unsere Regressionsgewichte grob in gleicher Weise interpretieren können, wie immer: bei gleicher wahrgenommener Kompetenz und subjektiver Krankheitswahrscheinlichkeit vor dem Negativbefund, sagen wir einen Unterschied von -0.36 Einheiten vorher, wenn sich zwei Personen um einen Punkt in der wahrgenommenen Wärme unterscheiden. Erneut möchte ich an dieser Stelle darauf hinweisen, dass die gängige Floskel von "verändert sich A um B Einheiten" sowohl falsch als auch immens fehlleitend ist - insbesondere in der Psychotherapieforschung. Worüber wir mit diesen Ergebnissen Aussagen machen sind *unterschiede zwischen Personen*, noch dazu häufig *korrelative* Unterschiede. Die Formulierung "verändert sich" impliziert aber, dass wir eine Veränderung *innerhalb einer Person verursachen* könnten. Die Probleme dieser Gleichsetzung werden als [Ergodizitätsproblem](https://matilda.fss.uu.nl/articles/ergodicity-in-psychology.html) bezeichnet und stellen eine immense Herausfoderung für die meisten psychologischen Befunde in der Überführung in die individual-Praxis dar. Insbesondere in unseren Betrachtungen zu [längsschnittlichen Netzwerkmodellen](/lehre/klipps/longitudinal-networks/) werden wir noch einmal genauer darauf eingehen.
+
+### Intepretation von moderierter Regression
+
+Für den Fall der Wahrscheinlichkeitseinschätzung einer ernsthaften Krankheit im Allgemeinen finden sich bei [Kube und Seewald (2026)](https://doi.org/10.1370/afm.250671) keine Interkationseffekte zwischen Wärme und Kompetenz des ärztlichen Fachkraft. Anders sieht es aber bei der Betrachtung der Wahrscheinlichkeit von Darmkrebs im Spezifischen. Dort sehen die Ergebnisse so aus:
+
+
+``` r
+mod2 <- lm(cancer2 ~ warm_cent * comp_cent + cancer1, roma)
+lm.beta(mod2) |> summary()
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = CDI3 ~ CDI1_below * condition, data = cope)
+## lm(formula = cancer2 ~ warm_cent * comp_cent + cancer1, data = roma)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.18191 -0.21888  0.01634  0.23083  1.03391 
+##     Min      1Q  Median      3Q     Max 
+## -35.643  -7.486  -0.781   5.339  48.571 
 ## 
 ## Coefficients:
-##                                         Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                              1.25065    0.02318  53.964   <2e-16 ***
-## CDI1_below                               0.62109    0.04581  13.557   <2e-16 ***
-## conditionProject Personality            -0.07672    0.03275  -2.343   0.0193 *  
-## conditionProject ABC                    -0.06729    0.03291  -2.045   0.0411 *  
-## CDI1_below:conditionProject Personality -0.01406    0.06499  -0.216   0.8287    
-## CDI1_below:conditionProject ABC          0.04964    0.06546   0.758   0.4484    
+##                      Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          1.561875           NA   1.262124   1.237 0.216747    
+## warm_cent           -0.280960    -0.140025   0.091002  -3.087 0.002183 ** 
+## comp_cent           -0.735019    -0.349230   0.095754  -7.676 1.71e-13 ***
+## cancer1              0.405657     0.549658   0.027003  15.022  < 2e-16 ***
+## warm_cent:comp_cent  0.030714     0.131630   0.008583   3.579 0.000395 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3571 on 1497 degrees of freedom
-##   (949 Beobachtungen als fehlend gelöscht)
-## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
-## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
+## Residual standard error: 12.43 on 344 degrees of freedom
+## Multiple R-squared:  0.5423,	Adjusted R-squared:  0.537 
+## F-statistic: 101.9 on 4 and 344 DF,  p-value: < 2.2e-16
+```
+Durch eine Interaktion werden die Regressionsgewichte mitunter ein bisschen eigenwilliger in ihrer Interpretation, daher kurz ein paar Formeln, falls sie es genauer nachvollziehen möchten:
+
+<details><summary><b>Ein paar Formeln, falls Sie es genauer nachvollziehen möchten</b></summary>
+
+Zunächst schreiben wir unsere Regressionsgleichung in allgemeiner Notation:
+
+<bigmath>
+$$
+\hat{Y}_i = \beta_0 + \beta_1 X_i + \beta_2 Z_i + \beta_3 X_i Z_i + \beta_4 C_i
+$$
+</bigmath>
+
+Dabei ist $Y$ die Krebsangst zum zweiten Messzeitpunkt, $X$ die wahrgenommene Wärme und $Z$ die wahrgenommene Kompetenz des Arztes bzw. der Ärztin. Mit $C$ berücksichtigen wir zusätzlich die Krebsangst zum ersten Messzeitpunkt als Kontrollvariable.
+
+Mit den geschätzten Regressionsgewichten ergibt sich:
+
+<bigmath>
+$$
+\hat{Y}_i = 1.562 - 0.281 X_i - 0.735 Z_i + 0.031 X_i Z_i + 0.406 C_i
+$$
+</bigmath>
+
+Betrachten wir zwei Personen mit $X_1 = 0$, $X_2 = 1$ und $Z_1 = Z_2 = 0$. Beide nehmen ihren Arzt bzw. ihre Ärztin also als durchschnittlich kompetent wahr. Die zweite Person nimmt ihn bzw. sie lediglich als um eine Einheit wärmer wahr. Da wir für die Krebsangst zum ersten Messzeitpunkt kontrollieren, setzen wir diese bei beiden Personen auf denselben Wert, nämlich den Stichprobenmittelwert von $36.069$.
+
+Für die beiden Personen erhalten wir:
+
+<bigmath>
+$$
+\begin{aligned}
+\hat{Y}_1 &= 1.562 - 0.281 \times 0 - 0.735 \times 0\\
+&\quad + 0.031 \times 0 \times 0 + 0.406 \times 36.069\\
+&\approx 16.193\\[8pt]
+\hat{Y}_2 &= 1.562 - 0.281 \times 1 - 0.735 \times 0\\
+&\quad + 0.031 \times 1 \times 0 + 0.406 \times 36.069\\
+&\approx 15.912
+\end{aligned}
+$$
+</bigmath>
+
+Die beiden unterscheiden sich also um $\beta_1 = -0.281$ Einheiten in ihrer vorhergesagten Krebsangst. Dieses Regressionsgewicht entspricht der Steigung der Regressionsgeraden für Personen, die ihren Arzt bzw. ihre Ärztin als *durchschnittlich kompetent* wahrnehmen. Eine um eine Einheit höhere wahrgenommene Wärme geht hier also mit einer um 0.281 Punkte geringeren vorhergesagten Krebsangst einher.
+
+Wenn beide Personen ihren Arzt bzw. ihre Ärztin als etwas kompetenter wahrnehmen würden ($Z_1 = Z_2 = 1$), sähe das Ganze so aus:
+
+<bigmath>
+$$
+\begin{aligned}
+\hat{Y}_1 &= 1.562 - 0.281 \times 0 - 0.735 \times 1\\
+&\quad + 0.031 \times 0 \times 1 + 0.406 \times 36.069\\
+&\approx 15.458\\
+\hat{Y}_2 &= 1.562 - 0.281 \times 1 - 0.735 \times 1\\
+&\quad + 0.031 \times 1 \times 1 + 0.406 \times 36.069\\
+&\approx 15.208
+\end{aligned}
+$$
+</bigmath>
+
+Der Unterschied zwischen den beiden beträgt nun also $\beta_1 + \beta_3 = -0.281 + 0.031 = -0.250$.
+
+Die Steigung der Regressionsgeraden von wahrgenommener Wärme auf Krebsangst verändert sich also für jede zusätzliche Einheit wahrgenommener Kompetenz um $\beta_3 = 0.031$.
+
+Da der Interaktionskoeffizient positiv ist, wird der negative Zusammenhang zwischen wahrgenommener Wärme und Krebsangst mit zunehmender wahrgenommener Kompetenz schwächer. Genau diese Veränderung der Steigung stellt die untersuchte Moderation dar.
+
+Wichtig ist dabei, dass wir in beiden Vergleichen die Krebsangst zum ersten Messzeitpunkt konstant gehalten haben. Dadurch können wir die vorhergesagten Unterschiede in der späteren Krebsangst bei gleichem Ausgangsniveau betrachten.
+
+</details>
+
+Bei durchschnittlicher wahrgenommener Kompetenz ist der Effekt der Wärme als bedeutsam, allerdings wird er (weil die Interaktion positiv ist) bei höherer Kompetenz weniger relevant.
+
+### Simple Slopes
+
+In vielen Fällen wird die Interpretation von empirischen Ergebnissen durch ein Bild etwas einfacher. Dies gilt meiner Ansicht nach insbesondere für moderierte Regression, weil wir so besser einschätzen können, ob z.B. eine negative Moderation bedeutet, dass ein Effekt abgeschwächt wird, sich in gänze umkehrt oder erst ab einem gewissen Level des Moderators tatsächlich auftritt. Traditionellerweise werden dafür sogenannte *simple slopes* eingesetzt - also die Vereinfachung von Regressionen mit Interaktionseffekt in Spezialfälle, bei denen man die Regression für ausgewählte Ausprägung eines Moderators betrachtet. Weil moderierte Regression einfach durch die Multiplikation von zwei Variablen entsteht, ist es vollkommen uns überlassen, ob wir zwischen "Prädiktor" und "Moderator" unterscheiden wollen und falls ja, welche von beiden Variablen welche ist. Für diesen Fall lege ich die Wärme als Prädiktor fest und möchte wissen, in welchem Ausmaß die Relevanz der Wärme als Prädiktor für die subjektive Krebswahrscheinlichkeit von der Kompetenz des Arztes bzw. der Ärztin abhängt.
+
+In den meisten Fällen werden für simple slopes drei Ausprägungen verwendet - der Mittelwert des Moderators, sowie eine Standardabweichung drunter und drüber. So können wir einen Eindruck für die Effekte bei den meisten Personen gewinnen. Statt händisch in die Regression die jeweiligen Werte einsetzen zu müssen, können wir das `interactions`-Paket nutzen. Für unseren Fall: 
+
+
+``` r
+library(interactions)
+sim_slopes(mod2, pred = warm_cent, modx = comp_cent)
 ```
 
-In Fällen, in denen solche Effekte deutlicher ausfallen, könnten wir diese Ergebnisse heranziehen, um z.B. für Patient\*innen mit hoher Belastung eine Intervention zu empfehlen, für Patient\*innen mit niedrigerer Belastung aber eine Andere.
+```
+## JOHNSON-NEYMAN INTERVAL
+## 
+## When comp_cent is OUTSIDE the interval [3.22, 22.13], the slope of warm_cent is p < .05.
+## 
+## Note: The range of observed values of comp_cent is [-20.48, 13.52]
+## 
+## SIMPLE SLOPES ANALYSIS
+## 
+## Slope of warm_cent when comp_cent = -8.676678e+00 (- 1 SD): 
+## 
+##    Est.   S.E.   t val.      p
+## ------- ------ -------- ------
+##   -0.55   0.12    -4.45   0.00
+## 
+## Slope of warm_cent when comp_cent = -1.486236e-15 (Mean): 
+## 
+##    Est.   S.E.   t val.      p
+## ------- ------ -------- ------
+##   -0.28   0.09    -3.09   0.00
+## 
+## Slope of warm_cent when comp_cent =  8.676678e+00 (+ 1 SD): 
+## 
+##    Est.   S.E.   t val.      p
+## ------- ------ -------- ------
+##   -0.01   0.11    -0.13   0.90
+```
+Der Output umfasst zwei Abschnitte. Zuerst das Johnson-Newman Interval, welches angibt, in welchem Bereich des Moderators (hier: Kompetenz) der Prädiktor (hier: Wärme) statistisch bedeutsamen Einfluss hat. Wir sehen hier also, dass die Wärme der Ärztin bzw. des Arztes dann relevant ist, wenn die Kompetenz als durchschnittlich oder weniger eingeschätzt wird. Bei überdurchschnittlicher Kompetenz, scheint die Wärme irrelevant zu werden.
+
+Die Simple-Slope Analysis zeigt dann noch einmal, wie stark die Regressionsgewichte bei -1 SD, Mittelwert und +1 SD ausfallen. Diesen Abschnitt können wir uns auch in Bilder übersetzen lassen:
+
+
+``` r
+interact_plot(mod2, pred = warm_cent, modx = comp_cent)
+```
+
+![](/ancova-klinische_files/unnamed-chunk-45-1.png)<!-- -->
+
+Hier ist zu sehen, dass höhere Kompetenz generell von Vorteil zu sein scheint (was wir an den Regressionsergebnissen bereits deutlich erkennen konnten) und dass die Regressiongerade bei überdurchschnittlicher Kompetenz (+1 SD) quasi horizontal bei sehr niedriger Risikoeinschätzung verläuft. Wenn wir Moderator und Prädiktor die Rollen tauschen lassen, ergibt sich hingegen ein anderes Bild:
+
+
+``` r
+interact_plot(mod2, modx = warm_cent, pred = comp_cent)
+```
+
+![](/ancova-klinische_files/unnamed-chunk-46-1.png)<!-- -->
+
+Insgesamt scheint die treffendste Interpretation der Ergebnisse an dieser Stelle also, dass sich die negativen Effekte niedriger Kompetenz durch Wärme abpuffern lassen. 
 
 ***
 
 ## Literatur
 
-Lord, F. M. (1967). A Paradox in the Interpretation of Group Comparisons. _Psychological Bulletin 68_(5), 304-305. https://doi.org/10.1037/h0025105.
+Hamaker, E. L., & Schuurman, N. K. (2025). Ergodicity in psychology. MATILDA Preprints. https://matilda.fss.uu.nl/articles/ergodicity-in-psychology.html
 
-Lüdtke, O. & Robitzsch, A. (2023). ANCOVA versus Change Score for the Analysis of Two-Wave Data. _The Journal of Experimental Education_, 1–33. https://doi.org/10.1080/00220973.2023.2246187
+Hayes-Larson, E., Kezios, K. L., Mooney, S. J., & Lovasi, G. (2019). Who is in this study, anyway? Guidelines for a useful Table 1. Journal of Clinical Epidemiology, 114, 125–132. https://doi.org/10.1016/j.jclinepi.2019.06.011
 
-Schleider, J.L., Mullarkey, M.C., Fox, K.R., Dobias, M. L., Shroff, A., Hart, E. A. & Roulston, C. A. (2022). A randomized trial of online single-session interventions for adolescent depression during COVID-19. _Nature Human Behavior, 6_, 258–268. https://doi.org/10.1038/s41562-021-01235-0
+Kube, T., & Seewald, A. (2026). Influence of physician behaviors on how patients interpret normal test results. The Annals of Family Medicine, 24(5), 391–398. https://doi.org/10.1370/afm.250671
 
-van Breukelen, G. J. P. (2013). ANCOVA Versus CHANGE From Baseline in Nonrandomized Studies: The Difference. _Multivariate Behavioral Research, 48_(6), 895–922. https://doi.org/10.1080/00273171.2013.831743
+Lord, F. M. (1967). A paradox in the interpretation of group comparisons. Psychological Bulletin, 68(5), 304–305. https://doi.org/10.1037/h0025105
+
+Lüdtke, O., & Robitzsch, A. (2025). ANCOVA versus change score for the analysis of two-wave data. The Journal of Experimental Education, 93(2), 363–395. https://doi.org/10.1080/00220973.2023.2246187
+
+Tennant, P. W. G., Tomova, G. D., Murray, E. J., Arnold, K. F., Fox, M. P., & Gilthorpe, M. S. (2023). Lord's 'paradox' explained: The 50-year warning on the use of 'change scores' in observational data [Preprint]. arXiv. https://doi.org/10.48550/arXiv.2302.01822
+
+van Breukelen, G. J. P. (2013). ANCOVA versus change from baseline in nonrandomized studies: The difference. Multivariate Behavioral Research, 48(6), 895–922. https://doi.org/10.1080/00273171.2013.831743
