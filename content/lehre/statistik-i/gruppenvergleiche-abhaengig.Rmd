@@ -60,7 +60,7 @@ if (exists("figure_path")) {
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb25` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb25.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
+Den Datensatz `fb26` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb26.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 ```{r, echo=-c(1,2)}
 ## Vorbereitung
@@ -68,36 +68,36 @@ Den Datensatz `fb25` haben wir bereits über diesen [<i class="fas fa-download">
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 5)
-fb25$mdbf3_r <- -1 * (fb25$mdbf3 - 5)
-fb25$mdbf9_r <- -1 * (fb25$mdbf9 - 5)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 5)
+fb26$mdbf3_r <- -1 * (fb26$mdbf3 - 5)
+fb26$mdbf9_r <- -1 * (fb26$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 
 
 ```
@@ -112,7 +112,7 @@ Nachdem wir uns mit **unabhängige Stichproben** in der [letzten Sitzung](/lehre
 
 Für den ersten Teil des Tutorials beschäftigen wir uns mit folgender Fragestellung: Gibt es einen Unterschied in den Werten der Subskalen 'Ruhige vs. Unruhige Stimmung' bei Psychologiestudierenden vor und nach der ersten Sitzung des Kurses? Wir geben in der Fragestellung keine Richtung des Effekts vor, da wir für Unterschiede in beide Richtungen uns Erklärungen vorstellen können. Ist nach dem Praktikum die Stimmung ruhiger, weil die Aufregung von der ersten Veranstaltung verflogen ist? Oder ist die Stimmung unruhiger, weil der erste Kontakt mit R stattgefunden hat?
 
-Die Werte dieser Variablen zum zweiten Messzeitpunkt sind insofern voneinander abhängig, als dass jede Person dieselben Fragen zweimal beantwortet hat (Messwiederholung). Es gibt daher Faktoren innerhalb der Person, die einen gemeinsamen Teil der Varianz erzeugen. Im Datensatz `fb25` ist der Skalenwert zur `Ruhigen vs. Unruhigen` Stimmung für den zweiten Messzeitpunkt bereits als `ru_post` hinterlegt. Den Skalenwert für die `Ruhig vs. Unruhig` Skala haben wir bereits bei den Aufgaben zur [Deskriptivstatistik für Intervallskalen](/lehre/statistik-i/deskriptiv-intervall-loesungen) gebildet und passenderweise `ru_pre` genannt.
+Die Werte dieser Variablen zum zweiten Messzeitpunkt sind insofern voneinander abhängig, als dass jede Person dieselben Fragen zweimal beantwortet hat (Messwiederholung). Es gibt daher Faktoren innerhalb der Person, die einen gemeinsamen Teil der Varianz erzeugen. Im Datensatz `fb26` ist der Skalenwert zur `Ruhigen vs. Unruhigen` Stimmung für den zweiten Messzeitpunkt bereits als `ru_post` hinterlegt. Den Skalenwert für die `Ruhig vs. Unruhig` Skala haben wir bereits bei den Aufgaben zur [Deskriptivstatistik für Intervallskalen](/lehre/statistik-i/deskriptiv-intervall-loesungen) gebildet und passenderweise `ru_pre` genannt.
 
 ### Deskriptivstatistik
 
@@ -121,17 +121,17 @@ Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Di
 ```{r, echo=-c(1,2)}
 ## Deskriptivstatistik
 
-summary(fb25$ru_pre)
-summary(fb25$ru_post)
+summary(fb26$ru_pre)
+summary(fb26$ru_post)
 
 # oder mittels der Funktion describe() aus dem Package 'psych'
 library(psych)
-describe(fb25$ru_pre)
-describe(fb25$ru_pos)
+describe(fb26$ru_pre)
+describe(fb26$ru_pos)
 
 ```
 
-Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es in der Post-Variable fehlende Werte (`r sum(is.na(fb25$ru_post))`) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden, was im Folgenden berücksichtigt werden muss.
+Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es in der Post-Variable fehlende Werte (`r sum(is.na(fb26$ru_post))`) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden, was im Folgenden berücksichtigt werden muss.
 
 
 Mithilfe von Histogrammen stellen wir jeweils die Verteilungen der Werte vor und nach der Sitzung dar, wobei in den Histogrammen eine vertikale Linie eingefügt wird, die den jeweiligen Mittelwert anzeigt.
@@ -139,25 +139,25 @@ Mithilfe von Histogrammen stellen wir jeweils die Verteilungen der Werte vor und
 ```{r}
 # Je ein Histogramm pro Werte, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(2,1), mar=c(3,3,2,0))
-hist(fb25$ru_pre, 
+hist(fb26$ru_pre, 
      xlim=c(1,5),
      ylim = c(0,110),
      main="Subskalen 'Ruhig vs. Unruhig' vor der Sitzung", 
      xlab="", 
      ylab="", 
      las=1)
-abline(v=mean(fb25$ru_pre, na.rm = T), 
+abline(v=mean(fb26$ru_pre, na.rm = T), 
        lwd=3,
        col="aquamarine3")
 
-hist(fb25$ru_post, 
+hist(fb26$ru_post, 
      xlim=c(1,5),
      ylim = c(0,110),
      main="Subskalen 'Ruhig vs. Unruhig' nach der Sitzung", 
      xlab="", 
      ylab="", 
      las=1)
-abline(v=mean(fb25$ru_post, na.rm = T), 
+abline(v=mean(fb26$ru_post, na.rm = T), 
        lwd=3,
        col="darksalmon")
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
@@ -181,7 +181,7 @@ Wir müssen also nur die Voraussetzung der Normalverteilung der Differenzvariabl
 ```{r, echo=-c(1,2)}
 ## Vorraussetzungen
 
-difference <- fb25$ru_post - fb25$ru_pre
+difference <- fb26$ru_post - fb26$ru_pre
 
 par(mfrow=c(1,2), mar=c(3,3,2,2))
 hist(difference, 
@@ -202,7 +202,7 @@ qqline(difference, col="blue")
 par(mfrow=c(1,1))
 ```
 
-Auf den Abbildungen sind kleine Abweichungen der Differenzen von der Normalverteilung zu sehen. Allerdings gilt (analog zu den Einstichproben- und unabhängigen Tests) der zentrale Grenzwertsatz. In Fällen, in denen die Stichprobe (also die Anzahl an Messwertpaaren) ausreichend groß ist, folgt die Stichprobenkennwerteverteilung auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung. “Ausreichend groß” ist natürlich Auslegungssache, aber nochmal zur Erinnerung: Bei Stichproben ab $n \geq 30$ greift der Effekt, wenn das Merkmal zumindest symmetrisch verteilt ist. Andere Empfehlungen gehen besonders bei sehr schiefen Verteilungen in Richtung von 80 Messwertpaaren. Die kleinen Abweichungen von der Normalverteilung und die große Stichproben sprechen also dafür, dass unsere Stichprobenkennwerteverteilung der $t$-Verteilung folgt. Wir können also mit der inferenzstatistischen Überprüfung starten.
+Auf den Abbildungen sind kleine Abweichungen der Differenzen von der Normalverteilung zu sehen. Allerdings gilt (analog zu den Einstichproben- und unabhängigen Tests) der zentrale Grenzwertsatz. In Fällen, in denen die Stichprobe (also die Anzahl an Messwertpaaren) ausreichend groß ist, folgt die Stichprobenkennwerteverteilung auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung. “Ausreichend groß” ist natürlich Auslegungssache, aber nochmal zur Erinnerung: Bei Stichproben ab $n \geq 30$ greift der Effekt, wenn das Merkmal zumindest symmetrisch verteilt ist. Andere Empfehlungen gehen besonders bei sehr schiefen Verteilungen in Richtung von 80 Messwertpaaren. Die kleinen Abweichungen von der Normalverteilung und die große Stichproben sprechen also dafür, dass unsere Stichprobenkennwerteverteilung annähernd der $t$-Verteilung folgt. Wir können also mit der inferenzstatistischen Überprüfung starten.
 
 ### Durchführung des $t$-Test für abhängige Stichproben
 
@@ -226,14 +226,15 @@ Wir verwenden hier die Funktion `t.test()`. Diesmal müssen wir allerdings die b
 ```{r, echo=-c(1,2)}
 ## t-Test
 
-t.test(x = fb25$ru_post, y = fb25$ru_pre, # die beiden abhaengigen Variablen
+t.test(x = fb26$ru_post, y = fb26$ru_pre, # die beiden abhaengigen Variablen
       paired = T,                      # Stichproben sind abhaengig
+      alternative = "two.sided",       # ungerichteter Test
       conf.level = .95)   
 
 ```
 
 ```{r, echo = FALSE, purl = F}
-ttest <- t.test(x = fb25$ru_post, y = fb25$ru_pre,
+ttest <- t.test(x = fb26$ru_post, y = fb26$ru_pre,
        paired = T, conf.level = .95)
 ```
 
@@ -269,14 +270,14 @@ library("effsize")
 ```
 
 ```{r}
-d2 <- cohen.d(fb25$ru_post, fb25$ru_pre, 
+d2 <- cohen.d(fb26$ru_post, fb26$ru_pre, 
       paired = TRUE,  #paired steht fuer 'abhaengig'
       within = FALSE, #wir brauchen nicht die Varianz innerhalb
       na.rm = TRUE)   
 d2
 ```
 
-Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's $d$ für unanghängige Stichproben). Neben der Punktschätzung der Effektstärke erhalten wir auch eine Einordnung über die Größe (`large`) und ein Konfidenzintervall. 
+Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's $d$ für unanghängige Stichproben). Neben der Punktschätzung der Effektstärke erhalten wir auch eine Einordnung über die Größe (`r d2$magnitude`) und ein Konfidenzintervall. 
 
 Die Einordnung durch das Paket unterscheidet sich aber teils von den Konventionen nach Cohen (1988), die es auch für abhängige Stichproben gibt (Konventionen für den abhängigen und unabhängigen $t$-Test unterscheiden sich auch!). Die unterschiedlich Einordnung des Paketes zu der Tabelle macht nochmal deutlich, dass diese Konventionen nur grobe Orientierungen sind, die nur bei völliger Ahnungslosigkeit genutzt werden sollten und sonst Effekstärken im Rahmen des Anwendungsgebietes eingeordnet werden sollten.
 
@@ -286,7 +287,7 @@ _d''_ | Interpretation |
 ~ .35 | mittlerer Effekt |
 ~ .57 | großer Effekt |
 
-Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = `r round(d_Wert, 2)` und ist laut Konventionen groß, laut der Aussage des Paketes auch `large`. 
+Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = `r round(d_Wert, 2)` und ist laut Konventionen `r c("klein", "mittelgroß", "groß")[which.min(abs(0.4 - c(0.14, 0.35, 0.57)))]`, laut der Aussage des Paketes `r d2$magnitude`. 
 
 
 ### Ergebnisinterpretation
@@ -299,7 +300,7 @@ Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt `r round(mean
 
 ## Medianvergleich für abhängige Stichprobe
 
-Auch für die abhängigen Stichproben lernen wir wieder einen Test kennen, bei den es uns um den Vergleich von Medianen anstatt Mittelwerten gehen. Der präsentierte Wilcoxon-Vorzeichen-Rangtest ist eine Option, wenn wir eine stetige Variable haben, für die der Mittelwert keine sinnvolle Repräsentation der zentralen Tendenz darstellt. Ein häufiges Anwendungsbeispiel ist dabei die Antwortzeit von Proband:innen. Spezifisch haben wir sowohl bei der ersten Erhebung vor dem Praktikum als auch bei der zweiten Erhebung nach dem Praktikum die Zeit gemessen, die Sie für das Ausfüllen des MDBF benötigt haben. Wir möchten der Fragestellung, ob die Bearbeitungszeit sich zwischen den beiden Zeitpunkten unterscheidet nachgehen. Waren Sie bei der zweiten Erhebung schneller - bspw. weil Sie die Fragen schon kannten? Oder waren Sie bei der ersten Erhebung schneller, da Sie dort noch Energie hatten?
+Auch für die abhängigen Stichproben lernen wir wieder einen Test kennen, bei den es uns um den Vergleich von Medianen anstatt Mittelwerten gehen. Der präsentierte Wilcoxon-Vorzeichen-Rangtest ist eine Option, wenn wir eine stetige Variable haben, für die der Mittelwert keine sinnvolle Repräsentation der zentralen Tendenz darstellt. Ein häufiges Anwendungsbeispiel ist dabei die Antwortzeit von Proband:innen. Spezifisch haben wir sowohl bei der ersten Erhebung vor dem Praktikum als auch bei der zweiten Erhebung nach dem Praktikum die Zeit gemessen, die Sie für das Ausfüllen des MDBF benötigt haben. Wir möchten der Fragestellung, ob die Bearbeitungszeit sich zwischen den beiden Zeitpunkten unterscheidet, nachgehen. Waren Sie bei der zweiten Erhebung schneller - bspw. weil Sie die Fragen schon kannten? Oder waren Sie bei der ersten Erhebung schneller, da Sie dort noch Energie hatten?
 
 
 ### Deskriptivstatistik {#Statistiken}
@@ -310,25 +311,25 @@ Schauen wir uns zunächst in der deskriptivstatistischen Betrachtung an, warum w
 ## Deskriptivstatistik-Median
 
 par(mfrow=c(1,2), mar=c(3,3,2,0))
-hist(fb25$time_pre, 
+hist(fb26$time_pre, 
      main="Bearbeitungszeit \nvor dem Praktikum", 
      breaks = 10)
 
 
-hist(fb25$time_post, 
+hist(fb26$time_post, 
      main="Bearbeitungszeit \nnach dem Praktikum",
      breaks = 10)
 
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 ```
 
-Die hier gefundenen Bearbeiungszeiten stellen ein typisches Bild für das Verhalten von Antwortzeiten dar. Es gibt eine große Anzahl an Personen, die relativ schnell antworten, aber auch einige Personen, die sehr lange brauchen. Die Verteilung ist daher linkssteil und rechtsschief. Der Median wird als besserer Repräsentant für die mittlere Ausprägung angesehen, da er weniger anfällig für die Schiefe ist.
+Die hier gefundenen Bearbeiungszeiten stellen ein typisches Bild für das Verhalten von Antwortzeiten dar. Es gibt eine große Anzahl an Personen, die relativ schnell antworten, aber auch einige Personen, die sehr lange brauchen. Die Verteilung ist daher linkssteil und rechtsschief. Im Fall der zweiten Erhebung gibt es drei klare Ausreißer mit unrealistisch langen Antwortzeiten (Maximalwert $t_{2,max} =$ `r max(fb26$time_post, na.rm = TRUE)`s). Der Median wird als besserer Repräsentant für die mittlere Ausprägung angesehen, da er weniger anfällig für Ausreißer und die generelle Schiefe der Verteilung ist.
 
 Den Median und weitere deskriptive Statistiken können wir uns mit dem `summary()`-Befehl anzeigen lassen.
 
 ```{r}
-summary(fb25$time_pre)
-summary(fb25$time_post)
+summary(fb26$time_pre)
+summary(fb26$time_post)
 ```
 
 Es zeigt sich auch hier wieder, dass es nach dem Praktikum einige fehlende Werte gibt. Das heißt, dass unsere deskriptiven Betrachtungen nicht so aussagekräftig sind an dieser Stelle. Diese würde eine Veränderung in der mittleren Ausprägung der Bearbeitungszeit zeigen, da die Mediane sich unterscheiden.
@@ -350,13 +351,13 @@ Zuletzt bleibt noch die Voraussetzung, dass die Differenzvariable symmetrisch ve
 ```{r, echo=-c(1,2)}
 ## Voraussetzungen-Median
 
-dif_time <- fb25$time_post - fb25$time_pre
+dif_time <- fb26$time_post - fb26$time_pre
 hist(dif_time,
      main="Differenzen Bearbeitungszeiten",
      breaks = 10)
 ```
 
-Die Differenzen weisen Abweichungen von der Symmetrie-Annahme vor, die vor allem von Ausreißern bestimmt wird. Die Verteilung der Differenzen ist aufgrund der hohen Anzahl negativer Differenzen und einiger negativer Ausreißer linksschief. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen. Mehr Informationen zu Ausreißern und deren Behandlung erhalten Sie im nächsten Semester [hier](/lehre/statistik-ii/regressionsdiagnostik).
+Die Differenzen weisen Abweichungen von der Symmetrie-Annahme vor, die vor allem von Ausreißern bestimmt wird. Die Verteilung der Differenzen ist aufgrund der hohen Anzahl negativer Differenzen linksschief. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen. Mehr Informationen zu Ausreißern und deren Behandlung erhalten Sie im nächsten Semester [hier](/lehre/statistik-ii/regressionsdiagnostik).
 
 ### Durchführung des Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben
 
@@ -374,8 +375,8 @@ Die Argumente der Funktion für den Wilcoxon-Vorzeichen-Rangsummentest für abh�
 ```{r, echo=-c(1,2)}
 ## Wilcoxon
 
-wilcox.test(x = fb25$time_pre, 
-            y = fb25$time_post,          # die beiden abhängigen Gruppen
+wilcox.test(x = fb26$time_pre, 
+            y = fb26$time_post,          # die beiden abhängigen Gruppen
             paired = T,                  # Stichproben sind abhängig
             alternative = "two.sided",   # ungerichtete Hypothese
             exact = F,                   # Approximation?
@@ -383,7 +384,7 @@ wilcox.test(x = fb25$time_pre,
 ```
 
 ```{r, echo = FALSE, purl = F}
-wilcox <- wilcox.test(x = fb25$time_pre, y  = fb25$time_post, paired = T, alternative = "greater", conf.level = .95)
+wilcox <- wilcox.test(x = fb26$time_pre, y  = fb26$time_post, paired = T, alternative = "greater", conf.level = .95)
 ```
 
 Durch das Argument `exact` kann angegeben werden, ob man einen exakten p-Wert oder eine Approximation ausgeben lassen will -- in spezifischen Konstellationen kann man diese Wahl treffen. Für Fälle mit Rangbindungen und Differenzen von 0 wird eine Approximation genutzt, die wir hier auch uns anzeigen lassen. Hinsichtlich der Signifikanzentscheidung ist aus dem Output ersichtlich, dass der empirische Wert bei _V_ = `r wilcox$statistic` liegt und der zugehörige p-Wert bei $p < .01$. Wir würden dementsprechend die H0 verwerfen. Im Gegensatz zum $t$-Test fällt uns auch auf, dass kein Konfidenzintervall ausgegeben wird, was uns aber nicht weiter stört, da wir unsere Hypothesen prüfen konnten.
@@ -391,4 +392,4 @@ Durch das Argument `exact` kann angegeben werden, ob man einen exakten p-Wert od
 
 ### Ergebnisinterpretation {#Bericht}
 
-Da der Mittelwert für die Bearbeitungszeiten kein sinnvolles Maß für die zentrale Tendenz darstellt, wurde ein Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben durchgeführt, um die Mediane zu vergleichen. Zunächst findet sich deskriptiv ein Unterschied: Vor der Praktikum ist der Median der Bearbeiungszeit (`r round(median(fb25$time_pre, na.rm = T), 2 )`) anders als nach der Therapie (`r round(median(fb25$time_post, na.rm = T), 2 )`). Der Unterschied wurde bei einem Signifikanzniveau von $\alpha = .05$ signifikant (_V_ = `r wilcox$statistic`, $p$ < .01). Somit wird die Nullhypothese verworfen und es wird angenommen, dass sich die mittlere Bearbeitungszeit vor und nach dem Praktikum unterscheidet.
+Da der Mittelwert für die schiefverteilten Bearbeitungszeiten kein sinnvolles Maß für die zentrale Tendenz darstellt, wurde ein Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben durchgeführt, um die Mediane zu vergleichen. Zunächst findet sich deskriptiv ein Unterschied: Vor der Praktikum ist der Median der Bearbeiungszeit (`r round(median(fb26$time_pre, na.rm = T), 2 )`) anders als nach der Therapie (`r round(median(fb26$time_post, na.rm = T), 2 )`). Der Unterschied wurde bei einem Signifikanzniveau von $\alpha = .05$ signifikant (_V_ = `r wilcox$statistic`, $p$ < .01). Somit wird die Nullhypothese verworfen und es wird angenommen, dass sich die mittlere Bearbeitungszeit vor und nach dem Praktikum unterscheidet.
