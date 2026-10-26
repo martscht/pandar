@@ -1,46 +1,44 @@
-load(url('https://pandar.netlify.app/daten/fb25.rda'))   # Daten laden
-names(fb25)        # Namen der Variablen
-dim(fb25)          # Anzahl Zeile und Spalten
+load(url('https://pandar.netlify.app/daten/fb26.rda'))   # Daten laden
+names(fb26)        # Namen der Variablen
+dim(fb26)          # Anzahl Zeile und Spalten
 
 #### Nominalskalierte Variablen ----
 
-str(fb25$hand)
-fb25$hand
+str(fb26$hand)
+fb26$hand
 
-fb25$hand_factor <- factor(fb25$hand,                       # Ausgangsvariable
+fb26$hand_factor <- factor(fb26$hand,                     # Ausgangsvariable
                            levels = 1:2,                  # Faktorstufen
                            labels = c("links", "rechts")) # Label für Faktorstufen
-str(fb25$hand_factor)
-head(fb25$hand_factor)
+str(fb26$hand_factor)
+head(fb26$hand_factor)
 
-fb25$fach
+fb26$fach
 
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 
                                'Klinische', 'Diag./Meth.'))
-str(fb25$fach)
+str(fb26$fach)
 
-levels(fb25$fach)         # Abruf
+levels(fb26$fach)         # Abruf
 
-fb25$fach <- relevel(
-  fb25$fach,              # Bezugskategorie wechseln
+fb26$fach <- relevel(
+  fb26$fach,              # Bezugskategorie wechseln
   'Diag./Meth.')          # Neue Bezugskategorie
 
-table(fb25$fach)
+table(fb26$fach)
 
-table(fb25$fach) |> sum()
+table(fb26$fach) |> sum()
 
-table(fb25$fach, useNA = "ifany")
+table(fb26$fach, useNA = "ifany")
 
-tab <- table(fb25$fach, useNA = "ifany") # Absolute Haeufigkeiten
+tab <- table(fb26$fach, useNA = "ifany") # Absolute Haeufigkeiten
 sum(tab)         # Gesamtzahl
 tab / sum(tab)   # Relative Haeufigkeiten
 
-tab <- table(fb25$fach, useNA = "ifany")  # Absolute
+tab <- table(fb26$fach, useNA = "ifany")  # Absolute
 prop.table(tab)                           # Relative
-
-
 
 
 
@@ -92,36 +90,36 @@ relinf <- (ln_hj * hj) |> sum() * (-1/log(k))  # Relativer Informationsgehalt
 relinf
 
 # Verschachtelte Version
-- 1/log(dim(table(fb25$fach))) * sum(prop.table(table(fb25$fach)) * log(prop.table(table(fb25$fach))))
+- 1/log(dim(table(fb26$fach))) * sum(prop.table(table(fb26$fach)) * log(prop.table(table(fb26$fach))))
 
-fb25$sicher
+fb26$sicher
 
-table(fb25$sicher, useNA = "ifany")              # Absolute Haeufigkeiten (ohne NA)
-prop.table(table(fb25$sicher, useNA = "ifany"))  # Relative Haeufigkeiten
-which.max(table(fb25$sicher))                    # Modus
+table(fb26$sicher, useNA = "ifany")              # Absolute Haeufigkeiten (ohne NA)
+prop.table(table(fb26$sicher, useNA = "ifany"))  # Relative Haeufigkeiten
+which.max(table(fb26$sicher))                    # Modus
 
-median(fb25$sicher)                 # Ohne Argument für NA: funktioniert nicht
-median(fb25$sicher, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+median(fb26$sicher)                 # Ohne Argument für NA: funktioniert nicht
+median(fb26$sicher, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
 
-quantile(fb25$sicher,
+quantile(fb26$sicher,
          c(.25, .5, .75),                   # Quartile anfordern
          na.rm = TRUE)
 
-quantile(fb25$sicher, .75, na.rm=TRUE) - quantile(fb25$sicher, .25, na.rm=TRUE)
+quantile(fb26$sicher, .75, na.rm=TRUE) - quantile(fb26$sicher, .25, na.rm=TRUE)
 
-IQR(fb25$sicher, na.rm = TRUE)
+IQR(fb26$sicher, na.rm = TRUE)
 
 
 
 ## Basic Boxplot
 
-boxplot(fb25$sicher)
+boxplot(fb26$sicher)
 
 ## Farbiger Boxplot
 
-boxplot(fb25$sicher,
+boxplot(fb26$sicher,
         horizontal = TRUE,                # Ausrichtung des Boxplots
-        main = "WS 2025/26: Sicherheit in der Studienwahl",  # Überschrift der Grafik
+        main = "WS 2026/27: Sicherheit in der Studienwahl",  # Überschrift der Grafik
         xlab = "Ausprägung",              # x-Achse Bezeichnung 
         las = 1,                          # Ausrichtung der Labels
         border = "red",                   # Farbe der Linien im Boxplot
