@@ -1,5 +1,5 @@
 ---
-title: Tests und Konfidenzintervalle - Übungen
+title: "Tests und Konfidenzintervalle - Übungen"
 type: post
 date: '2019-10-18'
 slug: tests-konfidenzintervalle-uebungen
@@ -50,48 +50,48 @@ if (exists("figure_path")) {
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
-fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
-fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 4 - 1)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 4 - 1)
+fb26$mdbf3_r <-  -1 * (fb26$mdbf3 - 4 - 1)
+fb26$mdbf9_r <-  -1 * (fb26$mdbf9 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb26.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb25)
+dim(fb26)
 ```
 
-Der Datensatz besteht aus `r nrow(fb25)` Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) `r ncol(fb25)` Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb26)` Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) `r ncol(fb26)` Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ## Aufgabe 1
@@ -113,7 +113,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
 **3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
-**3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Testentscheidung.
 
 **3.3** Überprüfen Sie Ihre Entscheidung aus **3.2** erneut, indem sie händisch ihren empirischen t-Wert ermittlen und mit dem entsprechenden kritischen t-Wert vergleichen.
 
@@ -123,7 +123,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 ## Aufgabe 4
 
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
-Nehmen Sie für die weiteren Aufgaben den Datensatz `fb25` als Grundgesamtheit (Population) an.
+Nehmen Sie für die weiteren Aufgaben den Datensatz `fb26` als Grundgesamtheit (Population) an.
 
 **4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
@@ -133,20 +133,20 @@ Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzinterv
 <details><summary>Code</summary>
 
 ```{r}
-anyNA(fb25$gewis) #keine NAs
+anyNA(fb26$gewis) #keine NAs
 
 
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb25_sample <- fb25[sample(nrow(fb25), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb26_sample <- fb26[sample(nrow(fb26), size = 31), ] #zieht eine Stichprobe mit n = 31
 
 
-mean_gewis_pop <- mean(fb25$gewis, na.rm = TRUE) #Mittelwert der Population
+mean_gewis_pop <- mean(fb26$gewis, na.rm = TRUE) #Mittelwert der Population
 
-sd_gewis_pop <- sd(fb25$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb25$gewis)) - 1) / length(na.omit(fb25$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb26$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb26$gewis)) - 1) / length(na.omit(fb26$gewis))) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb25$gewis))) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb26$gewis))) #Standardfehler
 
-mean_gewis_smpl2 <- mean(fb25_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
+mean_gewis_smpl2 <- mean(fb26_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
 
 z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
