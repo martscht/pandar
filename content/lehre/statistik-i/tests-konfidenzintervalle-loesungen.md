@@ -1,5 +1,5 @@
 ---
-title: Tests und Konfidenzintervalle - Lösungen
+title: "Tests und Konfidenzintervalle - Lösungen"
 type: post
 date: '2020-12-11'
 slug: tests-konfidenzintervalle-loesungen
@@ -12,7 +12,7 @@ authors:
 - scheppa-lahyani
 - vogler
 - pommeranz
-lastmod: '2025-11-13'
+lastmod: '2026-10-29'
 featured: no
 banner:
   image: /header/angel_of_the_north.jpg
@@ -42,7 +42,7 @@ private: 'true'
 
 ### Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb26.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 <details><summary>Lösung</summary>
 
@@ -51,50 +51,50 @@ private: 'true'
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 5)
-fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 5)
-fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 5)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 5)
+fb26$mdbf3_r <-  -1 * (fb26$mdbf3 - 5)
+fb26$mdbf9_r <-  -1 * (fb26$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat:
 
 
 ``` r
-dim(fb25)
+dim(fb26)
 ```
 
 ```
-## [1] 211  51
+## [1] 160  51
 ```
 
-Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 51 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 160 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 51 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 </details>
 
@@ -136,48 +136,48 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
 
 ``` r
-mean_lz <- mean(fb25$lz, na.rm = TRUE) #Mittlere Lebenszufriedenheit
+mean_lz <- mean(fb26$lz, na.rm = TRUE) #Mittlere Lebenszufriedenheit
 mean_lz
 ```
 
 ```
-## [1] 4.890476
+## [1] 4.94375
 ```
 
 ``` r
-sd_lz <- sd(fb25$lz, na.rm = TRUE) #Standardabweichung (Populationsschätzer)
+sd_lz <- sd(fb26$lz, na.rm = TRUE) #Standardabweichung (Populationsschätzer)
 sd_lz
 ```
 
 ```
-## [1] 1.320434
+## [1] 1.233938
 ```
 
 ``` r
-n_lz <- length(na.omit(fb25$lz)) #Stichprobengröße
+n_lz <- length(na.omit(fb26$lz)) #Stichprobengröße
 
 se_lz <- sd_lz / sqrt(n_lz) #Standardfehler
 se_lz
 ```
 
 ```
-## [1] 0.09111858
+## [1] 0.09755134
 ```
 
-* Der Mittelwert der Lebenszufriedenheit in der Stichprobe liegt bei 4.89.
-* Die Standardabweichung der Lebenszufriedenheit beträgt 1.32.
-* Der Standardfehler des Mittelwerts der Lebenszufriedenheit wird als 0.091 geschätzt.
+* Der Mittelwert der Lebenszufriedenheit in der Stichprobe liegt bei 4.944.
+* Die Standardabweichung der Lebenszufriedenheit beträgt 1.234.
+* Der Standardfehler des Mittelwerts der Lebenszufriedenheit wird als 0.098 geschätzt.
 
 **Variante 2**:
 
 
 ``` r
-describe(fb25$lz) #Funktion aus Paket "psych"
+describe(fb26$lz) #Funktion aus Paket "psych"
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 210 4.89 1.32      5    5.01 1.48   1   7     6 -0.78     0.12 0.09
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis  se
+## X1    1 160 4.94 1.23      5    5.01 1.19 1.6   7   5.4 -0.51    -0.31 0.1
 ```
 
 </details>
@@ -191,31 +191,31 @@ describe(fb25$lz) #Funktion aus Paket "psych"
 
 ``` r
 #Histogramm zur Veranschaulichung der Normalverteilung
-hist(fb25$lz, xlim = c(1,7), main = "Histogramm", xlab = "Score", ylab = "Dichte", freq = FALSE)
-curve(dnorm(x, mean = mean(fb25$lz, na.rm = TRUE), sd = sd(fb25$lz, na.rm = TRUE)), add = TRUE)
+hist(fb26$lz, xlim = c(1,7), main = "Histogramm", xlab = "Score", ylab = "Dichte", freq = FALSE)
+curve(dnorm(x, mean = mean(fb26$lz, na.rm = TRUE), sd = sd(fb26$lz, na.rm = TRUE)), add = TRUE)
 ```
 
 ![](/tests-konfidenzintervalle-loesungen_files/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 #geeigneter Plot: QQ-Plot. Alle Punkte sollten auf einer Linie liegen.
-qqnorm(fb25$lz)
-qqline(fb25$lz)
+qqnorm(fb26$lz)
+qqline(fb26$lz)
 ```
 
 ![](/tests-konfidenzintervalle-loesungen_files/unnamed-chunk-7-2.png)<!-- -->
 
 ``` r
 #Die qqPlot-Funktion zeichnet ein Konfidenzintervall in den QQ-Plot. Dies macht es für Betrachter:innen einfacher zu entscheiden, ob alle Punkte in etwa auf einer Linie liegen. Die Punkte sollten nicht außerhalb der blauen Linien liegen.
-qqPlot(fb25$lz)
+qqPlot(fb26$lz)
 ```
 
 ![](/tests-konfidenzintervalle-loesungen_files/unnamed-chunk-7-3.png)<!-- -->
 
 ```
-## [1] 108 146
+## [1] 57 86
 ```
-Das Histogramm, sowie beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
+Das Histogramm, sowie beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten leicht von einer Normalverteilung abweichen.
 
 </details>
 
@@ -242,57 +242,57 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 
 ``` r
-t.test(fb25$lz, mu=4.4)
+t.test(fb26$lz, mu=4.4)
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  fb25$lz
-## t = 5.3828, df = 209, p-value = 1.962e-07
+## data:  fb26$lz
+## t = 5.574, df = 159, p-value = 1.044e-07
 ## alternative hypothesis: true mean is not equal to 4.4
 ## 95 percent confidence interval:
-##  4.710847 5.070105
+##  4.751086 5.136414
 ## sample estimates:
 ## mean of x 
-##  4.890476
+##   4.94375
 ```
 
 ``` r
-t.test(fb25$lz, mu=4.4, conf.level = 0.99) #Default ist 95%, deshalb erhöhen wir auf 99%
+t.test(fb26$lz, mu=4.4, conf.level = 0.99) #Default ist 95%, deshalb erhöhen wir auf 99%
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  fb25$lz
-## t = 5.3828, df = 209, p-value = 1.962e-07
+## data:  fb26$lz
+## t = 5.574, df = 159, p-value = 1.044e-07
 ## alternative hypothesis: true mean is not equal to 4.4
 ## 99 percent confidence interval:
-##  4.653608 5.127344
+##  4.689424 5.198076
 ## sample estimates:
 ## mean of x 
-##  4.890476
+##   4.94375
 ```
 
 Zuvor ist uns aufgefallen, dass die Lebenszufriedenheit nicht normalverteilt ist.
 Außerdem haben wir gelernt das ab $n$ > 30 der zentrale Grenzwertsatz greift.
 Es gibt aber auch noch die Möglichkeit auf einen Test mit weniger strengen Voraussetzungen zurückzugreifen. Dafür büßen wir etwas Power ($1 - \beta$) ein. Das heißt, wenn ein Effekt vorliegt ist es schwerer (unwahrscheinlicher) diesen nachzuweisen.
-Der Ein-Stichproben Wilcoxon Tests der folgt wird **nicht** in der Vorlesung behandelt und ist auch **nicht** klausurrelevant.
+Der Ein-Stichproben Wilcoxon Tests, der folgt, wird **nicht** in der Vorlesung behandelt und ist auch **nicht** klausurrelevant.
 
 
 ``` r
-wilcox.test(fb25$lz, mu = 4.4, conf.level = 0.99) #gleiche Argumente wie beim t-Test
+wilcox.test(fb26$lz, mu = 4.4, conf.level = 0.99) #gleiche Argumente wie beim t-Test
 ```
 
 ```
 ## 
 ## 	Wilcoxon signed rank test with continuity correction
 ## 
-## data:  fb25$lz
-## V = 14274, p-value = 5.859e-07
+## data:  fb26$lz
+## V = 8653, p-value = 1.264e-06
 ## alternative hypothesis: true location is not equal to 4.4
 ```
 
@@ -304,7 +304,7 @@ Mit einer Irrtumswahrscheinlichkeit von 1% kann die $H_0$ verworfen werden. Die 
 
 ## Aufgabe 3
 
-**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Testentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -324,15 +324,15 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 ``` r
 ## Erste Schritte
 
-anyNA(fb25$extra) #NA's vorhanden
+anyNA(fb26$extra) #NA's vorhanden
 
 mean_extra_pop <- 3.5 #Mittelwert der Population
 
 sd_extra_pop <- 1.2 #empirische Standardabweichung der Population
 
-se_extra <- sd_extra_pop / sqrt(length(na.omit(fb25$extra))) #Standardfehler
+se_extra <- sd_extra_pop / sqrt(length(na.omit(fb26$extra))) #Standardfehler
 
-mean_extra_smpl <- mean(fb25$extra, na.rm = TRUE) #Mittelwert der Stichprobe
+mean_extra_smpl <- mean(fb26$extra, na.rm = TRUE) #Mittelwert der Stichprobe
 ```
 **z-Wert bestimmen**
 
@@ -372,26 +372,26 @@ $H_1$: $\mu_0$ $<$ $\mu_1$
 
 
 ``` r
-t.test(fb25$offen, mu = 3.6, alternative = "greater")
+t.test(fb26$offen, mu = 3.6, alternative = "greater")
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  fb25$offen
-## t = 5.209, df = 210, p-value = 2.261e-07
+## data:  fb26$offen
+## t = 5.1067, df = 159, p-value = 4.637e-07
 ## alternative hypothesis: true mean is greater than 3.6
 ## 95 percent confidence interval:
-##  3.818116      Inf
+##  3.830267      Inf
 ## sample estimates:
 ## mean of x 
-##  3.919431
+##  3.940625
 ```
 
 
 
-Der p-Wert beträgt 0 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Offenheits-Werte im Vergleich zur Gesamtbevölkerung.
+Der p-Wert beträgt 0 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Wir schließen: Die Psychologie-Studierenden haben höhere Offenheits-Werte im Vergleich zur Gesamtbevölkerung.
 
 
 </details>
@@ -402,8 +402,8 @@ Der p-Wert beträgt 0 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 
 
 
 ``` r
-t_emp <- (mean(fb25$offen, na.rm = TRUE)-3.6) / (sd(fb25$offen, na.rm = TRUE)/sqrt(length(na.omit(fb25$offen)))) # (Mittelwert Stichprobe - Mittelwert Population) / Standardfehler des Mittelwerts
-t_krit <- qt(0.05, df = (length(na.omit(fb25$offen))-1), lower.tail = FALSE) # Bei "Default" des vorigen Tests gehen wir von 5% beim Alphafehler aus - Alternativhypothese Größer, daher lower.tail = F
+t_emp <- (mean(fb26$offen, na.rm = TRUE)-3.6) / (sd(fb26$offen, na.rm = TRUE)/sqrt(length(na.omit(fb26$offen)))) # (Mittelwert Stichprobe - Mittelwert Population) / Standardfehler des Mittelwerts
+t_krit <- qt(0.05, df = (length(na.omit(fb26$offen))-1), lower.tail = FALSE) # Bei "Default" des vorigen Tests gehen wir von 5% beim Alphafehler aus - Alternativhypothese Größer, daher lower.tail = F
 t_emp > t_krit #Vergleich
 ```
 
@@ -435,20 +435,20 @@ $H_1$: $\mu_0$ $<$ $\mu_1$
 
 
 ``` r
-anyNA(fb25$vertr) # keine NAs
+anyNA(fb26$vertr) # keine NAs
 
-mean_vertr <- mean(fb25$vertr, na.rm = TRUE) #Mittlere Verträglichkeit der Stichprobe
+mean_vertr <- mean(fb26$vertr, na.rm = TRUE) #Mittlere Verträglichkeit der Stichprobe
 
-sd_vertr <- sd(fb25$vertr, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
+sd_vertr <- sd(fb26$vertr, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
 
 mean_pop_vertr <- 3.3 #Mittlere Verträglichkeit der Grundgesamtheit
 ```
 **Konfidenzintervall**
 
 ``` r
-t_quantil_einseitig_vertr <- qt(0.01, df = length(na.omit(fb25$vertr))-1, lower.tail = FALSE)
+t_quantil_einseitig_vertr <- qt(0.01, df = length(na.omit(fb26$vertr))-1, lower.tail = FALSE)
 
-t_lower_vertr <- mean_vertr - t_quantil_einseitig_vertr * (sd_vertr / sqrt(length(na.omit(fb25$vertr)))) # Formel für N muss angepasst werden an NAs -> Wir nehmen die Länge des Vektors der Variable ohne NA statt nrow! Siehe Deskriptivstatistik für Intervallskalen
+t_lower_vertr <- mean_vertr - t_quantil_einseitig_vertr * (sd_vertr / sqrt(length(na.omit(fb26$vertr)))) # Formel für N muss angepasst werden wenn NAs vorliegen -> Wir nehmen die Länge des Vektors der Variable ohne NA statt nrow! Siehe Deskriptivstatistik für Intervallskalen
 ```
 **Effektgröße**
 
@@ -458,11 +458,11 @@ d3
 ```
 
 ```
-## [1] 0.2552116
+## [1] 0.1294485
 ```
 
-Da der Mittelwert der Population von 3.3 kleiner ist als das untere Konfidenzintervall mit 3.377 kann die $H_0$ verworfen werden.
-Die Effektgröße ist mit 0.26 nach Cohen (1988) als klein einzuordnen.
+Da der Mittelwert der Population von 3.3 größer ist als das untere Konfidenzintervall mit 3.258 kann die $H_0$ nicht verworfen werden.
+Die Effektgröße ist mit 0.13 nach Cohen (1988) als klein, bzw. vernachlässigbar einzuordnen.
 
 
 </details>
@@ -474,7 +474,7 @@ Die Effektgröße ist mit 0.26 nach Cohen (1988) als klein einzuordnen.
 ## Aufgabe 4
 
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
-Nehmen Sie für die weiteren Aufgaben den Datensatz `fb25` als Grundgesamtheit (Population) an.
+Nehmen Sie für die weiteren Aufgaben den Datensatz `fb26` als Grundgesamtheit (Population) an.
 
 **4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
@@ -495,13 +495,13 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 **z-Test:**
 
-Wir arbeiten für diesen Aufgabenblock unter der Annahme, dass uns die Daten der gesamten Population, in unserem Fall aller Psychologie 1. Semester, in Form des Datensatzes `fb25` vorliegen. Daher ist der angemessene Test ist in diesem Fall der z-Test.
+Wir arbeiten für diesen Aufgabenblock unter der Annahme, dass uns die Daten der gesamten Population, in unserem Fall aller Psychologie 1. Semester, in Form des Datensatzes `fb26` vorliegen. Daher ist der angemessene Test ist in diesem Fall der z-Test.
 
 Zuvor überprüfen wir noch ob es fehlende Werte auf der Variable `gewis` gibt. Sollte dies nicht der Fall sein können wir uns das Argument `na.rm = TRUE` sowie die Funktion `na.omit()` später an mehreren Stellen in der Rechnung sparen.
 
 
 ``` r
-anyNA(fb25$gewis) #keine NAs
+anyNA(fb26$gewis) #keine NAs
 ```
 
 ```
@@ -512,7 +512,7 @@ Nun zur eigentlichen Rechnung:
 
 
 ``` r
-mean_gewis_pop <- mean(fb25$gewis, na.rm = TRUE) #Mittelwert der Population
+mean_gewis_pop <- mean(fb26$gewis, na.rm = TRUE) #Mittelwert der Population
 
 mean_gewis_smpl1 <- 3.6 #Mittelwert der Stichprobe
 ```
@@ -523,7 +523,7 @@ Da unser Datensatz nun die Population ist, können wir einfach die Standardabwei
 
 
 ``` r
-sd_gewis_pop <- sd(fb25$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb25$gewis)) - 1) / length(na.omit(fb25$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb26$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb26$gewis)) - 1) / length(na.omit(fb26$gewis))) #empirische Standardabweichung der Population
 
 se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler des Mittelwerts 
 ```
@@ -557,7 +557,7 @@ Alternativ lässt sich auch noch der p-Wert über folgende Formel berechnen:
 ```
 
 ```
-## [1] 1.012367
+## [1] 0.7612636
 ```
 
 Da dieser größer ist als unser $\alpha = 0.05$ können wir die Nullhypothese nicht verwerfen.
@@ -574,7 +574,7 @@ conf_int
 ```
 
 ```
-## [1] 3.360289 3.839711
+## [1] 3.358086 3.841914
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ nicht verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich nicht in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
@@ -590,9 +590,9 @@ Das 95%-ige Konfidenzintervall liegt zwischen 3.36 und 3.84.
 
 
 ``` r
-fb25_red <- fb25[!is.na(fb25$gewis),] #NA's entfernen
+fb26_red <- fb26[!is.na(fb26$gewis),] #NA's entfernen
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb25_sample <- fb25_red[sample(nrow(fb25_red), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb26_sample <- fb26_red[sample(nrow(fb26_red), size = 31), ] #zieht eine Stichprobe mit n = 31
 ```
 
 </details>
@@ -617,14 +617,14 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 
 ``` r
-fb25_red <- fb25[!is.na(fb25$gewis),] #Hiemit kann man NAs entfernen, falls vorhanden, hier nicht der Fall!
+fb26_red <- fb26[!is.na(fb26$gewis),] #Hiemit kann man NAs entfernen, falls vorhanden, hier nicht der Fall!
 
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb25_sample <- fb25_red[sample(nrow(fb25_red), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb26_sample <- fb26_red[sample(nrow(fb26_red), size = 31), ] #zieht eine Stichprobe mit n = 31
 ```
 
 Mit der `set.seed()`-Funktion haben wir uns bereits im vorherigen Kapitel zu [Verteilungen](/lehre/statistik-i/verteilungen/) beschäftigt. Sie erlaubt uns die Ergebnisse eines Zufallsvorgangs konstant zu halten.
-Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen sondern ausschließlich einen Vektor. Daher nutzen wir die Funktion um uns wahllos 31 Zahlen zwischen 1 und `nrow(fb25_red)` auszugeben. Der äußere Teil gibt uns dann die Zeilen (Personen) die mit den besagten 31 Zahlen übereinstimmen wieder. 
+Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen sondern ausschließlich einen Vektor. Daher nutzen wir die Funktion um uns wahllos 31 Zahlen zwischen 1 und `nrow(fb26_red)` auszugeben. Der äußere Teil gibt uns dann die Zeilen (Personen) die mit den besagten 31 Zahlen übereinstimmen wieder. 
 
 **z-Test:**
 
@@ -632,7 +632,7 @@ Nachdem wir unsere Stichprobe gezogen haben ist die Berechnung analog zu Aufgabe
 
 
 ``` r
-anyNA(fb25$gewis) # NA's vorhanden
+anyNA(fb26$gewis) # keine NA's vorhanden
 ```
 
 ```
@@ -640,7 +640,7 @@ anyNA(fb25$gewis) # NA's vorhanden
 ```
 
 ``` r
-anyNA(fb25_red$gewis) # keine NA's vorhanden durch Reduzierung
+anyNA(fb26_red$gewis) # Reduzierung falls NA's vorhanden wären
 ```
 
 ```
@@ -648,7 +648,7 @@ anyNA(fb25_red$gewis) # keine NA's vorhanden durch Reduzierung
 ```
 
 ``` r
-anyNA(fb25_sample$gewis) # keine NA's vorhanden da Stichprobe aus fb25_red
+anyNA(fb26_sample$gewis) # keine NA's vorhanden da Stichprobe aus fb26_red
 ```
 
 ```
@@ -656,13 +656,13 @@ anyNA(fb25_sample$gewis) # keine NA's vorhanden da Stichprobe aus fb25_red
 ```
 
 ``` r
-mean_gewis_pop <- mean(fb25_red$gewis) # Mittelwert der Population
+mean_gewis_pop <- mean(fb26_red$gewis) # Mittelwert der Population
 
-sd_gewis_pop <- sd(fb25_red$gewis) * sqrt((length(fb25_red$gewis) - 1) / length(fb25_red$gewis)) # empirische Standardabweichung der Population - ist also die Populationsvarianz
+sd_gewis_pop <- sd(fb26_red$gewis) * sqrt((length(fb26_red$gewis) - 1) / length(fb26_red$gewis)) # empirische Standardabweichung der Population - ist also die Populationsvarianz
 
-se_gewis <- sd_gewis_pop / sqrt(length(fb25_sample$gewis)) # Standardfehler des Mittelwerts
+se_gewis <- sd_gewis_pop / sqrt(length(fb26_sample$gewis)) # Standardfehler des Mittelwerts
 
-mean_gewis_smpl2 <- mean(fb25_sample$gewis) # Mittelwert der Stichprobe
+mean_gewis_smpl2 <- mean(fb26_sample$gewis) # Mittelwert der Stichprobe
 
 z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
@@ -680,7 +680,7 @@ abs(z_gewis2) > z_krit # nicht signifikant
 ```
 
 ```
-## [1] 0.7611888
+## [1] 1.851665
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ **nicht** verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit nicht von der Grundgesamtheit (Datensatz). 

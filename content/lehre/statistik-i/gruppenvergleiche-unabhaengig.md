@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2025-12-11'
+lastmod: '2026-10-22'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -54,67 +54,67 @@ output:
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb25` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb25.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb26` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb26.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ``` r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 5)
-fb25$mdbf3_r <- -1 * (fb25$mdbf3 - 5)
-fb25$mdbf9_r <- -1 * (fb25$mdbf9 - 5)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 5)
+fb26$mdbf3_r <- -1 * (fb26$mdbf3 - 5)
+fb26$mdbf9_r <- -1 * (fb26$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 ### Erzeugung der Gruppierungsvariablen
 
-Die Gruppierungsvariable in unserer Fragestellung sollte für die Nutzung der Funktionen in `R` als Faktor vorliegen. Bei uns soll es um das Interesse am Fach klinischer Psychologie (ja vs. nein) gehen. Die entsprechende (nominalskalierte) Variable liegt noch nicht im Datensatz vor, kann aber einfach erstellt werden, indem die nichtklinischen Interessen in eine Kategorie zusammengefasst werden. Dies erfolgt per logischer Abfrage (`fb25$fach == "Klinische"`) und anschließender Transformation des Ergebnisses in eine Faktorvariable:
+Die Gruppierungsvariable in unserer Fragestellung sollte für die Nutzung der Funktionen in `R` als Faktor vorliegen. Bei uns soll es um das Interesse am Fach klinischer Psychologie (ja vs. nein) gehen. Die entsprechende (nominalskalierte) Variable liegt noch nicht im Datensatz vor, kann aber einfach erstellt werden, indem die nichtklinischen Interessen in eine Kategorie zusammengefasst werden. Dies erfolgt per logischer Abfrage (`fb26$fach == "Klinische"`) und anschließender Transformation des Ergebnisses in eine Faktorvariable:
 
 
 ``` r
-fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
+fb26$fach_klin <- factor(as.numeric(fb26$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
 ```
 
-Mit `table` können wir uns die Häufigkeiten in unserer neuen Variablen anschauen. 93 Befragte haben das größte Interesse für klinische Psychologie angegeben, 113 für andere Fächer.
+Mit `table` können wir uns die Häufigkeiten in unserer neuen Variablen anschauen. 65 Befragte haben das größte Interesse für klinische Psychologie angegeben, 89 für andere Fächer.
 
 
 ``` r
-table(fb25$fach_klin)
+table(fb26$fach_klin)
 ```
 
 ```
 ## 
 ## nicht klinisch       klinisch 
-##            113             93
+##             89             65
 ```
 
 ***
@@ -137,41 +137,41 @@ Außerdem finden Sie im Anhang auch noch eine weitere Frage:
 
 ## Mittelwertsvergleich
 
-Wir wollen untersuchen, ob Studierende, die sich für die klinische Psychologie interessieren, im Mittel das gleiche Ausmaß an Lebenszufriedenheit aufweisen wie Studierende, deren Hauptinteresse in einem der vielen und spannenden anderen Bereiche der Psychologie liegt (zum Beispiel der Methodenlehre!). Hinsichtlich der Richtung der Hypothese können wir uns nicht genau festlegen, weil wir für beides hinreichend gute Argumente gefunden haben. Haben Personen, die sich für die klinische Psychologie interessieren eine stärkere Tendenz dazu, sich mit Problemen und Krankheiten zu befassen und sind deswegen weniger zufrieden mit ihrem Leben ($H_1: \mu_1 < \mu_2$)? Oder freuen sich Studierende, die sich für klinische Inhalte interessieren mehr darüber nun, im Psychologiestudium, dieser Faszination endlich stärker nachgehen zu können ($H_1: \mu_1 > \mu_2$)? Weil wir diese und sehr viele andere Möglichkeiten nicht ausreichend gut gegeneinander abwägen können, legen wir ein ungerichtetes Hypothesenpaar fest: $H_0 : \mu_1 = \mu_2$ und $H_1: \mu_1 \neq \mu_2$.
+Wir wollen untersuchen, ob Studierende, die sich für die klinische Psychologie interessieren, im Mittel das gleiche Ausmaß an Lebenszufriedenheit aufweisen wie Studierende, deren Hauptinteresse in einem der vielen anderen spannenden Bereichen der Psychologie liegt (zum Beispiel der Methodenlehre!). Hinsichtlich der Richtung der Hypothese können wir uns nicht genau festlegen, weil wir für beides hinreichend gute Argumente gefunden haben. Haben Personen, die sich für die klinische Psychologie interessieren eine stärkere Tendenz dazu, sich mit Problemen und Krankheiten zu befassen und sind deswegen weniger zufrieden mit ihrem Leben ($H_1: \mu_1 < \mu_2$)? Oder freuen sich Studierende, die sich für klinische Inhalte interessieren mehr darüber nun, im Psychologiestudium, dieser Faszination endlich stärker nachgehen zu können ($H_1: \mu_1 > \mu_2$)? Weil wir diese und sehr viele andere Möglichkeiten nicht ausreichend gut gegeneinander abwägen können, legen wir ein ungerichtetes Hypothesenpaar fest: $H_0 : \mu_1 = \mu_2$ und $H_1: \mu_1 \neq \mu_2$.
 
 ### Deskriptivstatistik {#Statistiken}
 
-Im ersten Schritt wollen wir uns die Werte in den beiden Gruppen deskriptiv anschauen. Dazu können wir die Daten entweder visuell oder durch statistische Kennwerte aufbereiten. Mithilfe eines Boxplots lassen sich Unterschiede zwischen Gruppen gut grafisch darstellen. Die hier verwenderte Syntax `fb25$lz ~ fb25$fach_klin` nutzt die *Formelnotation* in `R`, welche Sie im Rahmen der Regression noch genauer kennenlernen werden. Links von der `~` (Tilde) steht die abhängige Variable (hier der Wert in der Lebenszufriedenheit), deren Mittelwertsunterschiede durch die unabhängige Variable (hier Interesse) rechts der `~` "erklärt" werden soll. 
+Im ersten Schritt wollen wir uns die Werte in den beiden Gruppen deskriptiv anschauen. Dazu können wir die Daten entweder visuell oder durch statistische Kennwerte aufbereiten. Mithilfe eines Boxplots lassen sich Unterschiede zwischen Gruppen gut grafisch darstellen. Die hier verwenderte Syntax `fb26$lz ~ fb26$fach_klin` nutzt die *Formelnotation* in `R`, welche Sie im Rahmen der Regression noch genauer kennenlernen werden. Links von der `~` (Tilde) steht die abhängige Variable (hier der Wert in der Lebenszufriedenheit), deren Mittelwertsunterschiede durch die unabhängige Variable (hier Interesse) rechts der `~` "erklärt" werden soll. 
 
 
 ``` r
 # Gruppierter Boxplot :
-boxplot(fb25$lz ~ fb25$fach_klin, 
+boxplot(fb26$lz ~ fb26$fach_klin, 
         xlab="Interesse", ylab="Lebenszufriedenheit", 
         las=1, cex.lab=1.5, 
         main="Lebenszufriedenheit je nach Interesse")
 ```
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-4-1.png)<!-- -->
+![](gruppenvergleiche-unabhaengig_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 Die Werte in den Gruppen lassen sich auch durch *Deskriptivstatistiken* vergleichen, ein übliches Vorgehen ist die Darstellung der Verteilungskennwerte (Mittelwerte, Standardabweichungen u.a.) in den Gruppen. Diese lassen sich komfortabel über die Funktion `describeBy()` des `psych`-Pakets erzeugen. Das Paket muss installiert sein und mit `library()` geladen werden. 
 
 
 ``` r
 library(psych)
-describeBy(x = fb25$lz, group = fb25$fach_klin)        # beide Gruppen im Vergleich 
+describeBy(x = fb26$lz, group = fb26$fach_klin)        # beide Gruppen im Vergleich 
 ```
 
 ```
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 113 5.06 1.25    5.2    5.16 1.19   1   7     6 -0.72        0 0.12
-## --------------------------------------------------------- 
+##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 89 5.04 1.2    5.4    5.11 1.19 1.6   7   5.4 -0.56    -0.19 0.13
+## ------------------------------------------------------------ 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 93 4.73 1.35      5    4.86 1.48   1   7     6 -0.78    -0.08 0.14
+## X1    1 65 4.84 1.24      5    4.88 1.19   2   7     5 -0.32    -0.71 0.15
 ```
 
 Wie bei der R-Funktion `sd()` gibt diese Funktion nicht die Stichprobenkennwerte $s$, sondern die Populationsschätzer $\hat{\sigma}$ aus. Daher berechnen wir die Stichproben-Standardabweichungen per Hand, indem wir die Ergebnisse der `sd()`-Funktion mit $\sqrt{(n_g-1)/n_g}$ multiplizieren. $n_g$ ist hierbei die jeweilige Gruppengröße. 
@@ -181,8 +181,8 @@ Wie bei der R-Funktion `sd()` gibt diese Funktion nicht die Stichprobenkennwerte
 
 ``` r
 # Werte in LZ für beide Gruppen, nur gültige Werte
-lz_nichtKlin <- fb25$lz[fb25$fach_klin=="nicht klinisch"] |> na.omit()
-lz_Klin <- fb25$lz[fb25$fach_klin=="klinisch"] |> na.omit()
+lz_nichtKlin <- fb26$lz[fb26$fach_klin=="nicht klinisch"] |> na.omit()
+lz_Klin <- fb26$lz[fb26$fach_klin=="klinisch"] |> na.omit()
 
 # Gruppengrößen
 n_nichtKlin <- length(lz_nichtKlin)
@@ -194,7 +194,7 @@ sd_nichtKlin
 ```
 
 ```
-## [1] 1.247799
+## [1] 1.19406
 ```
 
 ``` r
@@ -203,7 +203,7 @@ sd_Klin
 ```
 
 ```
-## [1] 1.342693
+## [1] 1.226824
 ```
 
 ### Voraussetzungen {#Voraussetzungen}
@@ -244,10 +244,10 @@ curve(dnorm(x,
 qqPlot(lz_nichtKlin)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="gruppenvergleiche-unabhaengig_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 ```
-## [1] 54 19
+## [1] 36 38
 ```
 
 ``` r
@@ -259,7 +259,7 @@ dev.off()
 ##           1
 ```
 
-Wir erkennen im Histogramm keine deutliche Abweichung von der Normalverteilung. Im QQ-Plot erkennen wir hingegen im oberen Bereich Abweichungen, die dadurch zustande kommen, dass Lebenszufriedenheit etwas linksschief verteilt ist.
+Wir erkennen im Histogramm keine sehr deutliche Abweichung von der Normalverteilung, auch wenn es einen Deckeneffekt zu geben scheint. Im QQ-Plot erkennen wir hingegen im oberen Bereich Abweichungen, die dadurch zustande kommen, dass Lebenszufriedenheit etwas linksschief verteilt ist.
 
 Wir wiederholen die Befehle auch für die zweite Gruppe:
 
@@ -280,10 +280,10 @@ curve(dnorm(x,
 qqPlot(lz_Klin)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="gruppenvergleiche-unabhaengig_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 ```
-## [1] 67 17
+## [1] 43 27
 ```
 
 ``` r
@@ -295,9 +295,9 @@ dev.off()
 ##           1
 ```
 
-In dieser Gruppe ist die Abweichung von der Normalverteilung noch etwas deutlicher. Aufgrund der Größe der Gruppen (beide $n > 80$) hindern uns diese Abweichungen nicht an der Durchführung des t-Tests.
+In dieser Gruppe sehen wir vergleichbare kleine Abweichung von der Normalverteilung, die tendenziell durch einen Deckeneffekt erklärbar. Aufgrund der Größe der Gruppen ($n \geq$ 65) hindern uns diese geringen Abweichungen nicht an der Durchführung des t-Tests.
 
-Die vierte Annahme (Homoskedastizität - also die Varianzgleichheit in beiden Populationen) wird typischerweise mit einem inferenzstatistischen Verfahren geprüft, weil Varianzen meist weniger leicht optisch einzuschätzen sind. Wie in der Vorlesung besprochen, kann dafür der Levene-Test genutzt werden. Das Hypothesenpaar, das er prüft sieht so aus:
+Die vierte Annahme (Homoskedastizität - also die Varianzgleichheit in beiden Populationen) wird häufig mit einem inferenzstatistischen Verfahren geprüft, weil Varianzen meist weniger leicht optisch einzuschätzen sind. Wie in der Vorlesung besprochen, kann dafür der Levene-Test genutzt werden. Das Hypothesenpaar, das er prüft sieht so aus:
 
 -   $H_0$: $\sigma_1 = \sigma_2$ (Homoskedastizität ist gegeben)
 -   $H_1$: $\sigma_1 \neq \sigma_2$ (Homoskedastizität ist nicht gegeben)
@@ -306,19 +306,21 @@ Ein nicht-signifikantes Ergebnis (*p* \> .05) deutet also darauf hin, dass wir n
 
 
 ``` r
-leveneTest(fb25$lz ~ fb25$fach_klin)
+leveneTest(fb26$lz ~ fb26$fach_klin)
 ```
 
 ```
 ## Levene's Test for Homogeneity of Variance (center = median)
 ##        Df F value Pr(>F)
-## group   1  0.2793 0.5977
-##       204
+## group   1  0.0286 0.8659
+##       152
 ```
 
 
 
-Das Testergebnis zeigt mit einem $p$-Wert von 0.598, dass die Nullhypothese beibehalten wird, wir also weiterhin von der Gültigkeit der Homoskedastizitätsannahme ausgehen können. Für den Fall, dass die Annahme nicht hält, gibt es die *Welch-Korrektur* für den $t$-Test - diese ist in der `t.test()`-Funktion die Voreinstellung!
+Das Testergebnis zeigt mit einem $p$-Wert von 0.866, dass die Nullhypothese beibehalten wird, wir also weiterhin von der Gültigkeit der Homoskedastizitätsannahme ausgehen können. Für den Fall, dass die Annahme nicht hält, gibt es die *Welch-Korrektur* für den $t$-Test - diese ist in der `t.test()`-Funktion die Voreinstellung!
+
+Generell sollte der Levene-Test, bzw. generell eine inferenzstatistische Überprüfung von Annahmen immer kritisch hinterfragt werden, da die entsprechenden Tests zum einen ebenfalls auf gewissen Annahmen fußen (z.B. die Annahme normalverteilter Variablen im Fall des Levene-Tests) und zum anderen von der Stichprobengröße abhängen, d.h. bei kleinen Stichproben ggf. große Abweichungen oder Annahmenverletzungen "übersehen" und bei sehr großen Stichproben sehr kleinlich minimale Verletzungen identifizieren (mehr zu dieser Abhängigkeit später, wenn das Thema Teststärke oder statistische Power besprochen wird). 
 
 ### Durchführung des $t$-Test {#t-Test}
 
@@ -342,7 +344,7 @@ Wir hatten im Rahmen des Einstichproben-*t*-Tests bereits die Funktion `t.test()
 
 
 ``` r
-t.test(fb25$lz ~ fb25$fach_klin,     # abhängige Variable ~ unabhängige Variable
+t.test(fb26$lz ~ fb26$fach_klin,     # abhängige Variable ~ unabhängige Variable
       #paired = FALSE,                  # Stichproben sind unabhängig (Default) 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
@@ -353,19 +355,19 @@ t.test(fb25$lz ~ fb25$fach_klin,     # abhängige Variable ~ unabhängige Variab
 ## 
 ## 	Two Sample t-test
 ## 
-## data:  fb25$lz by fb25$fach_klin
-## t = 1.8537, df = 204, p-value = 0.06522
+## data:  fb26$lz by fb26$fach_klin
+## t = 1.0259, df = 152, p-value = 0.3066
 ## alternative hypothesis: true difference in means between group nicht klinisch and group klinisch is not equal to 0
 ## 95 percent confidence interval:
-##  -0.02142561  0.69509580
+##  -0.1884257  0.5954785
 ## sample estimates:
 ## mean in group nicht klinisch       mean in group klinisch 
-##                     5.063717                     4.726882
+##                     5.040449                     4.836923
 ```
 
 
 
-Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sich für klinische Inhalte interessieren unterscheiden sich in ihrer Lebenszufriedenheit nicht bedeutsam von Studierenden, die sich primär für andere Inhalte interessieren ($t = 1.854, df = 204$, $p = 0.065$). In Fällen wie diesem ist es wichtig, sich nicht von dem kleinen $p$-Wert dazu verleiten zu lassen, Dinge wie "knapp" oder "marginal" in seine Interpretation aufzunehmen. Das NHST, welches wir hier betreiben, gibt eine klare Entscheidungsgrenze vor, welche wir _vorab_ definiert haben. Wenn wir uns entscheiden, ein Alpha-Fehlerniveau von 5% festzulegen, müssen wir uns strikt daran halten.
+Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sich für klinische Inhalte interessieren unterscheiden sich in ihrer Lebenszufriedenheit nicht bedeutsam von Studierenden, die sich primär für andere Inhalte interessieren ($t = 1.026, df = 152$, $p = 0.307$). In Fällen wie diesem ist es wichtig, sich nicht von dem kleinen $p$-Wert dazu verleiten zu lassen, Dinge wie "knapp" oder "marginal" in seine Interpretation aufzunehmen. Das NHST, welches wir hier betreiben, gibt eine klare Entscheidungsgrenze vor, welche wir _vorab_ definiert haben. Wenn wir uns entscheiden, ein Alpha-Fehlerniveau von 5% festzulegen, müssen wir uns strikt daran halten.
 
 ### Berechnung der Effektstärke Cohen's $d$ {#Effektstärke}
 
@@ -382,7 +384,7 @@ wobei
 $$
 \hat{\sigma}_{inn} = \sqrt{\frac{{\hat{\sigma}_1^2}\cdot(n_1-1) + {\hat{\sigma}^2_2}\cdot(n_2-1)} {(n_1-1) + (n_2-1)}}
 $$
-Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $d$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
+Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $d$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden; in vielen Bereichen der Psychologie finden wir eher verhältnismäßig kleine Effekte, sodass eine kontextabhängige Einordnung solch einfachen Daumenregeln zur Bewertung von Effektstärken vorzuziehen ist):
 
 |  $d$  |  Interpretation  |
 |:-----:|:----------------:|
@@ -395,7 +397,21 @@ Wir bestimmen Cohen's $d$ mit der Funktion `cohen.d()` aus dem Paket `effsize` (
 
 ``` r
 library("effsize")
-d <- cohen.d(fb25$lz, fb25$fach_klin, na.rm=T)
+```
+
+```
+## 
+## Attaching package: 'effsize'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     cohen.d
+```
+
+``` r
+d <- cohen.d(fb26$lz, fb26$fach_klin, na.rm=T)
 d
 ```
 
@@ -403,10 +419,10 @@ d
 ## 
 ## Cohen's d
 ## 
-## d estimate: 0.2595394 (small)
+## d estimate: 0.1673848 (negligible)
 ## 95 percent confidence interval:
-##       lower       upper 
-## -0.01765777  0.53673656
+##      lower      upper 
+## -0.1555160  0.4902856
 ```
 
 Fällt der Wert für $d$ negativ aus, interpretieren wir den Betrag. Die Funktion `cohen.d` gibt uns zusätzlich zur Effektstärke auch ein Konfidenzintervall aus. Dass der Mittelwertsunterschied nicht signifikant ist sehen wir auch daran, dass das Konfidenzintervall für $d$ den Wert null einschließt.
@@ -415,9 +431,9 @@ Fällt der Wert für $d$ negativ aus, interpretieren wir den Betrag. Die Funktio
 
 
 
-Wir haben untersucht, ob sich klinisch und nicht klinisch interessierte Studierende im Wert Ihrer Lebeszufriedenheit unterscheiden. Tatsächlich findet sich deskriptiv ein nur geringer Unterschied: Nicht klinisch interessierte Studierende weisen einen durchschnittlichen Wert von 5.064 (*SD* = 1.248) auf, während klinisch interessierte Studierende einen Wert von 4.727 (*SD* = 1.343) aufweisen. Dies entspricht nach Cohens Konvention (1988) einem sehr kleinen Effekt ($d$= 0.26).
+Wir haben untersucht, ob sich klinisch und nicht klinisch interessierte Studierende im Wert Ihrer Lebeszufriedenheit unterscheiden. Tatsächlich findet sich deskriptiv ein nur geringer Unterschied: Nicht klinisch interessierte Studierende weisen einen durchschnittlichen Wert von 5.04 (*SD* = 1.194) auf, während klinisch interessierte Studierende einen Wert von 4.837 (*SD* = 1.227) aufweisen. Dies entspricht nach Cohens Konvention (1988) einem sehr kleinen Effekt ($d$= 0.167).
 
-Zur Beantwortung der Fragestellung haben wir - nachdem wir sowohl die Normalverteilungsannahme als auch die Homoskedastizitätsannahme gepüft haben - einen $t$-Test durchgeführt. Der Gruppenunterschied ist nicht bedeutsam ($t_{df = 204} = 1.854$, $p = 0.065$) - wir behalten die Nullhypothese also bei. Klinisch und nicht klinisch interessierte Studierende unterscheiden sich im Testwert für Lebenszufriedenheit nicht bedeutsam.
+Zur Beantwortung der Fragestellung haben wir - nachdem wir sowohl die Normalverteilungsannahme als auch die Homoskedastizitätsannahme gepüft haben - einen $t$-Test durchgeführt. Der Gruppenunterschied ist nicht bedeutsam ($t_{df = 152} = 1.026$, $p = 0.307$) - wir behalten die Nullhypothese also bei. Klinisch und nicht klinisch interessierte Studierende unterscheiden sich im Testwert für Lebenszufriedenheit nicht bedeutsam.
 
 ***
 
@@ -429,30 +445,28 @@ Wir widmen uns nun der 2. Fragestellung. Dazu prüfen wir, ob klinisch interessi
 
 Wir beginnen damit uns, wie oben, erst einmal grafisch anzusehen, wie die gute Stimmung `gs_pre` in beiden Gruppen aussieht. Dafür beginnen wir dieses mal mit einem Boxplot:
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-15-1.png)<!-- -->
+![](gruppenvergleiche-unabhaengig_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
-Hier können wir direkt (als dicke Linie eingezeichnet) die beiden Gruppenmediane sehen - diese unterscheiden sich nicht, in der Grafik liegen die Linien auf der gleichen Höhe. Die Verteilung der klinischen Gruppe liegt aber im unteren Bereich sichtlich niedriger, d.h. bezogen auf die unteren Quartile. Für mehr Details nutzen wir wieder die Deskriptivstatistik aus der `describeBy` Funktion:
+Hier können wir direkt (als dicke Linie eingezeichnet) die beiden Gruppenmediane sehen - diese unterscheiden sich nicht, in der Grafik liegen die Linien auf der gleichen Höhe. Die Verteilung der nicht-klinischen Gruppe liegt aber im unteren Bereich sichtbar leicht niedriger, d.h. bezogen auf die minimal Werte. Für mehr Details nutzen wir wieder die Deskriptivstatistik aus der `describeBy` Funktion:
 
 
 ``` r
-describeBy(fb25$gs_pre, fb25$fach_klin) # beide Gruppen im Vergleich
+describeBy(fb26$gs_pre, fb26$fach_klin) # beide Gruppen im Vergleich
 ```
 
 ```
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis
-## X1    1 113 3.41 0.56    3.5    3.49 0.37 1.25   4  2.75 -1.56     3.03
-##      se
-## X1 0.05
-## --------------------------------------------------------- 
-## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 93  3.2 0.67   3.25    3.28 0.74   1   4     3 -0.97     0.48 0.07
+## X1    1 89  3.2 0.59   3.25    3.24 0.74   1   4     3 -0.87     0.83 0.06
+## ------------------------------------------------------------ 
+## group: klinisch
+##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 65 3.15 0.55   3.25    3.18 0.37 1.5   4   2.5 -0.6     0.09 0.07
 ```
 
-Wir sehen auch hier identische Mediane, aber einen höheren Mittelwert in der klinisch interessierten Gruppe im Vergleich zu den klinisch interessierten Studierenden. Die stärkere Streuung der klinischen Gruppe unterhalb des Medians wird in der größeren *Mittleren absoluten Abweichung* (`mad`, median absolute deviation) sichtbar.
+Wir sehen auch hier identische Mediane, aber einen minimal geringen Mittelwert in der klinisch interessierten Gruppe im Vergleich zu den nicht-klinisch interessierten Studierenden. Die stärkere Streuung der nicht-klinischen Gruppe unterhalb des Medians wird in der größeren *Mittleren absoluten Abweichung* (`mad`, median absolute deviation) sichtbar.
 
 ### Voraussetzungsprüfung
 
@@ -471,17 +485,17 @@ Für den Vergleich der Verteilungen in beiden Gruppen, schauen wir uns die Histo
 ``` r
 # Gruppe 1 (nicht klinisch) 
 par(mfrow=c(1,2))
-gs_nichtKlinisch <- fb25[(fb25$fach_klin=="nicht klinisch"), "gs_pre"] |> na.omit()
+gs_nichtKlinisch <- fb26[(fb26$fach_klin=="nicht klinisch"), "gs_pre"] |> na.omit()
 hist(gs_nichtKlinisch, xlim=c(1,4), ylim=c(0,.9), main="Gute Sitmmung (nicht klin.)", xlab="", ylab="", las=1, probability=T)
 curve(dnorm(x, mean=mean(gs_nichtKlinisch, na.rm=T), sd=sd(gs_nichtKlinisch, na.rm=T)), col="blue", lwd=2, add=T)
-gs_klinisch <- fb25[(fb25$fach_klin=="klinisch"), "gs_pre"] |> na.omit()
+gs_klinisch <- fb26[(fb26$fach_klin=="klinisch"), "gs_pre"] |> na.omit()
 hist(gs_klinisch, xlim=c(1,4), ylim=c(0,.9), main="Gute Stimmung (klin.)", xlab="", ylab="", las=1, probability=T)
 curve(dnorm(x, mean=mean(gs_klinisch, na.rm=T), sd=sd(gs_klinisch, na.rm=T)), col="blue", lwd=2, add=T)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="gruppenvergleiche-unabhaengig_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
-Wir sehen hier die vermutete Schiefe der Verteilung in beiden Gruppen. Diese fällt in der zweiten Gruppe schwächer aus, wodurch sich die Verteilungen sichtlich unterscheiden. Dieser Unterschied wird auch in der oben dargestellten mittleren absoluten Abweichung sichtbar. Es sei an dieser Stelle gesagt, dass unter diesen Voraussetzungen ein $t$-Test auch funktionieren würde, weil die beiden Verteilungen nicht dramatisch von der Normalität abweichen und die beiden Stichproben jeweils relativ groß sind. Dennoch nutzen wir im die Daten im Folgenden für den den Wilcoxon-Test nutzen, um den Vergleich der Rangsummen zu demonstrieren.
+Wir sehen hier die vermutete Schiefe der Verteilung in beiden Gruppen. Diese fällt in der zweiten Gruppe schwächer aus, wodurch sich die Verteilungen augenscheinlich leicht unterscheiden. Dieser Unterschied wird auch in der oben dargestellten mittleren absoluten Abweichung sichtbar. Es sei an dieser Stelle gesagt, dass unter diesen Voraussetzungen ein $t$-Test auch funktionieren würde, weil die beiden Verteilungen nicht dramatisch von der Normalität abweichen und die beiden Stichproben jeweils relativ groß sind. Dennoch nutzen wir im die Daten im Folgenden für den den Wilcoxon-Test nutzen, um den Vergleich der Rangsummen zu demonstrieren.
 
 ### Inferenzstatistik mit dem Wilcoxon-Test {#Wilcox}
 
@@ -505,7 +519,7 @@ Die Funktion `wilcox.test()` nimmt im Grunde die gleichen Argumente entgegen wie
 
 
 ``` r
-levels(fb25$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen ist "nicht klinisch" 
+levels(fb26$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen ist "nicht klinisch" 
 ```
 
 ```
@@ -515,7 +529,7 @@ Da die erste Faktorstufe "nicht klinisch" ist, wissen wir, dass die gerichtete H
 
 
 ``` r
-wilcox.test(fb25$gs_pre ~ fb25$fach_klin,     # abhängige Variable ~ unabhängige Variable
+wilcox.test(fb26$gs_pre ~ fb26$fach_klin,     # abhängige Variable ~ unabhängige Variable
             #paired = FALSE,              # Stichproben sind unabhängig (Default)
             alternative = "greater",      # einseitige Testung
             conf.level = .95)             # alpha = .05
@@ -525,8 +539,8 @@ wilcox.test(fb25$gs_pre ~ fb25$fach_klin,     # abhängige Variable ~ unabhängi
 ## 
 ## 	Wilcoxon rank sum test with continuity correction
 ## 
-## data:  fb25$gs_pre by fb25$fach_klin
-## W = 6253, p-value = 0.008689
+## data:  fb26$gs_pre by fb26$fach_klin
+## W = 3079.5, p-value = 0.2452
 ## alternative hypothesis: true location shift is greater than 0
 ```
 Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe insgesamt weniger als 50 Personen umfasst und keine Rangbindungen vorliegen. Bei größeren Stichproben folgt die Rangsumme aufgrund des zentralen Grenzwertsatzes ausreichend gut der Normalverteilung und es wird ein $z$-Test der Rangsumme durchgeführt. Weil die Rangsumme allerdings nur ganze Zahlen annehmen kann ist diese Approximation ein wenig ungenau (insbesondere dann, wenn die Stichprobe noch relativ klein ist). Per Voreinstellung wird daher in R eine Kontinuitätskorrektur durchgeführt (mit dem Argument `correct = TRUE`), sodass Sie nicht den gleichen Wert erhalten, den Sie bekommen, wenn Sie den Test händisch durchführen würden. Wenn Sie diese Korrektur ausschalten (`correct = FALSE`) erhalten Sie den gleichen Wert.
@@ -538,7 +552,7 @@ Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe i
 
 
 
-Wir haben untersucht, ob nicht klinisch interessierte Studierende höhere Werte in der aktuellen Stimmung erreichen als  klinisch interessierte Studierende. Deskriptiv sind Unterschiede sichtbar, auch wenn sich beide Gruppen im Median nicht unterscheiden ($Md_\text{nicht klinisch}$ = 3.5 und $Md_\text{klinisch}$ = 3.25). Die Mittelwerte ($M_\text{nicht klinisch}$ = 3.41 und $M_\text{klinisch}$ = 3.2) und die unteren Quantile ($Q_\text{1 nicht klinisch}$ = 3.25 und $Q_\text{1 klinisch}$ = 2.75) weisen in die erwartete Richtung. Zur Überprüfung der Hypothese wurde ein Wilcoxon-Test durchgeführt. Der Gruppenunterschied ist demnach statistisch bedeutsam ($W = 6253$, $p = 0.009$). Somit wird die Nullhypothese verworfen: Nicht klinisch interessierte Studierende erreichen zu Beginn ihres ersten Statistik Seminars höheren Werte in der aktuellen guten Stimmung als klinisch interessierte Studierende.
+Wir haben untersucht, ob nicht-klinisch interessierte Studierende höhere Werte in der aktuellen Stimmung erreichen als klinisch interessierte Studierende. Deskriptiv sind kaum Unterschiede sichtbar. Beide Gruppen unterscheiden sich nicht im Median ($Md_\text{nicht klinisch}$ = 3.25 und $Md_\text{klinisch}$ = 3.25) oder den unteren Quantilen ($Q_\text{1 nicht klinisch}$ = 2.75 und $Q_\text{1 klinisch}$ = 2.75). Einzig die Mittelwerte ($M_\text{nicht klinisch}$ = 3.2 und $M_\text{klinisch}$ = 3.15) weisen in die erwartete Richtung. Zur Überprüfung der Hypothese wurde ein Wilcoxon-Test durchgeführt. Der Gruppenunterschied ist demnach statistisch nicht bedeutsam ($W = 3079.5$, $p = 0.245$). Somit wird die Nullhypothese beibehalten: Nicht klinisch interessierte Studierende erreichen zu Beginn ihres ersten Statistik Seminars keine höheren Werte in der aktuellen guten Stimmung als klinisch interessierte Studierende.
 
 ***
 
@@ -551,7 +565,7 @@ In diesem Beitrag haben wir gesehen, wie wir die zentrale Tendenz (Mittelwert od
 
 <details><summary>Vierfelder-$\chi^2$-Test</summary>
 
-Gehen wir nun zur 3. Fragestellung über. Wir verwenden wieder den Datensatz `fb25`.
+Gehen wir nun zur 3. Fragestellung über. Wir verwenden wieder den Datensatz `fb26`.
 
 Zusätzlich zur Gruppenvariable ist in diesem Beispiel auch die abhängige Variable nominalskaliert. Um Fragen wie diese zu beantworten, werden daher die Populationswahrscheinlichkeiten (`job`: ja [`ja`] vs. nein [`nein`]) zwischen den beiden Gruppen (`ort`: Frankfurt [`FFM`] vs. außerhalb [`anderer`]) miteinander verglichen. Diese Prüfung erfolgt mithilfe des $\chi^2$-Tests.
 
@@ -561,7 +575,7 @@ Zunächst müssen wir den `ort` und den `job` als Faktor abspeichern und entspre
 
 
 ``` r
-is.factor(fb25$ort)
+is.factor(fb26$ort)
 ```
 
 ```
@@ -569,7 +583,7 @@ is.factor(fb25$ort)
 ```
 
 ``` r
-is.factor(fb25$job)
+is.factor(fb26$job)
 ```
 
 ```
@@ -581,9 +595,9 @@ Dies ist bei beiden nicht der Fall, weswegen wir hier die Variable als Faktor ab
 
 ``` r
 # Achtung, nur einmal durchführen (ansonsten Datensatz neu einladen und Code erneut durchlaufen lassen!)
-fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb26$ort <- factor(fb26$ort, levels=c(1,2), labels=c("FFM", "anderer"))
 
-fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
+fb26$job <- factor(fb26$job, levels=c(1,2), labels=c("nein", "ja"))
 ```
 
 ### Deskriptivstatistik und Voraussetzungsprüfung
@@ -598,15 +612,15 @@ Weil es sich beim $\chi^2$-Test um einen parametrischen Test handelt, folgt die 
 
 
 ``` r
-tab <- table(fb25$ort, fb25$job)
+tab <- table(fb26$ort, fb26$job)
 tab
 ```
 
 ```
 ##          
 ##           nein ja
-##   FFM       78 46
-##   anderer   55 24
+##   FFM       69 35
+##   anderer   30 22
 ```
 
 Hier sollten uns aus einer zu geringen Häufigkeit in einer Zelle der Häufigkeitstabelle also keine Probleme entstehen.
@@ -640,9 +654,9 @@ tab_mar
 ```
 ##          
 ##           nein  ja Sum
-##   FFM       78  46 124
-##   anderer   55  24  79
-##   Sum      133  70 203
+##   FFM       69  35 104
+##   anderer   30  22  52
+##   Sum       99  57 156
 ```
 
 ``` r
@@ -654,12 +668,12 @@ expected
 ```
 
 ```
-##       nein       ja
-## 1 81.24138 42.75862
-## 2 51.75862 27.24138
+##   nein ja
+## 1   66 38
+## 2   33 19
 ```
 
-Bspw. für die Kombination (FFM, nein) ergibt sich eine erwartete Häufigkeit von 81.24, welcher eine beobachtete Häufigkeit von 78 gegenüber steht. Mit dem $\chi^2$-Test können wir nun bestimmen, ob diese Unterschiede statistisch bedeutsam groß sind.
+Bspw. für die Kombination (FFM, nein) ergibt sich eine erwartete Häufigkeit von 66, welcher eine beobachtete Häufigkeit von 69 gegenüber steht. Mit dem $\chi^2$-Test können wir nun bestimmen, ob diese Unterschiede statistisch bedeutsam groß sind.
 
 Um die Prüfgröße $\chi^2$ zu berechnen, können wir folgende Formel nutzen: $$\chi^2 = \sum_{i=1}^{2}{ \sum_{j=1}^{2}{ \frac{(n_{ij}-e_{ij})^2} {e_{ij}}}}$$
 
@@ -673,7 +687,7 @@ chi_quadrat_Wert
 ```
 
 ```
-## [1] 0.9637167
+## [1] 1.119617
 ```
 
 Die Freiheitsgrade berechnen sich aus der Anzahl der untersuchten Kategorien: $df = (p - 1) \cdot (k - 1)$. Hier, im Fall des Vierfelder-$\chi^2$-Tests also mit $df = 1$, wobei
@@ -697,19 +711,19 @@ pchisq(chi_quadrat_Wert, 1, lower.tail = FALSE) # p-Wert
 ```
 
 ```
-## [1] 0.3262522
+## [1] 0.2900009
 ```
 
 Insgesamt ergibt sich damit.
 
 -   *df* = 1
 -   $\chi^2_{krit}$ = 3.84
--   $\chi^2_{emp}$ = 0.964
+-   $\chi^2_{emp}$ = 1.12
 -   $\chi^2_{emp} < \chi^2_{krit}$ $\rightarrow H_0$ wird beibehalten
--   $p$ = 0.326
+-   $p$ = 0.29
 -   $p$-Wert \> $\alpha$-Fehlerniveau $\rightarrow H_0$ wird beibehalten
 
-Daraus lässt sich zusammenfassen: Die Wohnnähe zur Uni hängt nicht damit zusammen, ob ein Nebenjob ausgeübt wird $\chi^2$(df=1)=0.964, $p$ = 0.326.
+Daraus lässt sich zusammenfassen: Die Wohnnähe zur Uni hängt nicht damit zusammen, ob ein Nebenjob ausgeübt wird $\chi^2$(df=1)=1.12, $p$ = 0.29.
 
 Im Normalfall übernimmt die Funktion `chisq.test()` die Arbeit für uns, wenn wir ihr einfach eine 4-Feldertabelle übergeben. Als Argumente brauchen wir hauptsächlich das Objekt mit den Häufigkeiten. Weiterhin müssen wir das Argument `correct` mit `FALSE` angeben. Ansonsten würde standardmäßig die Kontinuitätskorrektur nach Yates durchgeführt werden. Diese ist als Alternative gedacht, wenn nicht der $\chi^2$-Verteilung gefolgt wird. Ein Indiz dafür sind bspw. sehr kleine Zahlen in manchen Kombinationen der Faktoren. Da wir hier in jeder Zelle einen größeren Wert hatten, brauchen wir diese Korrektur nicht.
 
@@ -724,7 +738,7 @@ chisq.test(tab,        # Kreuztabelle
 ## 	Pearson's Chi-squared test
 ## 
 ## data:  tab
-## X-squared = 0.96372, df = 1, p-value = 0.3263
+## X-squared = 1.1196, df = 1, p-value = 0.29
 ```
 
 Das Ergebnis unterscheidet sich natürlich nicht zu unserer händischen Berechnung. Die Wohnnähe zur Uni hängt nicht damit zusammen, ob ein Nebenjob ausgeübt wird.
@@ -751,7 +765,7 @@ effekt_YulesQ
 ```
 
 ```
-## [1] -0.1494775
+## [1] 0.182243
 ```
 
 **Phi** ($\phi$)
@@ -770,7 +784,7 @@ effekt_phi
 ```
 
 ```
-## [1] -0.06890118
+## [1] 0.08471737
 ```
 
 Das Ganze lässt sich auch mit dem `psych` und der darin enthaltenen Funktion `phi()` umsetzen:
@@ -783,7 +797,7 @@ phi(tab, digits = 8)
 ```
 
 ```
-## [1] -0.06890118
+## [1] 0.08471737
 ```
 
 ``` r
@@ -791,19 +805,19 @@ Yule(tab)
 ```
 
 ```
-## [1] -0.1494775
+## [1] 0.182243
 ```
 
 ``` r
 # Äquivalentes Ergebnis mittels Pearson-Korrelation (kommt in den nächsten Sitzungen)
 # (dichotome Variablen)
-ort_num <- as.numeric(fb25$ort)
-job_num <- as.numeric(fb25$job)
+ort_num <- as.numeric(fb26$ort)
+job_num <- as.numeric(fb26$job)
 cor(ort_num, job_num, use="pairwise")
 ```
 
 ```
-## [1] -0.06890118
+## [1] 0.08471737
 ```
 
 Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $\phi$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
@@ -818,6 +832,6 @@ Der Wert für den Zusammenhang der beiden Variablen ist also bei völliger Ahnun
 
 ### Ergebnisinterpretation
 
-Es wurde untersucht, ob Studierende mit Wohnort in Uninähe (also in Frankfurt) mit gleicher Wahrscheinlichkeit einen Nebenjob haben wie Studierende, deren Wohnort außerhalb von Frankfurt liegt. Zur Beantwortung der Fragestellung wurde ein Vierfelder-Chi-Quadrat-Test für unabhängige Stichproben berechnet. Der Zusammenhang zwischen Wohnort und Nebenjob ist nicht signifikant ($\chi^2$(1) = 0.964, *p* = 0.326), somit wird die Nullhypothese beibehalten. Der Effekt ist von vernachlässigbarer Stärke ($\phi$ = -0.069). Studierende mit Wohnort in Uninähe haben mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt.
+Es wurde untersucht, ob Studierende mit Wohnort in Uninähe (also in Frankfurt) mit gleicher Wahrscheinlichkeit einen Nebenjob haben wie Studierende, deren Wohnort außerhalb von Frankfurt liegt. Zur Beantwortung der Fragestellung wurde ein Vierfelder-Chi-Quadrat-Test für unabhängige Stichproben berechnet. Der Zusammenhang zwischen Wohnort und Nebenjob ist nicht signifikant ($\chi^2$(1) = 1.12, *p* = 0.29), somit wird die Nullhypothese beibehalten. Der Effekt ist von vernachlässigbarer Stärke ($\phi$ = 0.085). Studierende mit Wohnort in Uninähe haben mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt.
 
 </details>

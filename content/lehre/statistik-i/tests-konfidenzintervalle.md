@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani, hartig] 
 weight: 5
-lastmod: '2025-11-21'
+lastmod: '2026-10-29'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -54,43 +54,43 @@ output:
  
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb25` haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb25.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb26` haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb26.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ``` r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf3_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf9_r <- -1 * (fb25$mdbf4 - 5)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf11_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf3_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf9_r <- -1 * (fb26$mdbf4 - 5)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 ```
 ***
 
@@ -103,11 +103,11 @@ Nachdem wir uns die letzten Wochen mit Deskriptivstatistik und Verteilungen besc
 
 ## Einstichproben-z-Test {#z_Test}
 
-Beim Einstichprobentest geht es um die die Frage, ob unsere Stichprobe aus einer bekannten Population stammt oder aus einer davon abweichenden Grundgesamtheit. Hierfür ist es essentiell, dass zu der Population, mit der wir unsere Stichprobe vergleichen wollen, bestimmte Informationen bekannt sind. Dies kann beispielsweise bei genormten Tests (wie IQ-Tests) gegeben sein. Stellen wir uns also vor, dass es für den Fragebogen zum Vertrauen in die Psychologie als Wissenschaft (`trust`) aus der `fb25` Umfrage Normwerte gibt. Der imaginierte Mittelwert der Population (z. B. "die erwachsene deutsche Wohnbevölkerung") liegt bei $\mu_0 = 3.25$, während die Standardabweichung bei $\sigma = 2.5$ liegt. Wir wollen nun im folgenden untersuchen, ob sich Psychologiestudierenden des ersten Semesters, aus denen wir in `fb25` eine Stichprobe haben, von der Population unterscheiden.
+Beim Einstichprobentest geht es um die die Frage, ob unsere Stichprobe aus einer bekannten Population stammt oder aus einer davon abweichenden Grundgesamtheit. Hierfür ist es essentiell, dass zu der Population, mit der wir unsere Stichprobe vergleichen wollen, bestimmte Informationen bekannt sind. Dies kann beispielsweise bei genormten Tests (wie IQ-Tests) gegeben sein. Stellen wir uns also vor, dass es für den Fragebogen zum Vertrauen in die Psychologie als Wissenschaft (`trust`) aus der `fb26` Umfrage Normwerte gibt. Der imaginierte Mittelwert der Population (z. B. "die erwachsene deutsche Wohnbevölkerung") liegt bei $\mu_0 = 3.25$, während die Standardabweichung bei $\sigma = 2.5$ liegt. Wir wollen nun im folgenden untersuchen, ob sich Psychologiestudierenden des ersten Semesters, aus denen wir in `fb26` eine Stichprobe haben, von der Population unterscheiden.
 
 Im Endeffekt befinden wir also bei einem ähnlichen Setting wie im vorhergehenden Tutorial zu Verteilungen. Die Population kann hier durch die Kurve dargestellt werden, während der Mittelwert unserer Stichprobe mit einem roten Strich eingezeichnet ist. Wir haben gelernt, dass man für den spezifischen Wert einer gezogenen Person aus dieser Population nun sagen könnte, wie viel Prozent der Verteilung kleiner (und auch größer) als dieser Wert sind.
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-2-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-85-1.png)<!-- -->
 
 Die Wahrscheinlichkeit für den Mittelwert der Stichproben einfach auch aus dieser Verteilung abzulesen, um daraus Schlüsse zu ziehen (zu inferieren), wäre jedoch nicht angebracht. Schließlich ist es viel unwahrscheinlicher, zwei Personen mit einem Mittelwert von in unserem Beispiel 5 zu ziehen, als nur eine Person. Wir müssen die Wahrscheinlichkeit also in einer anderen Verteilung ablesen. Diese Verteilung ist die Stichprobenkennwerteverteilung (SKV) des Mittelwerts, die wir gleich näher betrachten werden. Zunächst gehen wir auf die Grundlagen des zugehörigen Tests ein.
 
@@ -131,7 +131,7 @@ Nach diesen Festlegungen wird bei inferenzstatistischen Testungen häufig eine d
 
 
 ``` r
-anyNA(fb25$trust)
+anyNA(fb26$trust)
 ```
 
 ```
@@ -142,29 +142,30 @@ Dabei gibt es in der Variable fehlende Werte, wir verwenden daher die `mean()` F
 
 
 ``` r
-mean(fb25$trust, na.rm = TRUE)
+mean(fb26$trust, na.rm = TRUE)
 ```
 
 ```
-## [1] 3.660131
+## [1] 3.761006
 ```
 
-Wir sehen hier bereits, dass ich der Wert der Stichprobe von dem der Population unterscheidet ($3.66 \ne 3.25$). Doch reicht dieses deskriptive Ergebnis, um daraus Schlussfolgerungen für die Hypothesen (also für die Grundgesamtheit, aus der unsere Stichprobe kommt) zu ziehen?  
+Wir sehen hier, dass sich der Wert der Stichprobe von dem der Population unterscheidet (3.7610063 $\ne 3.25$). Doch reicht dieses deskriptive Ergebnis, um daraus Schlussfolgerungen für die Hypothesen (also für die Grundgesamtheit, aus der unsere Stichprobe kommt) zu ziehen?  
   
 **Nein**. Erst mit Hilfe der Inferenzstatistik kann herausgefunden werden, wie (un)wahrscheinlich die beobachtete Diskrepanz unter Annahme der $H_0$ (also dass es eigentlich keinen Unterschied gibt) ist.
 
-Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Verteilung für die Teststatistik, weswegen er für kleine Stichproben nicht gut geeignet ist.  
+Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. 
+<!-- Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Verteilung für die Teststatistik, weswegen er für kleine Stichproben nicht gut geeignet ist.   -->
 
 Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit (also hier der Psychologiestudierenden des ersten Semesters) ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist. Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der in der $H_0$ angenommen Voraussetzung ist, dass er aus der Population (der deutschen Wohnbevölkerung) mit ihrem Mittelwert und dessen Standardabweichung stammt. Zu Beginn haben wir bereits beschrieben, dass es sich um SKV des Mittelwertes handelt - doch wovon hängt diese ab? Der erste Einfluss ist die Stichprobengröße. Gehen wir davon aus, dass wir nur 2 Personen untersuchen, dann ist das Auffinden eines Wertes, vom eigentlichen Mittelwert der Population entfernt ist, nicht unwahrscheinlich. Im Gegensatz dazu sollte sich bei 1000 Personen in einer Stichprobe auch der Mittelwert der Population wiederfinden und Abweichungen seltener sein, wenn die $H_0$ zutrifft. Die Gegenüberstellung ist in den nächsten 2 Plots nochmal dargestellt. Bei beiden wurde unendlich oft aus unserer Population des Vertrauens eine Stichprobe gezogen. Jeweils wird ein Mittelwert berechnet, in der Grafik abgetragen und dadurch eine Übersicht über die Häufigkeit erstellt. Bei der ersten Grafik werden pro Wiederholung jeweils nur 2 Personen, während es bei der zweiten 1000 sind. Diese Verteilungen ist nun SKV des Mittelwerts. Unsere Annahmen zeigen sich bestätigt - die Mittelwerte streuen stärker mit weniger Personen. 
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-5-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-88-1.png)<!-- -->
 
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-6-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-89-1.png)<!-- -->
 
-In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobengröße beträgt unter berücksichtigung fehlender Werte $n =$ 204. Der rote Strich symbolisiert weiterhin den von uns gefundenen Mittelwert in der Stichprobe. Wie wahrscheinlich ist dieser nun, wenn wir davon ausgehen, dass er aus der beschriebenen Population der Vertrauen in die Psychologie als Wissenschaft stammt? Dafür müssen wir die Verteilung wieder als Fläche betrachten und die exakte Wahrscheinlichkeit bestimmen. Doch schon hier wird in der Abbildung deutlich, dass der gefundene Wert sehr viel Fläche nach links abschneidet -- also ein sehr unwahrscheinlicher Fall vorliegt.
+In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobengröße beträgt unter berücksichtigung fehlender Werte $n =$ 159. Der rote Strich symbolisiert weiterhin den von uns gefundenen Mittelwert in der Stichprobe. Wie wahrscheinlich ist dieser nun, wenn wir davon ausgehen, dass er aus der beschriebenen Population der Vertrauen in die Psychologie als Wissenschaft stammt? Dafür müssen wir die Verteilung wieder als Fläche betrachten und die exakte Wahrscheinlichkeit bestimmen. Doch schon hier wird in der Abbildung deutlich, dass der gefundene Wert sehr viel Fläche nach links abschneidet -- also ein sehr unwahrscheinlicher Fall vorliegt.
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-7-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-90-1.png)<!-- -->
 
 Der zweite Einflussfaktor auf die Streuung der SKV des Mittelwerts, ist die Populationsvarianz. Umso höher diese ist, umso größer streuen natürlich auch unsere gezogenen Mittelwerte. Gehen wir nun zu dem praktischen Teil über.
 
@@ -184,9 +185,9 @@ Wie bereits besprochen wird der Standardfehler des Mittelwerts (also die Streuun
 pop_mean_trust <- 3.25                 # Mittelwert Grundgesamtheit
 pop_sd_trust <- 2.5                   # SD der Grundgesamtheit
 sample_mean_trust <- 
-  mean(fb25$trust, na.rm = TRUE)      # Stichprobenmittelwert
+  mean(fb26$trust, na.rm = TRUE)      # Stichprobenmittelwert
 sample_size <- 
-  nrow(fb25) - sum(is.na(fb25$trust)) # Stichprobengröße (Anzahl NA von Stichprobengröße abziehen)
+  nrow(fb26) - sum(is.na(fb26$trust)) # Stichprobengröße (Anzahl NA von Stichprobengröße abziehen)
 ```
 
 Als nächstes müssen wir den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen.
@@ -206,13 +207,13 @@ z_emp
 ```
 
 ```
-## [1] 2.343135
+## [1] 2.577418
 ```
 
-Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = 2.34 *SE* (nach oben) vom Mittelwert der deutschen Wohnbevölkerung ab.  
+Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = 2.58 *SE* (nach oben) vom Mittelwert der deutschen Wohnbevölkerung ab.  
 Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss nun bestimmt werden wie wahrscheinlich ein solcher oder noch extremerer Unterschied ist. Dafür können wir den *p*-Wert bestimmen. Dieser ist im Endeffekt eine Aussage über die Fläche der Verteilung, die außerhalb unseres gefunden Werts liegt.
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-11-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-94-1.png)<!-- -->
 
 In Rot ist die Fläche für kleinere Werte als unseren eingzeichnet. Es wird bereits deutlich, dass die Fläche in unserem Fall sehr groß sein sollte. Umgekehrt muss der Anteil der Fläche, der für größere Werte als unseren in der Verteilung vorliegt (also der weiße Anteil), sehr gering sein. Mit `pnorm()` und `lower.tail = FALSE` können wir direkt bestimmen, wie viel Prozent der Fläche der Verteilung noch für Werte größer als den unseren übrig ist. 
 
@@ -222,10 +223,10 @@ pnorm(z_emp, lower.tail = FALSE)
 ```
 
 ```
-## [1] 0.009561223
+## [1] 0.00497708
 ```
 
-Ungefähr 0.96% der Werte sind also größer als unserer.
+Ungefähr 0.5% der Werte sind also größer als unserer.
 
 Achtung: Dieser Wert ist hier noch nicht unser *p*-Wert, da wir eine zweiseitige Testung haben. Wir haben nur die Fläche für den Fall "größer" bestimmt und nicht für "extremer". Wir können uns aber die Symmetrie der Verteilung zu nutze machen und den gefundenen Wert mit 2 multiplizieren. 
   
@@ -235,10 +236,10 @@ Achtung: Dieser Wert ist hier noch nicht unser *p*-Wert, da wir eine zweiseitige
 ```
 
 ```
-## [1] 0.01912245
+## [1] 0.00995416
 ```
 
-Insgesamt 1.91% der Werte extremer als unserer. Wir erkennen, dass der Wert kleiner als .05 (5\%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt. Wir würden uns für die $H_1$ entscheiden.
+Insgesamt 1% der Werte extremer als unserer. Wir erkennen, dass der Wert kleiner als .05 (5\%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt. Wir würden uns für die $H_1$ entscheiden.
 
 ### Weitere Möglichkeit: Vergleich mit kritischem Wert
 
@@ -254,7 +255,7 @@ z_krit
 ## [1] 1.959964
 ```
 
-Insgesamt 5% der Verteilung werden also durch -1.96 nach links und 1.96 nach rechts abgetrennt. Der kritische z-Wert beträgt demnach $z_{krit}$ = 1.96. Damit das Ergebnis als signifikant gewertet wird, muss der empirische z-Wert extremer als der kritische Wert sein z-Wert (**$|z_{emp}|$ > $|z_{krit}|$**). Hierfür können wir auch eine logische Abfrage nutzen. Für die Verwendung der Beträge gibt es die Funktion `abs()`.
+Insgesamt 5% der Verteilung werden also durch -1.96 nach links und 1.96 nach rechts abgetrennt. Der kritische z-Wert beträgt demnach $z_{krit}$ = 1.96. Damit das Ergebnis als signifikant gewertet wird, muss der empirische z-Wert extremer als der kritische z-Wert sein (**$|z_{emp}|$ > $|z_{krit}|$**). Hierfür können wir auch eine logische Abfrage nutzen. Für die Verwendung der Beträge gibt es die Funktion `abs()`.
   
 
 ``` r
@@ -306,7 +307,7 @@ up_conf_trust
 ```
 
 ```
-## [1] 4.003193
+## [1] 4.149594
 ```
 
 ``` r
@@ -314,10 +315,10 @@ lo_conf_trust
 ```
 
 ```
-## [1] 3.317068
+## [1] 3.372418
 ```
 
-In diesem Fall würde man den wahren Mittelwert der Grundgesamtheit, aus der die Stichprobe gezogen wurde, zwischen 3.32 und 4 vermuten. Mit einer Wahrscheinlichkeit von 95% enthält unser Konfidenzintervall zwischen 3.32 und 4 den wahren Wert der Grundgesamtheit, aus der die Stichprobe stammt (also der Psychologiestudierenden des ersten Semesters).
+In diesem Fall würde man den wahren Mittelwert der Grundgesamtheit, aus der die Stichprobe gezogen wurde  (also der Psychologiestudierenden des ersten Semesters), zwischen 3.37 und 4.15 vermuten.
 
 Optisch ansprechender können wir das Ergebnis natürlich ausgeben, indem wir unsere beiden Werte in einen gemeinsamen Vektor ablegen.
 
@@ -328,7 +329,7 @@ conf_trust
 ```
 
 ```
-## [1] 3.317068 4.003193
+## [1] 3.372418 4.149594
 ```
 
 Das Konfidenzintervall kann nun dafür genutzt werden, unsere Hypothesen zu überprüfen. Ein 95%-Konfidenzintervall ist so konstruiert, dass ein solches Verfahren in 95% aller denkbaren Stichproben Intervalle erzeugt, die den wahren Parameter enthalten. Das Konfidenzintervall überdeckt allerdings nicht den vorgegebenen Populationswert von $\mu_0 = 3.25$. Daher würden wir davon ausgehen, dass sich der Mittelwert der Grundgesamtheit, aus der unsere Stichprobe stammt, von diesem unterscheidet $\mu_0 \neq \mu_1$. Die Hypothese $H_0$ wird damit verworfen und die $H_1$ angenommen. 
@@ -406,15 +407,15 @@ Danach funktioniert folgender Code:
 
 ``` r
 library(psych)
-describe(fb25$neuro)
+describe(fb26$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 211 3.19 0.99      3    3.21 1.48   1   5     4 -0.15    -0.67 0.07
+##    vars   n mean sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 160 3.41  1    3.5    3.44 0.74   1   5     4 -0.3    -0.73 0.08
 ```
 
-Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.19. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
+Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.41. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
 
 Zurück zu unserer inhatlichen Fragestellung: Der Mittelwert von unserer Stichprobe ist deskriptiv größer als der Populationsmittelwert aller Studierenden. Dies reicht natürlich noch nicht, um eine inferenzstatistische Aussage zu treffen -- dafür muss im Folgenden der Test durchgeführt werden. Bei gerichteten Hypothesen gibt es jedoch manchmal den Effekt, dass man bei der deskriptiven Überprüfung schon stoppen kann. Wenn sich bspw. deskriptiv gezeigt hätte, dass der Mittelwert unserer Stichprobe kleiner ist als der Populationsmittelwert, kann man die Testung abbrechen. Die $H_1$ Hypothese wird hier direkt abgelehnt und die $H_0$ weiter angenommen. Da dieser Fall hier aber nicht aufgetreten ist, machen wir mit der Testung weiter.
 
@@ -423,9 +424,9 @@ Zurück zu unserer inhatlichen Fragestellung: Der Mittelwert von unserer Stichpr
 Inferenzstatistische Tests haben für ihre Durchführung immer Voraussetzungen. Diese können in Anzahl und Art variieren. Verletzungen von Voraussetzungen verzerren verschiedene Aspekte der Testung. Für manche Verletzungen gibt es Korrekturen, andere führen dazu, dass man ein anderes Verfahren wählen muss. Wir werden uns im Laufe des Semesters mit vielen Voraussetzungen beschäftigen. Für den Einstichproben-t-Test ist die Liste der Voraussetzungen nicht sehr lange:
 
 1. mindestens intervallskalierte abhängige Variable
-2. Bei *n* < 30 : Normalverteilung der abhängigen Variable in der Population.
+2. Bei *n* < 30: Normalverteilung der abhängigen Variable in der Population.
   
-Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüfen. Sie ist natürlich essentiell, da wir hier mit Mittelwerten und Varianzen rechnen und wir bereits gelernt haben, dass diese erst ab dem Intervallskalenniveau genutzt werden sollten. Wir haben außerdem gelernt, dass Skalenwerte häufig als intervallskaliert angenommen werden. Da wir in `fb25$neuro` solche Skalenwerte haben, können wir diese Voraussetzung als gegeben annehmen. 
+Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüfen. Sie ist natürlich essentiell, da wir hier mit Mittelwerten und Varianzen rechnen und wir bereits gelernt haben, dass diese erst ab dem Intervallskalenniveau genutzt werden sollten. Wir haben außerdem gelernt, dass Skalenwerte häufig als intervallskaliert angenommen werden. Da wir in `fb26$neuro` solche Skalenwerte haben, können wir diese Voraussetzung als gegeben annehmen. 
 
 Kommen wir zu der zweiten Voraussetzung. Für die inferenzstatistische Testung bestimmen wir die Position der Teststatistik in einer Verteilung. Für diese nehmen wir eine spezifische Form an - sie soll der $t$-Verteilung (übergehend bei $n \rightarrow \infty$ in eine $z$-Verteilung) folgen. Für diese Annahme ist die Normalverteilung der Variablen in unserer Stichprobe eine hinreichende Voraussetzung. Das heißt, wenn diese gegeben ist, folgt die SKV der von uns angenommenen Form. Die Normalverteilung der Stichprobenwerte ist aber keine notwendige Voraussetzung. Sie darf verletzt sein, wenn die Stichprobe mindestens 30 Personen umfasst. In diesen Fällen wird das inferenzstatistische Ergebnis nicht verzerrt. Dann gilt der *zentrale Grenzwertsatz*: Die SKV der Mittelwerte nähert sich einer Normalverteilung an, unabhängig davon wie das Merkmal selbst in der Population verteilt ist. Dies führt auch dazu, dass die Verteilung der Teststatistik unserer angenommenen $t$-Verteilung folgt. Die Stichprobengröße von 30 ist allerdings nur eine Daumenregel - bei starken Verletzungen sollte man sich auch überlegen, ob der Mittelwert der beste Repräsentant für die mittlere Ausprägung der Variable darstellt. Auf Möglichkeiten, das Vorliegen einer Normalverteilung grafisch zu prüfen, wird in [Ergänzung 2](#Pruefung_NV) eingegangen.
 
@@ -436,7 +437,7 @@ Nun wollen wir inferenzstatistisch prüfen, ob die Vermutung der Forschungsgrupp
   
 
 ``` r
-anyNA(fb25$neuro)
+anyNA(fb26$neuro)
 ```
 
 ```
@@ -444,7 +445,7 @@ anyNA(fb25$neuro)
 ```
 
 ``` r
-sample_mean_neuro <- mean(fb25$neuro, na.rm = TRUE)
+sample_mean_neuro <- mean(fb26$neuro, na.rm = TRUE)
 pop_mean_neuro <- 2.9
 ```
 
@@ -459,19 +460,19 @@ Da die Standardabweichung in der Population nicht bekannt ist, muss diese mittel
 
 
 ``` r
-sample_sd_neuro <- sd(fb25$neuro, na.rm = TRUE)
+sample_sd_neuro <- sd(fb26$neuro, na.rm = TRUE)
 sample_sd_neuro
 ```
 
 ```
-## [1] 0.9924847
+## [1] 0.9982246
 ```
 
-Der Standardfehler des Mittelwerts wird anschließend auf der Basis dieses geschätzten Wertes selber geschätzt und nicht wie im z-Test bestimmt. Die Schätzung wird in der Formel durch das "Dach" über den Buchstaben gekennzeichnet. Für die Schätzung des Standardfehlers des Mittelwerts brauchen wir als zusätzliche Information noch die Stichprobengröße, die wir wieder durch die Differenz der Stichprobengröße `nrow()` und die Anzahl fehlender Werte `sum(is.na(fb25$neuro)` bestimmen können.
+Der Standardfehler des Mittelwerts wird anschließend auf der Basis dieses geschätzten Wertes selber geschätzt und nicht wie im z-Test bestimmt. Die Schätzung wird in der Formel durch das "Dach" über den Buchstaben gekennzeichnet. Für die Schätzung des Standardfehlers des Mittelwerts brauchen wir als zusätzliche Information noch die Stichprobengröße, die wir wieder durch die Differenz der Stichprobengröße `nrow()` und die Anzahl fehlender Werte `sum(is.na(fb26$neuro)` bestimmen können.
 
 
 ``` r
-sample_size <- nrow(fb25) - sum(is.na(fb25$neuro))
+sample_size <- nrow(fb26) - sum(is.na(fb26$neuro))
 se_neuro <- sample_sd_neuro/sqrt(sample_size)
 ```
 
@@ -484,7 +485,7 @@ t_emp
 ```
 
 ```
-## [1] 4.203466
+## [1] 6.4546
 ```
 
 Die Bezeichnung der empirischen Prüfgröße (wie auch der Name des Tests) weist bereits darauf hin, dass wir uns bei der Hypothesenprüfung nicht mehr im Rahmen der Standardnormalverteilung bewegen. Dies liegt daran, dass sich durch das Schätzen der Populationsvarianz keine exakte Standardnormalverteilung mehr ergibt. Stattdessen wird mit einer $t$-Verteilung gearbeitet, deren genaue Form von der Anzahl der *Freiheitsgrade* abhängt. Als Freiheitsgrade wird in der Statistik die Anzahl unabhängiger Informationen, die in die Schätzung eines Parameters einfließen, bezeichnet. Im Rahmen des t-Testes im Einstichproben-Fall bestimmen sich die Freiheitsgrade mittels $n - 1$. Die Unterscheidung zwischen Standardnormalverteilung und der t-Verteilung liegt besonders in den Extrembereichen. Da genau diese jedoch für die inferenzstatistische Testung von Interesse sind, ist die Nutzung der richtigen Verteilung wichtig.
@@ -497,10 +498,10 @@ pt(t_emp, df = sample_size - 1, lower.tail = F) #einseitige Testung
 ```
 
 ```
-## [1] 1.944348e-05
+## [1] 6.255413e-10
 ```
 
-Der *p*-Wert ist kleiner .01 ($p < \alpha$) (R gibt sehr kleine oder große Werte standardmäßig in wissenschaftlicher Notation mit Zehnerpotenzfaktor aus, voll ausgeschrieben lautet der Wert $p=0.00001944348$). Der Erwartungswert für den Mittelwert unserer Sichprobe $\mu_1$ ist demnach größer als der bekannte Populationsmittelwert $\mu_0$. Demnach würden wir die $H_0$ verwerfen und die $H_1$ annehmen.
+Der *p*-Wert ist kleiner .01 ($p < \alpha$) (R gibt sehr kleine oder große Werte standardmäßig in wissenschaftlicher Notation mit Zehnerpotenzfaktor aus, voll ausgeschrieben lautet der Wert $p=0.0000000006255413$). Der Erwartungswert für den Mittelwert unserer Sichprobe $\mu_1$ ist demnach größer als der bekannte Populationsmittelwert $\mu_0$. Demnach würden wir die $H_0$ verwerfen und die $H_1$ annehmen.
 
 
 ### Weitere Möglichkeit: Vergleich mit kritischem Wert
@@ -514,7 +515,7 @@ t_krit
 ```
 
 ```
-## [1] 2.344236
+## [1] 2.350029
 ```
 
 Der kritische $t$-Wert ($t_{krit}$) wird hier so bestimmt, dass er das den Wert sucht, der die unteren 99% abtrennt. Dies entspricht dann 1% der Verteilung nach oben und damit genau unserem $\alpha$-Niveau. Zur Entscheidung bezüglich der Hypothesen müssen wir nun den empirischen und kritischen $t$-Wert vergleichen.
@@ -558,7 +559,7 @@ t_quantil_einseitig
 ```
 
 ```
-## [1] 2.344236
+## [1] 2.350029
 ```
 
 Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
@@ -569,7 +570,7 @@ sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 ```
 
 ```
-## [1] 3.027033
+## [1] 3.223919
 ```
 
 Der Populationsmittelwert liegt nicht in dem Konfidenzintervall für den Erwartungswert unserer Stichprobe, sondern ist kleiner als die untere Grenze. Daher würden wir die $H_0$ in diesem Fall verwerfen. Auch beim Einstichproben-t-Test -- egal ob mit einseitiger oder zweiseitiger Hypothese -- gilt: Die Durchführung des inferenzstatistischen Test kommt hinsichtlich der Hypothesenbeurteilung zur selben Schlusffolgerung wie die Berechnung des äquivalenten Konfidenzintervalls.
@@ -583,26 +584,26 @@ Statt der händischen Berechnung gibt es auch noch die Funktion `t.test()`, die 
 
 
 ``` r
-t.test(x = fb25$neuro, mu = 2.9, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
+t.test(x = fb26$neuro, mu = 2.9, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  fb25$neuro
-## t = 4.2035, df = 210, p-value = 1.944e-05
+## data:  fb26$neuro
+## t = 6.4546, df = 159, p-value = 6.255e-10
 ## alternative hypothesis: true mean is greater than 2.9
 ## 99 percent confidence interval:
-##  3.027033      Inf
+##  3.223919      Inf
 ## sample estimates:
 ## mean of x 
-##  3.187204
+##  3.409375
 ```
 
-Im Output sind bereits die wichtigsten Informationen enthalten. Wir erhalten den empirischen t-Wert $t_{emp}$ = 4.2. Der kritische Wert wird hier nicht ausgegeben, sondern stattdessen der *p*-Wert. Auch die Freiheitsgrade `df` werden mit berichtet.
+Im Output sind bereits die wichtigsten Informationen enthalten. Wir erhalten den empirischen t-Wert $t_{emp}$ = 6.45. Der kritische Wert wird hier nicht ausgegeben, sondern stattdessen der *p*-Wert. Auch die Freiheitsgrade `df` werden mit berichtet.
 
-Die Ergebnisse entsprechen natürlich denen, die wir auch per Hand bestimmt haben. Demnach wird die $H_0$ verworfen und die $H_0$ angenommen.
+Die Ergebnisse entsprechen natürlich denen, die wir auch per Hand bestimmt haben. Demnach wird die $H_0$ verworfen und die $H_1$ angenommen.
 
 Das 99%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Dies wird in R durch `Inf` gekennzeichnet, was für unendlich (auf Englisch infinity) steht.
 
@@ -625,7 +626,7 @@ dz
 ```
 
 ```
-## [1] 0.1640523
+## [1] 0.2044025
 ```
 
 Effektgrößen beschreiben die Relevanz von signifikanten Ergebnissen. Zudem kann es verwendet werden, um den Effekt über verschiedene Studien hinweg zu vergleichen. Normalerweise sollte die Einordnung der Größe anhand vergleichbarer Studien aus dem selben Bereich durchgeführt werden. Bei völliger Ahnungslosigkeit über relevante Größen gibt es eine Übersicht zur Orientierung. Es gilt nach Cohen (1988):
@@ -636,7 +637,7 @@ Effektgrößen beschreiben die Relevanz von signifikanten Ergebnissen. Zudem kan
 
 *d* = 0.8 -> großer Effekt
 
-Die Effektgröße beträgt in diesem Fall 0.16. Daher er liegt unter der Schwelle für einen kleinen Effekt. Daher, es gibt zwar einen statistisch-signifikanten Unterschied zwischen Stichprobenmittelwert und Populationsmittelwert, aber der Unterschied ist sehr klein, daher praktisch eher unbedeutend und möglicherweise vernachlässigbar.
+Die Effektgröße beträgt in diesem Fall 0.2. Es liegt entsprechend ein mittlerer Effekt vor. 
 
 Wichtig ist jedoch zu betonen, dass solche Schwellenwerte nur grobe Orientierungshilfen darstellen. Die Interpretation von Effektgrößen ist stets feldabhängig. Was in einem Forschungsbereich als "kleiner" Effekt gilt, kann in einem anderen bereits als substantiell oder praktisch bedeutsam bewertet werden.
 
@@ -654,10 +655,10 @@ dt
 ```
 
 ```
-## [1] 0.2893785
+## [1] 0.5102809
 ```
 
-Die Effektgröße beträgt 0.29, womit wir uns hier im Bereich eines kleinen Effektes befinden.
+Die Effektgröße beträgt 0.51, womit wir uns hier im Bereich eines mittleren Effekt befinden.
 
 
 ***
@@ -714,23 +715,23 @@ In diesem Tutorial lernen wir zunächst die optische Prüfung der Normalverteilu
 
 
 ``` r
-hist(fb25$neuro, xlim=c(0,6), main = "Histogramm",
+hist(fb26$neuro, xlim=c(0,6), main = "Histogramm",
      xlab = "Score", ylab= "Dichte", freq = FALSE,
      breaks = seq(0, 5, 0.5))
 ```
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-37-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-120-1.png)<!-- -->
 
-Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung etwas schief aussieht. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Vertrauen Variable) werden benötigt. Genau genommen sollte man hier die empirische Standardabweichung nutzen, weil im Histogramm ja auch die Werte aus der Stichprobe dargestellt werden. Da bei einer steigenden Stichprobengröße aber die empirische Varianz und das Ergebnis von `sd()` sehr ähnlich sind und wir hier nur eine optische Einordnung vornehmen, nutzen wir einfach die Funktion, damit der Code nicht zu unübersichtlich wird.
+Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung leicht schief aussieht. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Vertrauen Variable) werden benötigt. Genau genommen sollte man hier die empirische Standardabweichung nutzen, weil im Histogramm ja auch die Werte aus der Stichprobe dargestellt werden. Da bei einer steigenden Stichprobengröße aber die empirische Varianz und das Ergebnis von `sd()` sehr ähnlich sind und wir hier nur eine optische Einordnung vornehmen, nutzen wir einfach die Funktion, damit der Code nicht zu unübersichtlich wird.
 
 
 ``` r
-curve(dnorm(x, mean = mean(fb25$neuro, na.rm = TRUE), sd = sd(fb25$neuro, na.rm = TRUE)), add = T)
+curve(dnorm(x, mean = mean(fb26$neuro, na.rm = TRUE), sd = sd(fb26$neuro, na.rm = TRUE)), add = T)
 ```
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-39-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-122-1.png)<!-- -->
 
-Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der theoretische, perfekten Form der Normalverteilung gibt. Rechts liegen mehr Werte, als bei einer Normalverteilung zu erwarten wären, links weniger. Unsere Verteilung sieht ebenso etwas flacher und breiter aus und zeigt auch eine minimalen Linksschiefe. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden.
+Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der theoretische, perfekten Form der Normalverteilung gibt. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden.
 
 Leider wird es bei der optischen Prüfung keine perfekt objektive Lösung geben, doch je mehr Plots man im Laufe der Forschungskarriere betrachtet, umso besser kann man auch diese Verläufe einordnen. 
 
@@ -738,12 +739,12 @@ Eine zweite Möglichkeit ist das Erstellen eines sogenannten QQ-Plots (steht fü
 
 
 ``` r
-fb25$neuro_std <- scale(fb25$neuro, center = T, scale = T)
-qqnorm(fb25$neuro_std)
-qqline(fb25$neuro_std)
+fb26$neuro_std <- scale(fb26$neuro, center = T, scale = T)
+qqnorm(fb26$neuro_std)
+qqline(fb26$neuro_std)
 ```
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-40-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-123-1.png)<!-- -->
 
 Entspricht nun unsere empirische Datenmenge der angenommenen Normalverteilung perfekt, würden alle Punkte auf der Geraden in der Mitte liegen. Auch hier gilt natürlich, dass die Bewertung letztlich eine gewisse Subjektivität hat. Die Punkte sollten nicht zu weit von der Geraden entfernt liegen. 
 

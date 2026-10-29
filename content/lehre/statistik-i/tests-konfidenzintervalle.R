@@ -1,45 +1,45 @@
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf3_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf9_r <- -1 * (fb25$mdbf4 - 5)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf11_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf3_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf9_r <- -1 * (fb26$mdbf4 - 5)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 
 
 
 
 ## Deskriptive Begutachtung
 
-anyNA(fb25$trust)
+anyNA(fb26$trust)
 
-mean(fb25$trust, na.rm = TRUE)
+mean(fb26$trust, na.rm = TRUE)
 
 
 
@@ -52,9 +52,9 @@ mean(fb25$trust, na.rm = TRUE)
 pop_mean_trust <- 3.25                 # Mittelwert Grundgesamtheit
 pop_sd_trust <- 2.5                   # SD der Grundgesamtheit
 sample_mean_trust <- 
-  mean(fb25$trust, na.rm = TRUE)      # Stichprobenmittelwert
+  mean(fb26$trust, na.rm = TRUE)      # Stichprobenmittelwert
 sample_size <- 
-  nrow(fb25) - sum(is.na(fb25$trust)) # Stichprobengröße (Anzahl NA von Stichprobengröße abziehen)
+  nrow(fb26) - sum(is.na(fb26$trust)) # Stichprobengröße (Anzahl NA von Stichprobengröße abziehen)
 
 se_trust <- pop_sd_trust/sqrt(sample_size) # Standardfehler des Mittelwerts
 
@@ -92,16 +92,16 @@ if (!requireNamespace("psych", quietly = TRUE)) {
 }
 
 library(psych)
-describe(fb25$neuro)
+describe(fb26$neuro)
 
-anyNA(fb25$neuro)
-sample_mean_neuro <- mean(fb25$neuro, na.rm = TRUE)
+anyNA(fb26$neuro)
+sample_mean_neuro <- mean(fb26$neuro, na.rm = TRUE)
 pop_mean_neuro <- 2.9
 
-sample_sd_neuro <- sd(fb25$neuro, na.rm = TRUE)
+sample_sd_neuro <- sd(fb26$neuro, na.rm = TRUE)
 sample_sd_neuro
 
-sample_size <- nrow(fb25) - sum(is.na(fb25$neuro))
+sample_size <- nrow(fb26) - sum(is.na(fb26$neuro))
 se_neuro <- sample_sd_neuro/sqrt(sample_size)
 
 t_emp <- (sample_mean_neuro - pop_mean_neuro) / se_neuro
@@ -121,7 +121,7 @@ sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 
 
 
-t.test(x = fb25$neuro, mu = 2.9, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
+t.test(x = fb26$neuro, mu = 2.9, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
 ## Effektgröße
 
@@ -143,6 +143,6 @@ dt
 
 
 
-fb25$neuro_std <- scale(fb25$neuro, center = T, scale = T)
-qqnorm(fb25$neuro_std)
-qqline(fb25$neuro_std)
+fb26$neuro_std <- scale(fb26$neuro, center = T, scale = T)
+qqnorm(fb26$neuro_std)
+qqline(fb26$neuro_std)
