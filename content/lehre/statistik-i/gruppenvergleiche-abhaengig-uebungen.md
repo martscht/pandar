@@ -11,7 +11,7 @@ authors:
 - walter
 - nehler
 weight: ~
-lastmod: '2025-11-13'
+lastmod: '2026-10-22'
 featured: no
 banner:
   image: /header/consent_checkbox.jpg
@@ -40,7 +40,7 @@ private: 'true'
 
 ## Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb26.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 **Datenaufbereitung**
 
@@ -49,48 +49,48 @@ private: 'true'
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
+fb26$fach_klin <- factor(as.numeric(fb26$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
-fb25$unipartys <- factor(fb25$uni3,
+fb26$ort <- factor(fb26$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb26$job <- factor(fb26$job, levels=c(1,2), labels=c("nein", "ja"))
+fb26$unipartys <- factor(fb26$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
-fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
-fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
-fb25$mdbf5_r <- -1 * (fb25$mdbf5 - 4 - 1)
-fb25$mdbf7_r <- -1 * (fb25$mdbf7 - 4 - 1)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 4 - 1)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 4 - 1)
+fb26$mdbf3_r <-  -1 * (fb26$mdbf3 - 4 - 1)
+fb26$mdbf9_r <-  -1 * (fb26$mdbf9 - 4 - 1)
+fb26$mdbf5_r <- -1 * (fb26$mdbf5 - 4 - 1)
+fb26$mdbf7_r <- -1 * (fb26$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb25$wm_pre  <- fb25[, c('mdbf1', 'mdbf5_r', 
+fb26$wm_pre  <- fb26[, c('mdbf1', 'mdbf5_r', 
                         'mdbf7_r', 'mdbf10')] |> rowMeans()
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 ## Aufgabe 1

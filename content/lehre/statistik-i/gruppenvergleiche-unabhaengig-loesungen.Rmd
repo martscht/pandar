@@ -51,7 +51,7 @@ library(effsize)
 
 ## Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#prep) vorausgesetzt werden, teils inklusive derer, die erst im Beitrag vorgenommen werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb26.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#prep) vorausgesetzt werden, teils inklusive derer, die erst im Beitrag vorgenommen werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 **Datenaufbereitung**
 
@@ -59,48 +59,48 @@ library(effsize)
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
+fb26$fach_klin <- factor(as.numeric(fb26$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
-fb25$unipartys <- factor(fb25$uni3,
+fb26$ort <- factor(fb26$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb26$job <- factor(fb26$job, levels=c(1,2), labels=c("nein", "ja"))
+fb26$unipartys <- factor(fb26$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
-fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
-fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
-fb25$mdbf5_r <- -1 * (fb25$mdbf5 - 4 - 1)
-fb25$mdbf7_r <- -1 * (fb25$mdbf7 - 4 - 1)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 4 - 1)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 4 - 1)
+fb26$mdbf3_r <-  -1 * (fb26$mdbf3 - 4 - 1)
+fb26$mdbf9_r <-  -1 * (fb26$mdbf9 - 4 - 1)
+fb26$mdbf5_r <- -1 * (fb26$mdbf5 - 4 - 1)
+fb26$mdbf7_r <- -1 * (fb26$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb25$wm_pre  <- fb25[, c('mdbf1', 'mdbf5_r', 
+fb26$wm_pre  <- fb26[, c('mdbf1', 'mdbf5_r', 
                         'mdbf7_r', 'mdbf10')] |> rowMeans()
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 ***
@@ -113,7 +113,7 @@ Unterscheiden sich Studierende, die sich für Allgemeine Psychologie (Variable "
 **Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
 
 ```{r}
-data1 <- fb25[ (which(fb25$fach=="Allgemeine"|fb25$fach=="Klinische")), ]
+data1 <- fb26[ (which(fb26$fach=="Allgemeine"|fb26$fach=="Klinische")), ]
 data1$fach <- droplevels(data1$fach)
 boxplot(data1$offen ~ data1$fach,
         xlab="Interessenfach", ylab="Offenheit für neue Erfahrungen", 
@@ -158,12 +158,12 @@ Nicht nötig, da Normalverteilung in der Population angenommen werden darf (s. A
 
 * Art des Effekts: Unterschiedshypothese  
 * Richtung des Effekts: Ungerichtet $\rightarrow$ ungerichtete Hypothesen  
-* Größe des Effekts: Unspezifisch  
+<!-- * Größe des Effekts: Unspezifisch   -->
 
 Hypthesenpaar (statistisch):  
 
-* $H_0$: $\mu_\text{Allgemeine} =   \mu_\text{Klinische}$
-* $H_1$: $\mu_\text{Allgemeine} \ne \mu_\text{Klinische}$
+* $H_0$: $\mu_\text{Allgemeine} =   \mu_\text{Klinische}$ bzw. $\mu_\text{Allgemeine} -   \mu_\text{Klinische} = 0$
+* $H_1$: $\mu_\text{Allgemeine} \ne \mu_\text{Klinische}$ bzw. $\mu_\text{Allgemeine} - \mu_\text{Klinische} \ne 0$
 
 **Spezifikation des Signifikanzniveaus** 
 
@@ -199,19 +199,20 @@ ttest <- t.test(data1$offen ~ data1$fach, alternative = "two.sided", var.equal =
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden. Deskriptiv liegt ein solcher Unterschied vor: Die Mittelwerte betragen `r round(mean(offen.A), 2)` (Allgemeine, _SD_ = `r round(mean(sd.A), 2)`) und `r round(mean(offen.B), 2)` (Klinische, _SD_ = `r round(mean(sd.B), 2)`). Der entsprechende _t_-Test zeigt jedoch ein nicht signifikantes Ergebnis (_t_(_df_ = `r ttest$parameter`, zweis.) = `r round(ttest$statistic, 2)`, _p_ = `r round(ttest$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden sind im Persönlichkeitsmerkmal 'Offenheit für neue Erfahrungen' unabhängig davon, ob sie sich für Allgemeine Psychologie oder für Klinische Psychologie interessieren.
+Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden. Deskriptiv liegt ein solcher Unterschied vor: Die Mittelwerte betragen `r round(mean(offen.A), 2)` (Allgemeine, _SD_ = `r round(mean(sd.A), 2)`) und `r round(mean(offen.B), 2)` (Klinische, _SD_ = `r round(mean(sd.B), 2)`). Der entsprechende _t_-Test zeigt jedoch ein nicht signifikantes Ergebnis (_t_(_df_ = `r ttest$parameter`, zweis.) = `r round(ttest$statistic, 2)`, _p_ = `r round(ttest$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden unterscheiden sich im Mittel im Persönlichkeitsmerkmal 'Offenheit für neue Erfahrungen' nicht, abhängig davon, ob sie sich für Allgemeine Psychologie oder für Klinische Psychologie interessieren.
 
 </details>
 
 ## Aufgabe 2
-Sind Studierende, die außerhalb von Frankfurt wohnen ("ort"), zufriedener im Leben ("lz") als diejenigen, die innerhalb von Frankfurt wohnen?  
+Sind Studierende, die außerhalb von Frankfurt wohnen ("ort"), zufriedener im Leben ("lz") als diejenigen, die innerhalb von Frankfurt wohnen? Nehmen Sie an, dass eine Normalverteilungsannahme nicht haltbar ist. 
+
 
 <details><summary>Lösung</summary>
 
 **Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
 
 ```{r}
-boxplot(fb25$lz ~ fb25$ort,
+boxplot(fb26$lz ~ fb26$ort,
         xlab="Wohnort", ylab="Lebenszufriedenheit", 
         las=1, cex.lab=1.5, 
         main="Wohnort und Lebenszufriedenheit")
@@ -221,54 +222,56 @@ boxplot(fb25$lz ~ fb25$ort,
 
 ```{r}
 library(psych)
-describeBy(fb25$lz, fb25$ort)
-summary(fb25[which(fb25$ort=="FFM"), "lz"])
-summary(fb25[which(fb25$ort=="anderer"), "lz"])
+describeBy(fb26$lz, fb26$ort)
+summary(fb26[which(fb26$ort=="FFM"), "lz"])
+summary(fb26[which(fb26$ort=="anderer"), "lz"])
 ```
 
 ```{r, echo=FALSE}
-deskr <- describeBy(fb25$lz, fb25$ort)
-fra <- summary(fb25[which(fb25$ort=="FFM"), "lz"])
-and <- summary(fb25[which(fb25$ort=="anderer"), "lz"])
+deskr <- describeBy(fb26$lz, fb26$ort)
+fra <- summary(fb26[which(fb26$ort=="FFM"), "lz"])
+and <- summary(fb26[which(fb26$ort=="anderer"), "lz"])
 ```
 
-Der Mittelwert der Frankfurter:innen ist deskriptiv höher als der der Nicht-Frankfurter:innen. Der Median der Nicht-Frankfurter:innen und der Frankfurter:innen zeigt das gleiche Muster.
+Sowohl Mittelwert als auch Median der Frankfurter:innen sind deskriptiv minimal höher als der der Nicht-Frankfurter:innen.
 
 **Voraussetzungsprüfung: Normalverteilung**
 
+Wir prüfen die Normalverteilungsannahme für beide Gruppen, wenngleich wir uns bereits gegeben der Aufgabenstellung gegen einen t-Test entschieden haben.
+
 ```{r, fig.height=4, fig.align="center"}
 par(mfrow=c(1,2))
-lz.F <- fb25[which(fb25$ort=="FFM"), "lz"]
+lz.F <- fb26[which(fb26$ort=="FFM"), "lz"]
 hist(lz.F, xlim=c(1,9), ylim=c(0,0.5), main="Lebenzufriedenheit\n(Frankfurter)", xlab="", ylab="", las=1, prob=T)
 curve(dnorm(x, mean=mean(lz.F, na.rm=T), sd=sd(lz.F, na.rm=T)), col="red", lwd=2, add=T)
 qqnorm(lz.F)
 qqline(lz.F, col="red")
 ```
 
-$\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen
+Das Histogramm zeigt eine relativ symmetrische Verteilung, sodass eine Normalverteilungsannahme durchaus vertretbar wäre, allerdings kann man auf Basis des Q-Q-Plots sicherlich argumentieren, dass eine Verletzung der Annahme vorliegt.
 
 ```{r, fig.height=4, fig.align="center"}
 par(mfrow=c(1,2))
-lz.a <- fb25[which(fb25$ort=="anderer"), "lz"]
+lz.a <- fb26[which(fb26$ort=="anderer"), "lz"]
 hist(lz.a, xlim=c(1,9), main="Lebenszufriedenheit\n(Nicht-Frankfurter)", xlab="", ylab="", las=1, prob=T)
 curve(dnorm(x, mean=mean(lz.a, na.rm=T), sd=sd(lz.a, na.rm=T)), col="red", lwd=2, add=T)
 qqnorm(lz.a)
 qqline(lz.a, col="red")
 ```
 
-$\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen 
+Das Histogramm zeigt eine relativ symmetrische Verteilung, sodass eine Normalverteilungsannahme durchaus vertretbar wäre, allerdings kann man auf Basis des Q-Q-Plots sicherlich argumentieren, dass eine Verletzung der Annahme vorliegt.
 
 
 **Hypothesen**
 
 * Art des Effekts: Unterschiedshypothese  
 * Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen  
-* Größe des Effekts: Unspezifisch  
+<!-- * Größe des Effekts: Unspezifisch   -->
 
 Hypthesenpaar (statistisch):  
 
-* $H_0$: $\eta_\text{Frankfurter} \le \eta_\text{nicht-Frankfurter}$  
-* $H_1$: $\eta_\text{Frankfurter} >   \eta_\text{nicht-Frankfurter}$
+* $H_0$: $\eta_\text{Frankfurter} \ge \eta_\text{nicht-Frankfurter}$ bzw. $\eta_\text{Frankfurter} - \eta_\text{nicht-Frankfurter} \ge 0$  
+* $H_1$: $\eta_\text{Frankfurter} < \eta_\text{nicht-Frankfurter}$ bzw. $\eta_\text{Frankfurter} - \eta_\text{nicht-Frankfurter} < 0$
 
 **Spezifikation des Signifikanzniveaus**
 
@@ -277,26 +280,26 @@ $\alpha = .05$
 **Durchführung des Wilcoxon-Tests**
 
 ```{r}
-wilcox.test(fb25$lz ~ fb25$ort,           # abhängige Variable ~ unabhängige Variable
+wilcox.test(fb26$lz ~ fb26$ort,           # abhängige Variable ~ unabhängige Variable
        #paired = F,                   # Stichproben sind unabhängig (Default)
-       alternative = "greater",         # einseitige Testung: Gruppe1 (Frankfurter:innen) > Gruppe2 (Nicht-Frankfurter:innen) 
+       alternative = "less",         # einseitige Testung: Gruppe1 (Frankfurter:innen) < Gruppe2 (Nicht-Frankfurter:innen) 
        conf.level = .95)             # alpha = .05 
 ```
 
 ```{r, echo=FALSE}
-wilcox <- wilcox.test(fb25$lz ~ fb25$ort, alternative = "greater",  conf.level = .95)
+wilcox <- wilcox.test(fb26$lz ~ fb26$ort, alternative = "less",  conf.level = .95)
 ```
 
 **Formales Berichten des Ergebnisses** 
 
-Es wurde untersucht, ob in Frankfurt wohnende Studierende zufriedener im Leben sind als die außerhalb von Frankfurt wohnenden. Deskriptiv  zeigt sich, dass die Frankfurter:innen zufriedener sind (_Mdn_ = `r round(deskr$FFM$median, 1)`, _IQB_ = [`r round(fra[2], 1)` ; `r round(fra[5], 1)`]) als die Nicht-Frankfurter:innen (_Mdn_ = `r round(deskr$anderer$median, 1)`, _IQB_ = [`r round(and[2], 1)` ; `r round(and[5], 1)`]). Der entsprechende Wilcoxon-Test zeigt ein nicht signifikantes Ergebnis (_W_ = `r round(wilcox$statistic, 1)`, _p_ = `r round(wilcox$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden sind gleich zufrieden, unabhängig von ihrem Wohnort.
+Es wurde untersucht, ob in außerhalb Frankfurt wohnende Studierende zufriedener im Leben sind als die innerhalb von Frankfurt wohnenden. Deskriptiv  zeigt sich jedoch bereits, dass die Frankfurter:innen zufriedener sind (_Mdn_ = `r round(deskr$FFM$median, 1)`, _IQB_ = [`r round(fra[2], 1)` ; `r round(fra[5], 1)`]) als die Nicht-Frankfurter:innen (_Mdn_ = `r round(deskr$anderer$median, 1)`, _IQB_ = [`r round(and[2], 1)` ; `r round(and[5], 1)`]). Der entsprechende Wilcoxon-Test zeigt entsprechend ein nicht signifikantes Ergebnis (_W_ = `r round(wilcox$statistic, 1)`, _p_ = `r round(wilcox$p.value, 3)`). Die Nullhypothese konnte somit nicht verworfen werden und wird beibehalten. Die Studierenden, die innerhalb Frankfurt wohnen sind also im Mittel gleich zufrieden oder zufriedener als die Studierenden, welche außerhalb Frankfurts wohnen.
 
 
 </details>
 
 ## Aufgabe 3
 
-Ist die Wahrscheinlichkeit dafür, neben dem Studium einen Job ("job") zu haben, die gleiche für Erstsemesterstudierende der Psychologie die in einer Wohngemeinschaft wohnen wie für Studierenden die bei ihren Eltern wohnen ("wohnen")? 
+Ist die Wahrscheinlichkeit dafür, neben dem Studium einen Job ("job") zu haben, die gleiche für Erstsemesterstudierende der Psychologie, die in einer Wohngemeinschaft wohnen wie für Studierenden, die bei ihren Eltern wohnen ("wohnen")? 
 
 <details><summary>Lösung</summary>
 Beide Variablen sind nominalskaliert $\rightarrow \chi^2$-Test
@@ -308,7 +311,7 @@ Beide Variablen sind nominalskaliert $\rightarrow \chi^2$-Test
 3. Zellbesetzung für alle $n_{ij}$ > 5 $\rightarrow$ Prüfung anhand von Häufigkeitstabelle 
 
 ```{r}
-wohnsituation <- fb25[(which(fb25$wohnen=="WG"|fb25$wohnen=="bei Eltern")),] # Neuer Datensatz der nur Personen beinhaltet, die entweder bei den Eltern oder in einer WG wohnen
+wohnsituation <- fb26[(which(fb26$wohnen=="WG"|fb26$wohnen=="bei Eltern")),] # Neuer Datensatz der nur Personen beinhaltet, die entweder bei den Eltern oder in einer WG wohnen
 levels(wohnsituation$wohnen)
 wohnsituation$wohnen <- droplevels(wohnsituation$wohnen) 
 # Levels "alleine" und "sonstiges" wurden eliminiert
@@ -344,7 +347,6 @@ chisq.test(tab, correct=FALSE)
 
 ```{r, echo=FALSE}
 chi2 <- chisq.test(tab, correct=FALSE)
-
 ```
 
 $\chi^2$ = `r round(chi2$statistic, 3)`, df = `r chi2$parameter`, p = `r round(chi2$p.value, 3)` $\rightarrow H_0$

@@ -3,78 +3,78 @@
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 5)
-fb25$mdbf3_r <- -1 * (fb25$mdbf3 - 5)
-fb25$mdbf9_r <- -1 * (fb25$mdbf9 - 5)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 5)
+fb26$mdbf3_r <- -1 * (fb26$mdbf3 - 5)
+fb26$mdbf9_r <- -1 * (fb26$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 
 
 
 ## Deskriptivstatistik
 
-summary(fb25$ru_pre)
-summary(fb25$ru_post)
+summary(fb26$ru_pre)
+summary(fb26$ru_post)
 
 # oder mittels der Funktion describe() aus dem Package 'psych'
 library(psych)
-describe(fb25$ru_pre)
-describe(fb25$ru_pos)
+describe(fb26$ru_pre)
+describe(fb26$ru_pos)
 
 
 # Je ein Histogramm pro Werte, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(2,1), mar=c(3,3,2,0))
-hist(fb25$ru_pre, 
+hist(fb26$ru_pre, 
      xlim=c(1,5),
      ylim = c(0,110),
      main="Subskalen 'Ruhig vs. Unruhig' vor der Sitzung", 
      xlab="", 
      ylab="", 
      las=1)
-abline(v=mean(fb25$ru_pre, na.rm = T), 
+abline(v=mean(fb26$ru_pre, na.rm = T), 
        lwd=3,
        col="aquamarine3")
 
-hist(fb25$ru_post, 
+hist(fb26$ru_post, 
      xlim=c(1,5),
      ylim = c(0,110),
      main="Subskalen 'Ruhig vs. Unruhig' nach der Sitzung", 
      xlab="", 
      ylab="", 
      las=1)
-abline(v=mean(fb25$ru_post, na.rm = T), 
+abline(v=mean(fb26$ru_post, na.rm = T), 
        lwd=3,
        col="darksalmon")
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
 
 ## Vorraussetzungen
 
-difference <- fb25$ru_post - fb25$ru_pre
+difference <- fb26$ru_post - fb26$ru_pre
 
 par(mfrow=c(1,2), mar=c(3,3,2,2))
 hist(difference, 
@@ -96,9 +96,10 @@ par(mfrow=c(1,1))
 
 ## t-Test
 
-t.test(x = fb25$ru_post, y = fb25$ru_pre, # die beiden abhaengigen Variablen
-      paired = T,                      # Stichproben sind abhaengig
-      conf.level = .95)   
+t.test(x = fb26$ru_post, y = fb26$ru_pre, # die beiden abhaengigen Variablen
+       paired = T,                      # Stichproben sind abhaengig
+       alternative = "two.sided",       # ungerichteter Test
+       conf.level = .95)   
 
 
 
@@ -115,7 +116,7 @@ if (!requireNamespace("effsize", quietly = TRUE)) {
 }
 library("effsize")
 
-d2 <- cohen.d(fb25$ru_post, fb25$ru_pre, 
+d2 <- cohen.d(fb26$ru_post, fb26$ru_pre, 
       paired = TRUE,  #paired steht fuer 'abhaengig'
       within = FALSE, #wir brauchen nicht die Varianz innerhalb
       na.rm = TRUE)   
@@ -124,31 +125,31 @@ d2
 ## Deskriptivstatistik-Median
 
 par(mfrow=c(1,2), mar=c(3,3,2,0))
-hist(fb25$time_pre, 
+hist(fb26$time_pre, 
      main="Bearbeitungszeit \nvor dem Praktikum", 
      breaks = 10)
 
 
-hist(fb25$time_post, 
+hist(fb26$time_post, 
      main="Bearbeitungszeit \nnach dem Praktikum",
      breaks = 10)
 
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 
-summary(fb25$time_pre)
-summary(fb25$time_post)
+summary(fb26$time_pre)
+summary(fb26$time_post)
 
 ## Voraussetzungen-Median
 
-dif_time <- fb25$time_post - fb25$time_pre
+dif_time <- fb26$time_post - fb26$time_pre
 hist(dif_time,
      main="Differenzen Bearbeitungszeiten",
      breaks = 10)
 
 ## Wilcoxon
 
-wilcox.test(x = fb25$time_pre, 
-            y = fb25$time_post,          # die beiden abhängigen Gruppen
+wilcox.test(x = fb26$time_pre, 
+            y = fb26$time_post,          # die beiden abhängigen Gruppen
             paired = T,                  # Stichproben sind abhängig
             alternative = "two.sided",   # ungerichtete Hypothese
             exact = F,                   # Approximation?

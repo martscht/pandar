@@ -1,5 +1,5 @@
 ---
-title: Tests und Konfidenzintervalle - Übungen
+title: "Tests und Konfidenzintervalle - Übungen"
 type: post
 date: '2019-10-18'
 slug: tests-konfidenzintervalle-uebungen
@@ -13,7 +13,7 @@ authors:
 - scheppa-lahyani
 - pommeranz
 weight: ~
-lastmod: '2025-11-13'
+lastmod: '2026-10-29'
 featured: no
 banner:
   image: /header/angel_of_the_north.jpg
@@ -43,20 +43,20 @@ private: 'true'
 
 
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb26.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
 ``` r
-dim(fb25)
+dim(fb26)
 ```
 
 ```
-## [1] 211  51
+## [1] 160  51
 ```
 
-Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 51 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 160 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 51 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ## Aufgabe 1
@@ -78,7 +78,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
 **3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
-**3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Testentscheidung.
 
 **3.3** Überprüfen Sie Ihre Entscheidung aus **3.2** erneut, indem sie händisch ihren empirischen t-Wert ermittlen und mit dem entsprechenden kritischen t-Wert vergleichen.
 
@@ -88,7 +88,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 ## Aufgabe 4
 
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
-Nehmen Sie für die weiteren Aufgaben den Datensatz `fb25` als Grundgesamtheit (Population) an.
+Nehmen Sie für die weiteren Aufgaben den Datensatz `fb26` als Grundgesamtheit (Population) an.
 
 **4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
@@ -99,7 +99,7 @@ Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzinterv
 
 
 ``` r
-anyNA(fb25$gewis) #keine NAs
+anyNA(fb26$gewis) #keine NAs
 ```
 
 ```
@@ -108,16 +108,16 @@ anyNA(fb25$gewis) #keine NAs
 
 ``` r
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb25_sample <- fb25[sample(nrow(fb25), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb26_sample <- fb26[sample(nrow(fb26), size = 31), ] #zieht eine Stichprobe mit n = 31
 
 
-mean_gewis_pop <- mean(fb25$gewis, na.rm = TRUE) #Mittelwert der Population
+mean_gewis_pop <- mean(fb26$gewis, na.rm = TRUE) #Mittelwert der Population
 
-sd_gewis_pop <- sd(fb25$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb25$gewis)) - 1) / length(na.omit(fb25$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb26$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb26$gewis)) - 1) / length(na.omit(fb26$gewis))) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb25$gewis))) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb26$gewis))) #Standardfehler
 
-mean_gewis_smpl2 <- mean(fb25_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
+mean_gewis_smpl2 <- mean(fb26_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
 
 z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
@@ -127,7 +127,7 @@ abs(z_gewis2) > z_krit #signifikant
 ```
 
 ```
-## [1] FALSE
+## [1] TRUE
 ```
 
 ``` r
@@ -135,7 +135,7 @@ abs(z_gewis2) > z_krit #signifikant
 ```
 
 ```
-## [1] 1.572165
+## [1] 0.001024124
 ```
 
 </details>
