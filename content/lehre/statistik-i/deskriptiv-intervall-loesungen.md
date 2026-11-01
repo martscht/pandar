@@ -12,7 +12,7 @@ authors:
 - buchholz
 - zacharias
 - pommeranz
-lastmod: '2025-11-13'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: /header/frogs_on_phones.jpg
@@ -43,7 +43,7 @@ private: 'true'
 
 ### Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandaR-Website durch die bekannten Befehle direkt ins Environment. Alternativ ist die Datei unter diesem [<i class="fas fa-download"></i> Link](/daten/fb25.rda) zum Download verfügbar. Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandaR-Website durch die bekannten Befehle direkt ins Environment. Alternativ ist die Datei unter diesem [<i class="fas fa-download"></i> Link](/daten/fb26.rda) zum Download verfügbar. Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 <details><summary>R-Code für die Vorbereitung</summary>
 
@@ -51,19 +51,19 @@ private: 'true'
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
@@ -72,14 +72,14 @@ Falls Sie nochmal sicher gehen wollen, ob alles korrekt funktioniert hat, könnt
 
 
 ``` r
-dim(fb25)
+dim(fb26)
 ```
 
 ```
-## [1] 211  44
+## [1] 160  44
 ```
 
-Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 160 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 </details>
@@ -87,7 +87,7 @@ Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und 44 Spalten (Variablen).
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb25` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb25` ab.
+Erstellen Sie im Datensatz `fb26` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb26` ab.
 
 * Erstellen Sie den Skalenwert als Mittelwert der vier Items.
 
@@ -97,17 +97,17 @@ Erstellen Sie im Datensatz `fb25` die Skalenwerte für die Subskala ruhig/unruhi
 
 ``` r
 # Invertieren
-fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 5)
-fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 5)
+fb26$mdbf3_r <-  -1 * (fb26$mdbf3 - 5)
+fb26$mdbf9_r <-  -1 * (fb26$mdbf9 - 5)
 ```
 
 
 ``` r
 # Skalenwert
 
-ru_pre <- fb25[, c("mdbf3_r", "mdbf6", "mdbf9_r", "mdbf12")]
+ru_pre <- fb26[, c("mdbf3_r", "mdbf6", "mdbf9_r", "mdbf12")]
 
-fb25$ru_pre <- rowMeans(ru_pre)
+fb26$ru_pre <- rowMeans(ru_pre)
 ```
 
 Oder in einem Schritt mit der Pipe:
@@ -116,7 +116,7 @@ Oder in einem Schritt mit der Pipe:
 ``` r
 # Skalenwert
 
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 ```
 
@@ -125,7 +125,7 @@ fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6",
 
 ## Aufgabe 2
 
-Bestimmen Sie für die Prokrastination, `fb25$prok` den gesamten Mittelwert und Median.
+Bestimmen Sie für die Prokrastination, `fb26$prok` den gesamten Mittelwert und Median.
 
 * Was vermuten Sie, aufgrund des Verhältnisses der beiden Maße der zentralen Tendenz, bezüglich der Schiefe der Verteilung?
 * Prüfen Sie Ihre Vermutung anhand eines Histogramms!
@@ -136,7 +136,7 @@ Bestimmen Sie für die Prokrastination, `fb25$prok` den gesamten Mittelwert und 
 
 ``` r
 # Median und Mittelwert
-median(fb25$prok, na.rm = TRUE)
+median(fb26$prok, na.rm = TRUE)
 ```
 
 ```
@@ -144,11 +144,11 @@ median(fb25$prok, na.rm = TRUE)
 ```
 
 ``` r
-mean(fb25$prok, na.rm = TRUE)
+mean(fb26$prok, na.rm = TRUE)
 ```
 
 ```
-## [1] 2.7
+## [1] 2.718239
 ```
 
 Der Median ist gleich dem Mittelwert, was eine symmetrische Verteilung vermuten lässt.
@@ -158,7 +158,7 @@ Der Median ist gleich dem Mittelwert, was eine symmetrische Verteilung vermuten 
 
 
 ``` r
-hist(fb25$prok, breaks = 8) # Histogramm
+hist(fb26$prok, breaks = 8) # Histogramm
 ```
 
 ![](/deskriptiv-intervall-loesungen_files/unnamed-chunk-7-1.png)<!-- -->
@@ -180,46 +180,46 @@ Bestimmen Sie für den Skalenwert `ru_pre` die empirische Varianz und Standardab
 * Empirische Varianz: $s^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}$  
 * Schätzer der Populationsvarianz: $\hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}$  
 
-Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb25)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `ru_pre`` keine fehlenden Werte vorhanden sind!
+Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb26)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `ru_pre`` keine fehlenden Werte vorhanden sind!
 
 
 ``` r
-is.na(fb25$ru_pre) |> sum()
+is.na(fb26$ru_pre) |> sum()
 ```
 
 ```
-## [1] 0
+## [1] 1
 ```
 
-Es gibt keine fehlenden Werte, daher benötigt man weder `na.omit` um die NAs auszschließen, noch `na.rm=T` als Argument für den Mittelwert. Es bringt, außer zusätzlicher Komputationen, jedoch auch keinen Nachteil diese Argumente stehen zu lassen. Nachfolgend sind sie mit aufgeführt um den flexibelsten Fall zu demonstrieren:
+Es gibt einen fehlenden Wert, daher benötigt man `na.omit` um die NAs auszschließen und `na.rm=T` als Argument für den Mittelwert. Nachfolgend sind sie mit aufgeführt um den flexibelsten Fall zu demonstrieren:
 
 
 ``` r
 # empirische Varianz
 # per Hand
-sum((fb25$ru_pre - mean(fb25$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit(fb25$ru_pre)))
+sum((fb26$ru_pre - mean(fb26$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit(fb26$ru_pre)))
 ```
 
 ```
-## [1] 0.4449445
+## [1] 0.4583086
 ```
 
 ``` r
 # durch Umrechnung 
-var(fb25$ru_pre, na.rm = T) * (length(na.omit(fb25$ru_pre))-1) / length(na.omit(fb25$ru_pre))
+var(fb26$ru_pre, na.rm = T) * (length(na.omit(fb26$ru_pre))-1) / length(na.omit(fb26$ru_pre))
 ```
 
 ```
-## [1] 0.4449445
+## [1] 0.4583086
 ```
 
 ``` r
 # Populationsschätzer
-var(fb25$ru_pre, na.rm = T)
+var(fb26$ru_pre, na.rm = T)
 ```
 
 ```
-## [1] 0.4470633
+## [1] 0.4612093
 ```
 
 Die empirische Varianz ist kleiner als der Populationsschätzer.
@@ -228,21 +228,21 @@ Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichke
 
 
 ``` r
-# empirische Standardabweichung (na.omit / na.rm kann auch ausgelassen werden!)
-(sum((fb25$ru_pre - mean(fb25$ru_pre, na.rm = T))^2, na.rm = T) / length(na.omit(fb25$ru_pre))) |> sqrt()
+# empirische Standardabweichung
+(sum((fb26$ru_pre - mean(fb26$ru_pre, na.rm = T))^2, na.rm = T) / length(na.omit(fb26$ru_pre))) |> sqrt()
 ```
 
 ```
-## [1] 0.6670416
+## [1] 0.6769849
 ```
 
 ``` r
 # Populationsschätzer
-sd(fb25$ru_pre, na.rm = T)
+sd(fb26$ru_pre, na.rm = T)
 ```
 
 ```
-## [1] 0.6686279
+## [1] 0.6791239
 ```
 
 Auch hier ist der empirische Wert kleiner als der Schätzer.
@@ -268,11 +268,11 @@ Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick an
 par(mfrow=c(1,2))
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 
 # Histogramme
-hist(fb25$ru_pre_zstd)
-hist(fb25$ru_pre)
+hist(fb26$ru_pre_zstd)
+hist(fb26$ru_pre)
 ```
 
 ![](/deskriptiv-intervall-loesungen_files/unnamed-chunk-11-1.png)<!-- -->
@@ -283,8 +283,8 @@ Beim Vergleich der beiden Histogrammen fällt auf, dass sich - aufgrund der R-Vo
 ``` r
 # Histogramme mit jeweils 5/6 Breaks
 par(mfrow=c(1,2))
-hist(fb25$ru_pre_zstd, breaks = 5)
-hist(fb25$ru_pre, breaks = 6)
+hist(fb26$ru_pre_zstd, breaks = 5)
+hist(fb26$ru_pre, breaks = 6)
 ```
 
 ![](/deskriptiv-intervall-loesungen_files/unnamed-chunk-12-1.png)<!-- -->

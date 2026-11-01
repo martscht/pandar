@@ -73,25 +73,25 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb25` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb25.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb26` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb26.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
@@ -100,10 +100,10 @@ fb25$wohnen <- factor(fb25$wohnen,
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb25)
+dim(fb26)
 ```
 
-Der Datensatz besteht aus `r nrow(fb25)` Zeilen (Beobachtungen) und `r ncol(fb25)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb26)` Zeilen (Beobachtungen) und `r ncol(fb26)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -134,7 +134,7 @@ Wir haben den Skalenwert bereits in der Vorbereitung des Datesnatzes für Sie er
 ```{r, echo=-c(1,2)}
 ## Deskriptivstatistik
 
-fb25$lz
+fb26$lz
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -146,13 +146,13 @@ Statistische Verfahren sind "rückwärtskompatibel", d.h. alle Berechnungen, die
 
 ```{r}
 # Minimum & Maximum
-range(fb25$lz, na.rm=T)
+range(fb26$lz, na.rm=T)
 
 # Quartile & Median
-quantile(fb25$lz, c(.25, .5, .75), na.rm=T)
+quantile(fb26$lz, c(.25, .5, .75), na.rm=T)
 
 #Box-Whisker Plot
-boxplot(fb25$lz)
+boxplot(fb26$lz)
 ```
 
 Die Betrachtung zeigt uns, dass die meisten Werte Ihrer selbstberichteten Lebenszufriedenheit im oberen Bereich der Skala liegen. Personen mit sehr niedrigen Skalenwerten werden als mögliche Ausreißer getestet.
@@ -163,18 +163,18 @@ Um die Verteilung der Werte für eine mindestens intervallskalierte Variable noc
 
 ```{r}
 # Histogramm
-hist(fb25$lz)
+hist(fb26$lz)
 ```
 
 Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des Histogramms verändern. Dabei können beispielsweise Farbe, Achsenbeschriftungen oder auch der Titel verändert werden. Damit haben wir uns aber bereits auseinandergesetzt und wiederholen es deswegen an dieser Stelle nicht nochmal. Eine neue Bearbeitungsoption für den Plot ist aber das Argument `breaks`. Hierin wird beschrieben, an welchem Ort eine Kategorie anfängt und wieder aufhört. Bspw. startet die erste Kategorie bei 1 und geht bis 3, die zweite dann bei 3 bis 5 und die vierte von 5 bis 7. Die Anzahl der Breakpoints wäre in diesem Beispiel 4 (`c(1, 3, 5, 7)`). Ohne eigenen Input bestimmt `R` dieses komplett selbst. Wir können aber auch einen Wert zuordnen - bspw. eine ganze Zahl. 
 
 ```{r}
 # Histogramm (20 Breakpoints anfordern)
-hist(fb25$lz,
+hist(fb26$lz,
      breaks = 20)
 ```
 
-Das Argument ist eine weiche Einstellung. `R` weiß jetzt, dass wir 20 Kategorien bevorzugen. Im Hintergrund laufen aber Funktionen ab, die einen optisch ansprechenden Code produzieren. Deshalb erhalten wir weniger als 20 Breakpoints. Eine weiche Einstellung bedeutet also, dass `R` das Argument nicht als Pflicht übernimmt. Dieses Phänomen werden wir relativ selten im Verlauf des Semesters sehen. Es wird aber in der Hilfe `?hist` im Unterpunkt `breaks` beschrieben. 
+Das Argument ist eine weiche Einstellung. `R` weiß jetzt, dass wir 20 Kategorien bevorzugen. Im Hintergrund laufen aber Funktionen ab, die einen optisch ansprechenden Code produzieren. Deshalb erhalten wir mehr als 20 Breakpoints. Eine weiche Einstellung bedeutet also, dass `R` das Argument nicht als Pflicht übernimmt. Dieses Phänomen werden wir relativ selten im Verlauf des Semesters sehen. Es wird aber in der Hilfe `?hist` im Unterpunkt `breaks` beschrieben. 
 
 Werte, die genau auf einem Break liegen, werden standardmäßig der Kategorie zugeordnet, von der sie den Abschluss bilden. Wenn die Breaks `c(1, 1.5, 2)` sind, wird ein Wert von 1.5 der ersten Kategorie zugeordnet. Dies gilt mit Ausnahme der untersten Kategorie - hier würde ein Wert von 1 natürlich auch der ersten Kategorie und nicht der nullten Kategorie, die es nicht gibt, zugeordnet werden. 
 
@@ -182,7 +182,7 @@ Achtung! Die Anzahl der Kategorien kann den Eindruck der Daten beeinflussen. Hie
 
 ```{r}
 # Histogramm (ungleiche Kategorien)
-hist(fb25$lz,
+hist(fb26$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
 ```
 
@@ -198,7 +198,7 @@ In `R` ist die Funktion zum Glück sehr intuitiv benannt. Dabei muss auch hier b
 
 ```{r}
 # Arithmetisches Mittel
-mean(fb25$lz, na.rm = TRUE)
+mean(fb26$lz, na.rm = TRUE)
 ```
 
 ## Varianz
@@ -211,37 +211,32 @@ Wollen wir diese nun per Hand bestimmen, könnte folgender Code das für uns erl
 
 ```{r}
 # Händische Varianzberechnung
-sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb25)-1)
+sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb26)-1)
 ```
 
-Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb25)`-`r sum(is.na(fb25$lz))`, weil `nrow(fb25)` nicht das richtige n anzeigt (`r sum(is.na(fb25$lz))` Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der `r sum(is.na(fb25$lz))` fehlenden Werte = n).
+Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb26)`-`r sum(is.na(fb26$lz))`, weil `nrow(fb26)` nicht das richtige n anzeigt (`r sum(is.na(fb26$lz))` Person(en) haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der `r sum(is.na(fb26$lz))` fehlenden Werte = n). Allerdings geht es für den diesjährigen Datensatz von 2026 auf, da die Variable keine `NAs` hat.
 
 
 **Kleiner Exkurs zu fehlenden Werten:**
 
-```{r echo=F,warning=F, fig.align='center',cache=FALSE, purl = F}
-library("RXKCD")
-invisible(getXKCD(851))
-```
-
 Um zu prüfen, ob und wie viele fehlende Werte eine Variable hat, lässt sich z. B. folgende Syntax verwenden:
 
 ```{r}
-is.na(fb25$lz) |> sum()
+is.na(fb26$lz) |> sum()
 ```
 
 Um die Länge einer Variablen ohne fehlende Werte (also die Anzahl an Beobachtungen auf einer Variablen) zu bestimmen, lässt sich z. B. folgende Syntax verwenden:
 
 ```{r}
-na.omit(fb25$lz) |> length() # mit Pipe
-length(na.omit(fb25$lz))     # ohne Pipe
+na.omit(fb26$lz) |> length() # mit Pipe
+length(na.omit(fb26$lz))     # ohne Pipe
 ```
 
 Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwenden:
 
 ```{r}
 # Händische Varianzberechnung
-sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb25$lz)))
+sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb26$lz)))
 ```
 
 
@@ -250,7 +245,7 @@ sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(f
 Sie haben sich eventuell schon gewundert, warum wir eine so bekannten Wert wie die Varianz per Hand bestimmen müssen. Mit der ersten Intuition findet man bereits eine Funktion für die Berechnung, `var()`. Folgendes Ergebnis liefert R, wenn wir die R-Funktion `var()` zur Berechnung der Varianz verwenden:
 ```{r}
 # R-interne Varianzberechnung
-var(fb25$lz, na.rm = TRUE)
+var(fb26$lz, na.rm = TRUE)
 ```
 
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
@@ -272,20 +267,20 @@ Um in R die empirische Varianz mithilfe der `var()`-Funktion zu berechnen, kann 
 
 ```{r}
 # Umrechnung der Varianzen
-var(fb25$lz, na.rm = TRUE) * (nrow(fb25) - 1) / nrow(fb25)
+var(fb26$lz, na.rm = TRUE) * (nrow(fb26) - 1) / nrow(fb26)
 ```
-
-Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb25)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb25)` ist nicht gleich n (es kommt `NA` `r sum(is.na(fb25$lz))` Mal vor), daher besser:
+Für unseren Fall mit dem Datensatz vn 2026 funktioniert es, da die Variable keine `NAs` aufweist. Im Allgmeinen sollte man aber beachten, dass `nrow(fb26)` nicht gleich n ist, wenn `NAs` vorhanden sind. Daher ist folgende Berechnung besser:
 
 ```{r}
 # Umrechnung der Varianzen
-var(fb25$lz, na.rm = TRUE) * (length(na.omit(fb25$lz)) - 1) / (length(na.omit(fb25$lz)))
+var(fb26$lz, na.rm = TRUE) * (length(na.omit(fb26$lz)) - 1) / (length(na.omit(fb26$lz)))
 ```
 
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 ```{r}
 # Umrechnung der Varianzen
-var(fb25$lz, na.rm = TRUE) * (210 - 1) / 210
+var(fb26$lz, na.rm = TRUE) * (210 - 0 # Anzahl der NAs
+                              ) / 210
 ```
 
 
@@ -303,7 +298,7 @@ Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma
 
 ```{r}
 # Standardabweichung in R
-sd(fb25$lz, na.rm = TRUE) # Populationsschaetzer
+sd(fb26$lz, na.rm = TRUE) # Populationsschaetzer
 ```
 
 
@@ -315,15 +310,15 @@ Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$
 
 ```{r}
 # Umrechnung der Standardabweichung
-sd(fb25$lz, na.rm = TRUE) * sqrt((210 - 1) / 210)
+sd(fb26$lz, na.rm = TRUE) * sqrt((210 - 1) / 210)
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
 
 ```{r}
 # Händische Berechnung der empirischen Standardabweichung
-(sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2,
-    na.rm = TRUE) / (length(na.omit(fb25$lz)))) |> sqrt()
+(sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2,
+    na.rm = TRUE) / (length(na.omit(fb26$lz)))) |> sqrt()
 ```
 
 ***
@@ -334,11 +329,11 @@ In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardis
 
 ```{r}
 # Zentrierung
-lz_c <- fb25$lz - mean(fb25$lz, na.rm = TRUE)
+lz_c <- fb26$lz - mean(fb26$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
 
 # z-Standardisierung
-lz_z <- lz_c / sd(fb25$lz, na.rm = TRUE)
+lz_z <- lz_c / sd(fb26$lz, na.rm = TRUE)
 head(lz_z)    # erste 6 z-standardisierte Werte
 ```
 
@@ -346,18 +341,18 @@ head(lz_z)    # erste 6 z-standardisierte Werte
 
 ```{r}
 ## Befehl zum z-Standardisieren
-lz_z <- scale(fb25$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
+lz_z <- scale(fb26$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
 ## Befehl zum Zentrieren (ohne Varianzrelativierung)
-lz_c <- scale(fb25$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
+lz_c <- scale(fb26$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
 ```
 
-Beachten Sie, dass wir hier die z-standardisierten und zentrierten Werte jeweils in einem eigenen Objekt (`lz_z` und `lz_c`) und nicht als neue Variable im Datensatz (`fb25`) abgelegt haben. 
+Beachten Sie, dass wir hier die z-standardisierten und zentrierten Werte jeweils in einem eigenen Objekt (`lz_z` und `lz_c`) und nicht als neue Variable im Datensatz (`fb26`) abgelegt haben. 
 ***
 
 
 ## Skalenwerte
 
-Wie bereits besprochen, werden Fragebogendaten (also einzelne Items, die Versuchsteilnehmenden vorgelegt werden) meist ordinalskaliert erhoben. Um Intervallskalenniveau zu erreichen werden Items zu Skalenwerten verrechnet. Beispielsweise kann die Summe oder auch der Mittelwert verwendet werden. Darüber können Viele mögliche Ausprägungen erzeugt werden und der Skalenwert wird als intervallskaliert behandelt. Doch nicht immer steigt man direkt in die Aggregation der Items ein. viele Fragebögen bestehen nämlich aus positiv und negativ formulierten Items, was eine Rekodierung nötig macht.
+Wie bereits besprochen, werden Fragebogendaten (also einzelne Items, die Versuchsteilnehmenden vorgelegt werden) meist ordinalskaliert erhoben. Um Intervallskalenniveau zu erreichen werden Items zu Skalenwerten verrechnet. Beispielsweise kann die Summe oder auch der Mittelwert verwendet werden. Darüber können Viele mögliche Ausprägungen erzeugt werden und der Skalenwert wird als intervallskaliert behandelt. Doch nicht immer steigt man direkt in die Aggregation der Items ein. Viele Fragebögen bestehen nämlich aus positiv und negativ formulierten Items, was eine Rekodierung nötig macht.
 
 ### Items Rekodieren {#Rekodieren}
 
@@ -373,16 +368,16 @@ Betrachten wir als Beispiel den Fragebogen zur Befindlichkeit von dem wir hier e
 
 {{<inline_image"/lehre/statistik-i/mdbf.png">}}
 
-Im speziellen wollen wir uns auf die Skala gut/schlecht beziehen. Den Fragebogen zur Befindlichkeit haben Sie zu Beginn und am Ende des Praktikums ausgefüllt. Skalenwerte für die spätere Befragung (post) haben wir bereits für Sie in der Datenaufbereitung gebildet. Skalenwerte für die erste Befragung (pre) stehen noch aus. Wie bereits erwähnt, wollen wir uns im Tutorial auf die Skala gut/schlecht beziehen. Diese soll bei hohem Wert darstellen, dass man sich gut fühlt. Aus dem abgebildeten Teil des Fragebogens zur Befindlichkeit gehören Items 1 und 4 zu dieser Skala. Hier wird bereits deutlich, dass es sich um ein negatives und ein positives Item handelt. Damit der Skalenwert gut/schlecht also ein gutes Befinden anzeigt, muss Item 4 vor der Bildung des Skalenwertes rekodiert werden. Weitere Items des Fragebogens, die zu dieser Skala gehören, sind Items 8 und 11, wobei 11 auch negativ formuliert ist (nennt man auch *invertiert*). Auch hier ist also eine Rekodierung nötig.
+Im speziellen wollen wir uns auf die Skala gut/schlecht beziehen. Den Fragebogen zur Befindlichkeit haben Sie zu Beginn und am Ende der ersten Sitzung ausgefüllt. Skalenwerte für die spätere Befragung (post) haben wir bereits für Sie in der Datenaufbereitung gebildet. Skalenwerte für die erste Befragung (pre) stehen noch aus. Wie bereits erwähnt, wollen wir uns im Tutorial auf die Skala gut/schlecht beziehen. Diese soll bei hohem Wert darstellen, dass man sich gut fühlt. Aus dem abgebildeten Teil des Fragebogens zur Befindlichkeit gehören Items 1 und 4 zu dieser Skala. Hier wird bereits deutlich, dass es sich um ein negatives und ein positives Item handelt. Damit der Skalenwert gut/schlecht also ein gutes Befinden anzeigt, muss Item 4 vor der Bildung des Skalenwertes rekodiert werden. Weitere Items des Fragebogens, die zu dieser Skala gehören, sind Items 8 und 11, wobei 11 auch negativ formuliert ist (nennt man auch *invertiert*). Auch hier ist also eine Rekodierung nötig.
 
 Auf der Abbildung konnten wir sehen, dass die möglichen Werte für die Beantwortung der Frage von 1 bis 4 gingen. Mit den Befehlen und R-Kenntnissen aus den bisherigen Sitzungen können wir zwei verschiedene Wege zur Transformation erstellen, die wir auf Items 4 und 11 des Fragebogens zur Befindlichkeit (`mdbf`) anwenden. Bei beiden Transformationen ist es sinnvoll, oder auch notwendig, die transformierten Werte in einer neuen Variable in R abzulegen, um ein korrektes Vorgehen zu gewährleisten.
 
 
 **Variante 1: Lineare Transformation**
 ```{r}
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
-head(fb25$mdbf4)     # erste 6 Werte ohne Transformation
-head(fb25$mdbf4_r)   # erste 6 Werte mit Transformation
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 5)
+head(fb26$mdbf4)     # erste 6 Werte ohne Transformation
+head(fb26$mdbf4_r)   # erste 6 Werte mit Transformation
 ```
 
 * Allgemeine Form: $-1 \cdot (x_m - x_{\max} - 1)$   
@@ -394,20 +389,20 @@ head(fb25$mdbf4_r)   # erste 6 Werte mit Transformation
 Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](/lehre/statistik-i/crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
 
 ```{r}
-head(fb25$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
+head(fb26$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
 Mit Hilfe dieses booleschen Vektors können wir die Stellen ansteuern bzw. indizieren, in denen im transformierten Vektor dann eine 4 statt einer 1 stehen soll. Dies passiert für all die Stellen, an denen `TRUE` steht.
 
 ```{r}
-fb25$mdbf11_r[fb25$mdbf11 == 1] <- 4
-fb25$mdbf11_r[fb25$mdbf11 == 2] <- 3
-fb25$mdbf11_r[fb25$mdbf11 == 3] <- 2
-fb25$mdbf11_r[fb25$mdbf11 == 4] <- 1
+fb26$mdbf11_r[fb26$mdbf11 == 1] <- 4
+fb26$mdbf11_r[fb26$mdbf11 == 2] <- 3
+fb26$mdbf11_r[fb26$mdbf11 == 3] <- 2
+fb26$mdbf11_r[fb26$mdbf11 == 4] <- 1
 
-head(fb25$mdbf11)
-head(fb25$mdbf11_r)
+head(fb26$mdbf11)
+head(fb26$mdbf11_r)
 ```
 
 * Durch logische Filter Personen auswählen, die auf Originalvariable den relevanten Wert haben  
@@ -418,24 +413,24 @@ head(fb25$mdbf11_r)
 
 ### Skalenwerte erstellen {#Skalenwerte}
 
-Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert zur gut/schlecht durch, die mit den 4 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
+Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert gut/schlecht durch, die mit den 4 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
 
 ```{r}
 # neuen Datensatz der relevanten Variablen erstellen 
-gs_pre_data <- fb25[, c('mdbf1', 'mdbf4_r', 
+gs_pre_data <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')]
 # Skalenwert in Originaldatensatz erstellen
-fb25$gs_pre <- rowMeans(gs_pre_data)
-head(fb25$gs_pre)
+fb26$gs_pre <- rowMeans(gs_pre_data)
+head(fb26$gs_pre)
 ```
 
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
 
 ```{r}
 # Direkter Befehle
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-head(fb25$gs_pre )
+head(fb26$gs_pre )
 ```
 
 

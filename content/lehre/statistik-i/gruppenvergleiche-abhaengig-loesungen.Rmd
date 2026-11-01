@@ -44,7 +44,7 @@ if (exists("figure_path")) {
 
 ## Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb26` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb26.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 **Datenaufbereitung**
 
@@ -52,47 +52,47 @@ if (exists("figure_path")) {
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb25.rda'))
+load(url('https://pandar.netlify.app/daten/fb26.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb25$hand_factor <- factor(fb25$hand,
+fb26$hand_factor <- factor(fb26$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb25$fach <- factor(fb25$fach,
+fb26$fach <- factor(fb26$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb25$ziel <- factor(fb25$ziel,
+fb26$ziel <- factor(fb26$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb25$wohnen <- factor(fb25$wohnen, 
+fb26$wohnen <- factor(fb26$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
+fb26$fach_klin <- factor(as.numeric(fb26$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
 
-fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
+fb26$ort <- factor(fb26$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb26$job <- factor(fb26$job, levels=c(1,2), labels=c("nein", "ja"))
 
 
 # Rekodierung invertierter Items
-fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
-fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
-fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
-fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
-fb25$mdbf5_r <- -1 * (fb25$mdbf5 - 4 - 1)
-fb25$mdbf7_r <- -1 * (fb25$mdbf7 - 4 - 1)
+fb26$mdbf4_r <- -1 * (fb26$mdbf4 - 4 - 1)
+fb26$mdbf11_r <- -1 * (fb26$mdbf11 - 4 - 1)
+fb26$mdbf3_r <-  -1 * (fb26$mdbf3 - 4 - 1)
+fb26$mdbf9_r <-  -1 * (fb26$mdbf9 - 4 - 1)
+fb26$mdbf5_r <- -1 * (fb26$mdbf5 - 4 - 1)
+fb26$mdbf7_r <- -1 * (fb26$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb25$wm_pre  <- fb25[, c('mdbf1', 'mdbf5_r', 
+fb26$wm_pre  <- fb26[, c('mdbf1', 'mdbf5_r', 
                         'mdbf7_r', 'mdbf10')] |> rowMeans()
-fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
+fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
+fb26$ru_pre <-  fb26[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
+fb26$ru_pre_zstd <- scale(fb26$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
@@ -119,8 +119,8 @@ H1: Die Teilnahme am Statistikpraktikum wirkt sich auf das Wachempfinden der Stu
 
 Hypothesenpaar (statistisch):  
 
-* $H_0$: $\eta_\text{nachher} = \eta_\text{vorher}$  bzw. $\mu_{d} = 0$
-* $H_1$: $\eta_\text{nachher} \neq  \eta_\text{vorher}$  bzw. $\mu_{d} \neq 0$
+* $H_0$: $\mu_\text{nachher} = \mu_\text{vorher}$  bzw. $\mu_{d} = 0$
+* $H_1$: $\mu_\text{nachher} \neq  \mu_\text{vorher}$  bzw. $\mu_{d} \neq 0$
 
 **Spezifikation des Signifikanzniveaus**
 
@@ -134,20 +134,20 @@ $\alpha = .05$
 
 **Bevor es weiter geht:**
 
-Ein Blick in den `fb25`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
+Ein Blick in den `fb26`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
 
-Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb25` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
+Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb26` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 ```{r}
 
-wach <- fb25[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
+wach <- fb26[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
 wach <- na.omit(wach) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
 
 str(wach) #Ablesen der finalen Stichprobengröße
 ```
 
-Nach dem Entfernen der fehlenden Werte haben wir eine Stichprobengröße von $n = 147$.
+Nach dem Entfernen der fehlenden Werte haben wir eine Stichprobengröße von $n =$ `r nrow(wach)`.
 
 **Deskriptivstatistische Überprüfung der Hypothesen: grafisch**
 
@@ -197,7 +197,7 @@ Die deskriptivstatistischen Maße unterscheiden sich.
 
 2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
 
-3. Die Stichprobenkennwerteverteilung der mittleren Mittelwertsdifferenz muss in der Population normalverteilt sein (ist gegeben, wenn die Verteilung der Mittelwertsdifferenzen in der Stichprobe normalverteilt ist) $\rightarrow$ ab $n > 30$ ist Normalverteilung der Stichprobenkennwerteverteilung durch zetralen Grenzwertsatz gegeben, ansonsten grafische Prüfung oder Hintergrundwissen $\rightarrow$ mit $n = 147$ erfüllt; Überprüfung der Normalverteilung von _d_ wird hier aus Übungszwecken trotzdem mit aufgeführt.
+3. Die Stichprobenkennwerteverteilung der mittleren Mittelwertsdifferenz muss in der Population normalverteilt sein (ist gegeben, wenn die Verteilung der Mittelwertsdifferenzen in der Stichprobe normalverteilt ist). Bei ausreichend großer Stichprobe (zentraler Grenzwertsatz!) können wir davon ausgehen, dass unsere Stichprobenkennwerteverteilung auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung folgt. Hier erscheint die Stichprobe von $n =$ `r nrow(wach)` ausreichend groß um einen t-Test durchzuführen. Die Überprüfung der Normalverteilung von _d_ wird hier aus Übungszwecken trotzdem mit aufgeführt.
 
 **Grafische Voraussetzungsprüfung: Normalverteilung von _d_**
 ```{r}
@@ -239,7 +239,7 @@ ttest <- t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], paired = T, altern
 ```
 
 * Zur Erinnerung: $df$ bei $t$-test mit abhängigen Stichproben: $n - 1$ (wobei $n$ die Anzahl der Paare darstellt)
-* _t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p $ `r if (round(ttest$p.value, 5) == 0) "<0.001" else paste0("= ", round(ttest$p.value, 5))` $\rightarrow$ ist signifikant, H0 wird verworfen.
+* _t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p$ `r if (round(ttest$p.value, 5) == 0) "<0.001" else paste0("= ", round(ttest$p.value, 5))` $\rightarrow$ ist signifikant, H0 wird verworfen.
 
 </details>
 
@@ -272,6 +272,6 @@ Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Stat
 
 Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant ($t$(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p =$ `r round(ttest$p.value,3)`), somit wird die Nullhypothese verworfen und wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum die Wachheit verändert.
 
-Der standardisierte Populationseffekt von _d''_ = `r round(d, 2)` ist laut Konventionen nach Cohen (1988) mittelgroß.
+Der standardisierte Populationseffekt von _d''_ = `r round(d, 2)` ist laut Konventionen nach Cohen (1988) `r c("klein", "mittelgroß", "groß")[which.min(abs(0.4 - c(0.14, 0.35, 0.57)))]`.
 
 </details>
