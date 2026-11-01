@@ -10,7 +10,7 @@ summary: ''
 authors:
 - walter
 - nehler
-lastmod: '2026-10-22'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: /header/consent_checkbox.jpg
@@ -122,7 +122,7 @@ hist(wach[, "wm_post"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden nach der 
 abline(v=mean(wach[, "wm_post"]), lty=2, lwd=2)
 ```
 
-![](gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
@@ -197,7 +197,7 @@ hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differen
 curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add=T)
 ```
 
-![](gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
@@ -205,7 +205,7 @@ qqnorm(difference,las=1)
 qqline(difference, col="blue")
 ```
 
-![](gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
+![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-6-2.png)<!-- -->
 
 $\Rightarrow$ Differenzen weisen leichte Abweichungen zur Normalverteilung auf. Symmetrie trotzdem gegeben und auf Grund des zentralen Grenzwertsatzes und der Stichprobengröße $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben
 </details>

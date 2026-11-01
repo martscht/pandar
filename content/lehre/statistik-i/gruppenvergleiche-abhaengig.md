@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu, sajjad] 
 weight: 7
-lastmod: '2026-10-22'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -116,7 +116,7 @@ summary(fb26$ru_pre)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##    1.00    2.25    3.00    2.77    3.25    4.00       1
 ```
 
@@ -125,7 +125,7 @@ summary(fb26$ru_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##   1.500   2.250   2.500   2.396   2.750   3.500      23
 ```
 
@@ -181,7 +181,7 @@ abline(v=mean(fb26$ru_post, na.rm = T),
        col="darksalmon")
 ```
 
-![](gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
@@ -223,7 +223,7 @@ qqnorm(difference)
 qqline(difference, col="blue")
 ```
 
-![](gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1))
@@ -309,17 +309,6 @@ if (!requireNamespace("effsize", quietly = TRUE)) {
 library("effsize")
 ```
 
-```
-## 
-## Attaching package: 'effsize'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     cohen.d
-```
-
 
 ``` r
 d2 <- cohen.d(fb26$ru_post, fb26$ru_pre, 
@@ -382,7 +371,7 @@ hist(fb26$time_post,
      breaks = 10)
 ```
 
-![](gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
@@ -407,7 +396,7 @@ summary(fb26$time_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##       8      28      34    1120      43   70751      21
 ```
 
@@ -435,7 +424,7 @@ hist(dif_time,
      breaks = 10)
 ```
 
-![](gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-12-1.png)<!-- -->
 
 Die Differenzen weisen Abweichungen von der Symmetrie-Annahme vor, die vor allem von Ausreißern bestimmt wird. Die Verteilung der Differenzen ist aufgrund der hohen Anzahl negativer Differenzen linksschief. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen. Mehr Informationen zu Ausreißern und deren Behandlung erhalten Sie im nächsten Semester [hier](/lehre/statistik-ii/regressionsdiagnostik).
 

@@ -97,9 +97,9 @@ par(mfrow=c(1,1))
 ## t-Test
 
 t.test(x = fb26$ru_post, y = fb26$ru_pre, # die beiden abhaengigen Variablen
-       paired = T,                      # Stichproben sind abhaengig
-       alternative = "two.sided",       # ungerichteter Test
-       conf.level = .95)   
+      paired = T,                      # Stichproben sind abhaengig
+      alternative = "two.sided",       # ungerichteter Test
+      conf.level = .95)   
 
 
 

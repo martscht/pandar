@@ -12,7 +12,7 @@ authors:
 - scheppa-lahyani
 - vogler
 - pommeranz
-lastmod: '2026-10-29'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: /header/angel_of_the_north.jpg

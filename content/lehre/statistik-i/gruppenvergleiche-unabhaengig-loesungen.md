@@ -11,7 +11,7 @@ authors:
 - koehler
 - buchholz
 - goldhammer
-lastmod: '2026-10-22'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: /header/writing_math.jpg
@@ -115,7 +115,7 @@ boxplot(data1$offen ~ data1$fach,
         main="Interessenfach und Offenheit")
 ```
 
-![](gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-2-1.png)<!-- -->
 
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
@@ -133,12 +133,12 @@ describeBy(data1$offen, data1$fach)
 ## 
 ##  Descriptive statistics by group 
 ## group: Allgemeine
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 26 4.21 0.83    4.5    4.25 0.74   3   5     2 -0.41    -1.54 0.16
-## ------------------------------------------------------------ 
+##     vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1*    1 26 3.42 1.65      4     3.5 1.48   1   5     4 -0.41    -1.54 0.32
+## --------------------------------------------------------------------- 
 ## group: Klinische
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 65 3.83 0.88      4     3.9 0.74 1.5   5   3.5 -0.63    -0.31 0.11
+##     vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1*    1 65 5.66 1.75      6    5.79 1.48   1   8     7 -0.63    -0.31 0.22
 ```
 
 ``` r
@@ -261,7 +261,7 @@ boxplot(fb26$lz ~ fb26$ort,
         main="Wohnort und Lebenszufriedenheit")
 ```
 
-![](gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-8-1.png)<!-- -->
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
@@ -275,12 +275,12 @@ describeBy(fb26$lz, fb26$ort)
 ## 
 ##  Descriptive statistics by group 
 ## group: FFM
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 104 5.01 1.26    5.2    5.08 1.19 1.6   7   5.4 -0.47    -0.39 0.12
-## ------------------------------------------------------------ 
+##     vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1*    1 104 15.91 5.91     17   16.29 5.93   1  25    24 -0.49    -0.58 0.58
+## --------------------------------------------------------------------- 
 ## group: anderer
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 52 4.87 1.12      5    4.94 0.89 2.6   7   4.4 -0.54    -0.61 0.16
+##     vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1*    1 52 9.75 4.74     10    9.93 4.45   1  18    17 -0.35    -0.96 0.66
 ```
 
 ``` r
@@ -319,7 +319,7 @@ qqnorm(lz.F)
 qqline(lz.F, col="red")
 ```
 
-<img src="gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-11-1.png" alt="" style="display: block; margin: auto;" />
 
 Das Histogramm zeigt eine relativ symmetrische Verteilung, sodass eine Normalverteilungsannahme durchaus vertretbar wäre, allerdings kann man auf Basis des Q-Q-Plots sicherlich argumentieren, dass eine Verletzung der Annahme vorliegt.
 
@@ -333,7 +333,7 @@ qqnorm(lz.a)
 qqline(lz.a, col="red")
 ```
 
-<img src="gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-12-1.png" alt="" style="display: block; margin: auto;" />
 
 Das Histogramm zeigt eine relativ symmetrische Verteilung, sodass eine Normalverteilungsannahme durchaus vertretbar wäre, allerdings kann man auf Basis des Q-Q-Plots sicherlich argumentieren, dass eine Verletzung der Annahme vorliegt.
 
@@ -376,7 +376,7 @@ wilcox.test(fb26$lz ~ fb26$ort,           # abhängige Variable ~ unabhängige V
 
 **Formales Berichten des Ergebnisses** 
 
-Es wurde untersucht, ob in außerhalb Frankfurt wohnende Studierende zufriedener im Leben sind als die innerhalb von Frankfurt wohnenden. Deskriptiv  zeigt sich jedoch bereits, dass die Frankfurter:innen zufriedener sind (_Mdn_ = 5.2, _IQB_ = [4.2 ; 6]) als die Nicht-Frankfurter:innen (_Mdn_ = 5, _IQB_ = [4.4 ; 5.6]). Der entsprechende Wilcoxon-Test zeigt entsprechend ein nicht signifikantes Ergebnis (_W_ = 2899, _p_ = 0.769). Die Nullhypothese konnte somit nicht verworfen werden und wird beibehalten. Die Studierenden, die innerhalb Frankfurt wohnen sind also im Mittel gleich zufrieden oder zufriedener als die Studierenden, welche außerhalb Frankfurts wohnen.
+Es wurde untersucht, ob in außerhalb Frankfurt wohnende Studierende zufriedener im Leben sind als die innerhalb von Frankfurt wohnenden. Deskriptiv  zeigt sich jedoch bereits, dass die Frankfurter:innen zufriedener sind (_Mdn_ = 17, _IQB_ = [4.2 ; 6]) als die Nicht-Frankfurter:innen (_Mdn_ = 10, _IQB_ = [4.4 ; 5.6]). Der entsprechende Wilcoxon-Test zeigt entsprechend ein nicht signifikantes Ergebnis (_W_ = 2899, _p_ = 0.769). Die Nullhypothese konnte somit nicht verworfen werden und wird beibehalten. Die Studierenden, die innerhalb Frankfurt wohnen sind also im Mittel gleich zufrieden oder zufriedener als die Studierenden, welche außerhalb Frankfurts wohnen.
 
 
 </details>

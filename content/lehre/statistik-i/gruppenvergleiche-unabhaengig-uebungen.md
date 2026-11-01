@@ -11,7 +11,7 @@ authors:
 - koehler
 - buchholz
 weight: 1
-lastmod: '2026-10-22'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: /header/writing_math.jpg

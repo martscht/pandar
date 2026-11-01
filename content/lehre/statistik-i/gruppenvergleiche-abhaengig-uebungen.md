@@ -11,7 +11,7 @@ authors:
 - walter
 - nehler
 weight: ~
-lastmod: '2026-10-22'
+lastmod: '2026-11-01'
 featured: no
 banner:
   image: /header/consent_checkbox.jpg
