@@ -6,7 +6,7 @@ pos$rowsum <- rowSums(pos) # Augensumme der beiden Würfelspalten
 pos$rowsum
 
 hist(rowSums(expand.grid(wuerfel,wuerfel)),
-        main = "Augensumme beim zweifachen Münzwurf",
+        main = "Augensumme beim zweifachen Würfelwurf",
         xlab = "Augensumme",
         ylab = "Häufigkeit",
      breaks = c(1.5:12.5))
@@ -76,8 +76,8 @@ pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE)
 pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE) - pbinom(q = 14, size = 100, prob = 0.2, lower.tail = TRUE)
 
 x <- c(0:100)   # alle möglichen Werte für x in unserem Beispiel
-probs <- pbinom(x, size = 100, prob = 0.2, lower.tail = TRUE) #Wahrscheinlichkeiten für alle möglichen Werte
-plot(x = x, y = probs, type = "h", 
+cum_probs <- pbinom(x, size = 100, prob = 0.2, lower.tail = TRUE) #Wahrscheinlichkeiten für alle möglichen Werte
+plot(x = x, y = cum_probs, type = "h", 
      xlab = "Häufigkeiten für Ereignis Grün", 
      ylab = "kumulierte Wahrscheinlichkeit")
 
@@ -89,7 +89,7 @@ qbinom(p = 0.3, size = 100, prob = 0.2, lower.tail = TRUE)
 
 
 
-rbinom(n = 2, size = 100, prob = 0.2) # 100-fache Drehung mit einer Trefferwahrscheinlichkeit 0.2 wird 2-Mal durchgeführt
+rbinom(n = 8, size = 100, prob = 0.2) # 100-fache Drehung mit einer Trefferwahrscheinlichkeit 0.2 wird 8-Mal durchgeführt
 
 
 

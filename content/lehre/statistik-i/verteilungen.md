@@ -6,10 +6,10 @@ slug: verteilungen
 categories: ["Statistik I"] 
 tags: ["Verteilungen", "Normalverteilung"]
 subtitle: ''
-summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
+summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitsverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
 authors: [nehler, liu] 
 weight: 4
-lastmod: '2025-11-13'
+lastmod: '2026-11-17'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -61,7 +61,11 @@ Der Datensatz wird in diesem Tutorial nicht genutzt, weshalb wir ihn nicht einla
 
 In der psychologischen Forschung werden nur Stichproben gezogen. Für die Übertragung der Ergebnisse auf die Grundgesamtheit (Population), aus der die Stichprobe stammt, ist eine Betrachtung der Wahrscheinlichkeitsverteilungen essentiell. Die Grundlagen der Wahrscheinlichkeitsverteilungen haben Sie in der Vorlesung vermittelt bekommen. Hier geht es nun um die praktische Anwendung in `R`. Im weiteren Verlauf werden zuerst Zufallsexperimente und empirische Häufigkeitsverteilungen betrachtet. Anschließend werden verschiedene Verteilungen dargestellt.
 
-<img src="/verteilungen_files/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
+<img src="/verteilungen_files/unnamed-chunk-1-1.png" alt="" style="display: block; margin: auto;" />
+
+```
+## Alt Text: Except for anything by Lewis Carroll or Tolkien, you get five made-up words per story.  I'm looking at you, Anathem.
+```
 
 ***
 
@@ -115,7 +119,7 @@ expand.grid(wuerfel,wuerfel)
 ## 36    6    6
 ```
 
-Im Folgenden interessieren wir uns für die Augensumme dieses Zufallsvorgangs. Mit `rowSums()` können wir uns die Augensumme ausgeben lassen, indem die beiden Reihen von `expand.grid(wuerfel,wuerfel)` aufsummiert werden.
+Im Folgenden interessieren wir uns für die Augensumme dieses Zufallsvorgangs. Mit `rowSums()` können wir uns die Augensumme ausgeben lassen, indem die beiden Spalten von `expand.grid(wuerfel,wuerfel)` aufsummiert werden.
 
 
 ``` r
@@ -125,17 +129,17 @@ pos$rowsum
 ```
 
 ```
-##  [1]  2  3  4  5  6  7  3  4  5  6  7  8  4  5  6  7  8  9  5  6  7  8  9 10  6  7  8  9
-## [29] 10 11  7  8  9 10 11 12
+##  [1]  2  3  4  5  6  7  3  4  5  6  7  8  4  5  6  7  8  9  5  6  7  8  9 10
+## [25]  6  7  8  9 10 11  7  8  9 10 11 12
 ```
 Hieraus resultieren die theoretisch möglichen Ergebnisse des Zufallsvorgangs, welche grafisch dargestellt werden können über ein Histogramm.
 
 ![](/verteilungen_files/unnamed-chunk-3-1.png)<!-- -->
 
-Analog zu empirischen Verteilungen kann man auch Zufallsvariablen mithilfe von Kennwerten (Maß der zentralen Tendenz und Dispersionsmaß) beschreiben. Als Maß der zentralen Tendenz für diskrete Zufallsvariablen, d.h. einer Zufallsvariablen mit einer endlich oder abzählbar unendlichen Anzahl an Ergebnissen, kann der *Erwartungswert* berechnet werden. In der Vorlesung haben Sie dafür eine Funktion kennengelernt: 
+Analog zu empirischen Verteilungen kann man auch Zufallsvariablen mithilfe von Kennwerten (Maß der zentralen Tendenz und Dispersionsmaß) beschreiben. Als Maß der zentralen Tendenz für diskrete Zufallsvariablen, d. h. Zufallsvariablen mit einer endlichen oder abzählbar unendlichen Anzahl an Ergebnissen, kann der *Erwartungswert* berechnet werden. In der Vorlesung haben Sie dafür eine Funktion kennengelernt: 
 
 \begin{equation*}
-E(X) = \sum\limits_{j=1} \limits^k x_i \cdot P(X = x_i) = \sum\limits_{j=1} \limits^k x_i \cdot \pi_i
+E(X) = \sum\limits_{i=1} \limits^k x_i \cdot P(X = x_i) = \sum\limits_{i=1} \limits^k x_i \cdot \pi_i
 \end{equation*}
 
 
@@ -168,7 +172,7 @@ sample(x = wuerfel, size = 1)
 ## [1] 2
 ```
 
-Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
+Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch dieselbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
 
 
 ``` r
@@ -224,7 +228,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ##  [1]  8  3  6  8  7  6  8  3 12 10
 ```
 
-Des Weiteren weisen wir unsere Daten einem Objekt zu, um sie im Folgenden analysieren zu können. Zusätzlich können wir den Code durch die Nutzung des Pipes nochmal verschönern. Wir ziehen zuerst das `sample`, bilden dann die Summe aus den beiden Werten. Diese Kombination wird dem Argument `expr` aus der `replicate` Funktion zugeordnet. `R` ersetzt also durch den Pipe nicht immer das erste Argument der nachffolgenden Funktion (das wäre ja `n`), sondern das Argument, welches in der Standardreihenfolge als erstes keine Zuweisung erhalten hat. `R` checkt demnach, dass `n` schon besetzt ist und ersetzt stattdessen das zweite Argument `expr`. 
+Des Weiteren weisen wir unsere Daten einem Objekt zu, um sie im Folgenden analysieren zu können. Zusätzlich können wir den Code durch die Nutzung des Pipes nochmal verschönern. Wir ziehen zuerst das `sample`, bilden dann die Summe aus den beiden Werten. Diese Kombination wird dem Argument `expr` aus der `replicate` Funktion zugeordnet. `R` ersetzt also durch den Pipe nicht immer das erste Argument der nachfolgenden Funktion (das wäre ja `n`), sondern das Argument, welches in der Standardreihenfolge als erstes keine Zuweisung erhalten hat. `R` checkt demnach, dass `n` schon besetzt ist und ersetzt stattdessen das zweite Argument `expr`. 
 
 
 ``` r
@@ -273,7 +277,7 @@ hist(results_10000, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 
 ![](/verteilungen_files/unnamed-chunk-13-3.png)<!-- -->
 
-Dies wird auch daran deutlich, dass sich der Mittelwert der Verteilung nun dem *Erwartungswert* von 7 annähert.
+Dies wird auch daran deutlich, dass sich der Mittelwert der Verteilung mit zufälligen Schwankungen nun dem *Erwartungswert* von 7 annähert.
 
 
 ``` r
@@ -318,13 +322,13 @@ Kommen wir nun von der Abbildung empirischer Häufigkeiten zu einer Wahrscheinli
     P(X = x) = {n \choose x} \cdot \pi^x \cdot (1 - \pi)^{n-x}
   \end{equation*}
 
-  1. $x$ Anzahl der Treffer
-  2. $n$ Anzahl der Wiederholungen
-  3. $\pi^x$ Wahrscheinlichkeit von $x$ Treffern
-  4. $(1-\pi)^{n-x}$ Wahrscheinlichkeit von $n-x$ Nieten
-  5. ${n \choose x}$ Anzahl der Möglichkeiten / Binomialkoeffizient
+  1. $x$: Anzahl der Treffer
+  2. $n$: Anzahl der Wiederholungen
+  3. $\pi^x$: Produkt der Erfolgswahrscheinlichkeiten für $x$ Treffer
+  4. $(1-\pi)^{n-x}$: Produkt der Erfolgswahrscheinlichkeiten für $n-x$ Nieten
+  5. ${n \choose x}$: Anzahl der Möglichkeiten / Binomialkoeffizient
   
-Für den Binomialkoeffizienten hat R einen eigenen Eingabebefehl `choose()` mit den Argumenten `n` und `k`. Wenn wir nun also berechnen wollen wie wahrscheinlich es ist, dass bei 100-maligem Drehen 20 mal grün erscheint, kann man dies folgendermaßen machen.  
+Für den Binomialkoeffizienten hat R einen eigenen Eingabebefehl `choose()` mit den Argumenten `n` und `k`. Wenn wir nun also berechnen wollen, wie wahrscheinlich es ist, dass bei 100-maligem Drehen 20 mal grün erscheint, kann man dies folgendermaßen machen.  
 
 
 ``` r
@@ -402,13 +406,13 @@ pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE) - pbinom(q = 14, size 
 ## [1] 0.4790179
 ```
 
-Wie die Wahrscheinlichkeitsverteilung kann die Verteilungsfunktion natürlich auch abgebildet werden. Im Code der Grafikerstellung muss nur die Funktion `dbinom()` durch `pbinom()` ersetzt werden.
+Wie die Wahrscheinlichkeitsverteilung kann die Verteilungsfunktion natürlich auch abgebildet werden. Im Code der Grafikerstellung muss nur die Funktion `dbinom()` durch `pbinom()` ersetzt werden. Die kumulierten Wahrscheinlichkeiten speichern wir im Objekt `cum_probs`, um sie von den einzelnen Wahrscheinlichkeiten im Objekt `probs` zu unterscheiden.
 
 
 ``` r
 x <- c(0:100)   # alle möglichen Werte für x in unserem Beispiel
-probs <- pbinom(x, size = 100, prob = 0.2, lower.tail = TRUE) #Wahrscheinlichkeiten für alle möglichen Werte
-plot(x = x, y = probs, type = "h", 
+cum_probs <- pbinom(x, size = 100, prob = 0.2, lower.tail = TRUE) #Wahrscheinlichkeiten für alle möglichen Werte
+plot(x = x, y = cum_probs, type = "h", 
      xlab = "Häufigkeiten für Ereignis Grün", 
      ylab = "kumulierte Wahrscheinlichkeit")
 ```
@@ -419,9 +423,9 @@ Im Endeffekt haben wir mit `pbinom()` also wieder einen Wert aus dieser Verteilu
 
 ![](/verteilungen_files/unnamed-chunk-23-1.png)<!-- -->
 
-Es ist bereits ein Muster zu erkennen: Der Buchstabe vor dem Funktionsname `"binom()"` (`"d"` als Punktwahrscheinlichkeit für ein bestimmtes `x` bzw. `"p"` als kumulierte Wahrscheinlichkeit für ein bestimmtes `x`) verändert die Funktion. Des Weiteren bietet R noch die zufällige Simulation des Experimentes mit `"r"` und den Präfix `"q"` für die Quantilfunktion. 
+Es ist bereits ein Muster zu erkennen: Der Buchstabe vor dem Funktionsnamen `"binom()"` (`"d"` als Punktwahrscheinlichkeit für ein bestimmtes `x` bzw. `"p"` als kumulierte Wahrscheinlichkeit für ein bestimmtes `x`) verändert die Funktion. Des Weiteren bietet R noch die zufällige Simulation des Experimentes mit `"r"` und den Präfix `"q"` für die Quantilfunktion. 
 
-Gehen wir nun einmal umgekehrt an unser Experiment heran. Wir wollen hier herausfinden, welche Anzahl an Treffern in den unteren 30 Prozent der Verteilung liegen. Auch hier werden die einzelnen Wahrscheinlichkeiten wieder aufaddiert / kumuliert. Optisch gesehen suchen wir also nach dem Ort in unserer Verteilungsfunktion, wo die 30 Prozent liegen.
+Gehen wir nun einmal umgekehrt an unser Experiment heran. Wir wollen hier herausfinden, welche Anzahl an Treffern in den unteren 30 Prozent der Verteilung liegt. Auch hier werden die einzelnen Wahrscheinlichkeiten wieder aufaddiert / kumuliert. Optisch gesehen suchen wir also nach dem Ort in unserer Verteilungsfunktion, wo die 30 Prozent liegen.
 
 ![](/verteilungen_files/unnamed-chunk-24-1.png)<!-- -->
 
@@ -440,17 +444,17 @@ qbinom(p = 0.3, size = 100, prob = 0.2, lower.tail = TRUE)
 
 ![](/verteilungen_files/unnamed-chunk-26-1.png)<!-- -->
 
-`p` gibt die Prozentzahl an, die die kumulierten Wahrscheinlichkeiten *höchstens* erreichen dürfen - also 30 Prozent. `lower.tail = TRUE` steht auch hier dafür, dass wir bei 0 mit der Betrachtung anfangen. Das Ergebnis der Funktion nennt den Wert, der die Grenze zum ersten Mal überschreitet (in diesem Fall 18). Die kumulierten Wahrscheinlichkeiten von 0 bis 17 Mal grün Drehen übersteigen also nicht unsere Grenze von `p = 0.3`.
+`p` gibt die kumulierte Wahrscheinlichkeit an, die erstmals erreicht oder überschritten werden soll - also in diesem Fall 30 Prozent. `lower.tail = TRUE` steht auch hier dafür, dass wir bei 0 mit der Betrachtung anfangen. Das Ergebnis der Funktion nennt den Wert, der die Grenze zum ersten Mal erreicht oder überschreitet (in diesem Fall 18). Die kumulierten Wahrscheinlichkeiten von 0 bis 17 Mal grün Drehen übersteigen also nicht unsere Grenze von `p = 0.3`.
 
-Zum Abschluss noch die Simulation dieses Zufallsexperimentes. Bei `rbinom()` geben wir in `n` an, wie oft `R` unsere 100 Drehungen (`size`) mit der Wahrscheinlichkeit 0.2 (`prob`) durchführen soll. Im Bezug auf unser Beispiel wird hier also die Anzahl ausgegeben, wie häufig grün gedreht wird. Beachten Sie, dass bei diesem Befehl ohne `set.seed()` andere Ergebnisse bei mehrmaliger Durchführung auftreten, da das Experiment ja zufällig durchgeführt wird. 
+Zum Abschluss noch die Simulation dieses Zufallsexperimentes. Bei `rbinom()` geben wir in `n` an, wie oft `R` unsere 100 Drehungen (`size`) mit der Wahrscheinlichkeit 0.2 (`prob`) durchführen soll. In Bezug auf unser Beispiel wird hier also die Anzahl ausgegeben, wie häufig grün gedreht wird. Beachten Sie, dass bei diesem Befehl ohne `set.seed()` andere Ergebnisse bei mehrmaliger Durchführung auftreten, da das Experiment ja zufällig durchgeführt wird. 
 
 
 ``` r
-rbinom(n = 2, size = 100, prob = 0.2) # 100-fache Drehung mit einer Trefferwahrscheinlichkeit 0.2 wird 2-Mal durchgeführt
+rbinom(n = 8, size = 100, prob = 0.2) # 100-fache Drehung mit einer Trefferwahrscheinlichkeit 0.2 wird 8-Mal durchgeführt
 ```
 
 ```
-## [1] 17 23
+## [1] 17 23 25 22 18 17 20 15
 ```
 
 ***
@@ -470,15 +474,15 @@ Diese Präfixe können für alle in R integrierten Verteilungstypen benutzt werd
 
 ## Stetige Zufallsvariablen {#Dichte .anchorheader}
 
-Die Anzahl an Treffern in diesem Experiment stellt eine *diskrete Zufallsvariable* dar. Zwischen den Werten 4 und 5 Treffer liegen beispielsweise keine anderen Möglichkeiten. Im Gegensatz dazu stehen *stetige Zufallsvariablen*. Bei diesen liegen zwischen einer Unter- und einer Obergrenze überabzählbar unendlich viele Werte. Beispielsweise liegen zwischen einer Größe von 180 und 181 cm unzählbar viele Abstufungen. Für stetige Zufallsvariablen kann daher nicht einfach eine Wahrscheinlichkeitsfunktion ausgegeben werden, da sie der Theorie nach unendlich viele Balken enthalten würde. Deshalb gibt es hierfür die *Dichtefunktion*. Einer der zentralsten Verteilungen ist die Normalverteilung, dessen Dichtefunktion über folgende Formel definiert ist
+Die Anzahl an Treffern in diesem Experiment stellt eine *diskrete Zufallsvariable* dar. Zwischen den Werten 4 und 5 Treffer liegen beispielsweise keine anderen Möglichkeiten. Im Gegensatz dazu stehen *stetige Zufallsvariablen*. Bei diesen liegen zwischen einer Unter- und einer Obergrenze überabzählbar unendlich viele Werte. Beispielsweise liegen zwischen einer Größe von 180 und 181 cm unzählbar viele Abstufungen. Für stetige Zufallsvariablen kann daher nicht einfach eine Wahrscheinlichkeitsfunktion ausgegeben werden, da sie der Theorie nach unendlich viele Balken enthalten würde. Deshalb gibt es hierfür die *Dichtefunktion*. Eine der zentralsten Verteilungen ist die Normalverteilung, deren Dichtefunktion über folgende Formel definiert ist:
 
 $$
 f(x|\mu,\sigma) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
 $$
 
-mit $\mu$ für den Mittelwert und $\sigma$ für die Standardabweichung.
+Dabei ist $\mu$ der Mittelwert und $\sigma$ die Standardabweichung.
 
-Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addition aller Balken einer Wahrscheinlichkeitsfunktion. Viele Merkmale in der Psychologie folgen dabei der Normalverteilung (Größe, IQ, etc.), die Sie in der Vorlesung kennen gelernt haben. Diese stellt eine besondere Form der Dichtefunktion dar mit folgenden Eigenschaften:
+Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addition aller Balken einer Wahrscheinlichkeitsfunktion. Viele Merkmale in der Psychologie folgen dabei der Normalverteilung (Größe, IQ, etc.), die Sie in der Vorlesung kennen gelernt haben. Diese wird durch eine Dichtefunktion mit folgenden Eigenschaften beschrieben:
 
 * Symmetrisch um $\mu$
 * Glockenförmig
@@ -488,7 +492,7 @@ Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addi
 
 ![](/verteilungen_files/unnamed-chunk-28-1.png)<!-- -->
 
-Für die IQ-Verteilung der Population wird angenommen, dass diese den Mittelwert von 100 hat und eine Standardabweichung von 15. Die bewährten Tests werden dahingehend genormt. Wenn wir nun den Wert auf der x-Achse aus der Dichtefunktion eines Probanden erfahren wollen (IQ = 114.3), können wir diesen mit der `dnorm()` Funktion berechnen. Benötigt werden neben dem x-Wert (in diesem Fall der IQ-Wert) noch der Mittelwert `mean` und die Standardabweichung `sd` der zugrundeliegenden Verteilung.
+Für die IQ-Verteilung der Population wird angenommen, dass diese einen Mittelwert von 100 und eine Standardabweichung von 15 hat. Die bewährten Tests werden dahingehend genormt. Wenn wir nun den Wert auf der y-Achse aus der Dichtefunktion eines Probanden (IQ = 114.3) erfahren wollen, können wir diesen mit der `dnorm()` Funktion berechnen. Benötigt werden neben dem x-Wert (in diesem Fall der IQ-Wert) noch der Mittelwert `mean` und die Standardabweichung `sd` der zugrundeliegenden Verteilung.
 
 
 ``` r
@@ -499,7 +503,7 @@ dnorm(x = 114.3, mean = 100, sd = 15)
 ## [1] 0.01688363
 ```
 
-Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auch manuell berechnen. Dazu können wir die Formel einfach in Code übersetzen, um die Funktionalität von `dnorm()` zu prüfen. Wir haben bereits gelernt, dass die Wurzelfunktion in R `sqrt()` heißt. Die Zahl $\pi$ liegt als Objekt standardmäßig vor mit dem Namen `pi`, auch wenn es uns nicht im Global Environment angezeigt wird -- aber auch Funktionen wie `sum()`, `mean()` und sehr viele andere werden dort ja nicht angezeigt, also ist das für uns nichts neues. Die Funktion `exp()` haben wir in der Hilfe zur Logarithmus Funktion `log()` gesehen und hilft uns beim letzten Teil der Gleichung.  
+Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auch manuell berechnen. Dazu können wir die Formel einfach in Code übersetzen, um die Funktionalität von `dnorm()` zu prüfen. Wir haben bereits gelernt, dass die Wurzelfunktion in R `sqrt()` heißt. Die Zahl $\pi$ liegt als Objekt standardmäßig vor mit dem Namen `pi`, auch wenn es uns nicht im Global Environment angezeigt wird -- aber auch Funktionen wie `sum()`, `mean()` und sehr viele andere werden dort ja nicht angezeigt, also ist das für uns nichts Neues. Die Funktion `exp()` haben wir in der Hilfe zur Logarithmus Funktion `log()` gesehen und hilft uns beim letzten Teil der Gleichung.  
 
 
 ``` r
@@ -510,10 +514,10 @@ Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auc
 ## [1] 0.01688363
 ```
 
-Eingesetzt sind hier die Werte $sd = 15$, $x = 114.3$ und $\bar{x} = 100$. Mit dieser manuellen Methode erhalten wir das gleiche Ergebnis wie mit `dnorm()`. Insgesamt ist die Zeile Code aber recht umständlich, weshalb wir auf jeden Fall bei der Nutzung der Funktion bleiben sollten. 
+Eingesetzt sind hier die Werte $\sigma = 15$, $x = 114.3$ und $\mu = 100$. Mit dieser manuellen Methode erhalten wir das gleiche Ergebnis wie mit `dnorm()`. Insgesamt ist die Zeile Code aber recht umständlich, weshalb wir auf jeden Fall bei der Nutzung der Funktion bleiben sollten. 
 
 
-Hierbei ist es wichtig zu wissen, dass die Wahrscheinlichkeitsdichte *nicht* als Wahrscheinlichkeit für das Ergebnis eines individuellen Wertes verstanden werden darf. Da es bei stetigen Zufallsvariablen überabzählbar unendlich viele Ergebnisse gibt, ist die Wahrscheinlichkeit für einen fixen Wert x gleich 0. Demnach ist der Wert aus der Dichtefunktion alleine noch nicht aussgekräftig für die Anwendung. Trotzdem betrachten wir zunächst den grafischen Aspekt. Wenn wir nun den eben gesehenen Plot zeichnen wollen, verwenden wir bei stetigen Funktionen, wie es die Dichtefunktion eine ist, den Befehl `curve()`. Dafür muss im Argument `expr` eine Funktion in Abhängigkeit von x genannt werden. Mit `from` und `to` legt man die Grenzen der Bereiche fest. Auf der x-Achse (`xlab`) sollen die möglichen IQ-Werte, auf der y-Achse (`ylab`) die zugehörigen Werte der Dichtefunktion f(x) abgebildet werden. Mit `main` wird ein Titel für die Grafik vergeben.
+Hierbei ist es wichtig zu wissen, dass die Wahrscheinlichkeitsdichte *nicht* als Wahrscheinlichkeit für das Ergebnis eines individuellen Wertes verstanden werden darf. Da es bei stetigen Zufallsvariablen überabzählbar unendlich viele Ergebnisse gibt, ist die Wahrscheinlichkeit für einen fixen Wert x gleich 0. Demnach ist der Wert aus der Dichtefunktion alleine noch nicht aussagekräftig für die Anwendung. Trotzdem betrachten wir zunächst den grafischen Aspekt. Wenn wir nun den eben gesehenen Plot zeichnen wollen, verwenden wir bei stetigen Funktionen, wie die Dichtefunktion eine ist, den Befehl `curve()`. Dafür muss im Argument `expr` eine Funktion in Abhängigkeit von x genannt werden. Mit `from` und `to` legt man die Grenzen der Bereiche fest. Auf der x-Achse (`xlab`) sollen die möglichen IQ-Werte, auf der y-Achse (`ylab`) die zugehörigen Werte der Dichtefunktion f(x) abgebildet werden. Mit `main` wird ein Titel für die Grafik vergeben.
 
 
 ``` r
@@ -531,7 +535,7 @@ Mit `dnorm()` konnten wir also einen bestimmten y-Wert aus dieser Verteilung abl
 
 ![](/verteilungen_files/unnamed-chunk-32-1.png)<!-- -->
 
-Um für einen bestimmten Wert eine hilfreiche Aussage treffen zu können, wird die Fläche unter der Kurve betrachtet - also die Verteilungsfunktion. Diese ist das Integral (Integrale fungieren zur Flächenbestimmung) der Dichtefunktion. Wie bereits erwähnt ist die Fläche unter der Kurve 1. Nun kann man betrachten, wie groß die Fläche zwischen -$\infty$ und dem Wert einer Person ist, um die Leistung einordnen zu können.
+Um für einen bestimmten Wert eine hilfreiche Aussage treffen zu können, wird die Fläche unter der Kurve betrachtet - also die Verteilungsfunktion. Diese ist das Integral (Integrale fungieren zur Flächenbestimmung) der Dichtefunktion. Wie bereits erwähnt, ist die Fläche unter der Kurve 1. Nun kann man betrachten, wie groß die Fläche zwischen -$\infty$ und dem Wert einer Person ist, um die Leistung einordnen zu können.
 
 ![](/verteilungen_files/unnamed-chunk-33-1.png)<!-- -->
 
@@ -563,7 +567,8 @@ integrate(f = dnorm, lower = -Inf, upper = 114.3, mean = 100, sd = 15)
 ```
 ## 0.8297894 with absolute error < 1.6e-06
 ```
-Diese Methode liefert das gleiche Ergebnis wie die Verwendung von `pnorm()` und gibt zusätzlich eine Warnmeldung über die Genauigkeit. `integrate()` ist im Endeffekt flexibler, weil man es eben auf viele Funktionen anwenden kann (`pnorm()` gilt nur für die Normalverteilung) . Allerdings gibt es bei den meisten Verteilungen auch eine vordefinierte Verteilungsfunktion mit dem Präfix `p` (Integral der Dichtefunktion), weshalb wir `integrate()` im ersten Semester eher selten benutzen werden.
+
+Diese Methode liefert das gleiche Ergebnis wie die Verwendung von `pnorm()` und gibt zusätzlich eine Schätzung des absoluten Integrationsfehlers aus. `integrate()` ist im Endeffekt flexibler, weil man es eben auf viele Funktionen anwenden kann (`pnorm()` gilt nur für die Normalverteilung) . Allerdings gibt es bei den meisten Verteilungen auch eine vordefinierte Verteilungsfunktion mit dem Präfix `p` (Integral der Dichtefunktion), weshalb wir `integrate()` im ersten Semester eher selten benutzen werden.
 
 
 </details>
@@ -588,7 +593,7 @@ Hier ist schön zu sehen, dass sich die Verteilungsfunktion mit steigendem IQ-We
 
 ![](/verteilungen_files/unnamed-chunk-37-1.png)<!-- -->
 
-Auch der Präfix `"q"` funktioniert äquivalent. Durch `qnorm()` erhalten wir unter Angabe einer Wahrscheinlichkeit den zugehörigen Wert aus der Verteilungsfunktion. Wir wollen hier betrachten, welcher IQ-Wert die unteren 50% der Verteilung abtrennt.
+Auch der Präfix `"q"` funktioniert äquivalent. Durch `qnorm()` erhalten wir unter Angabe einer Wahrscheinlichkeit den zugehörigen x-Wert aus der Verteilungsfunktion. Wir wollen hier betrachten, welcher IQ-Wert die unteren 50% der Verteilung abtrennt.
 
 
 ``` r
@@ -612,8 +617,8 @@ rnorm(n = 10, mean = 100, sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648
-##  [9] 100.31509 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285
+##  [8] 109.28648 100.31509 104.12275
 ```
 
 ***
