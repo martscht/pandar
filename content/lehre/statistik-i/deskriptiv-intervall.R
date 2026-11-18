@@ -36,7 +36,7 @@ boxplot(fb26$lz)
 # Histogramm
 hist(fb26$lz)
 
-# Histogramm (20 Breakpoints anfordern)
+# Histogramm (20 Kategorien anfordern)
 hist(fb26$lz,
      breaks = 20)
 
@@ -47,39 +47,35 @@ hist(fb26$lz,
 # Arithmetisches Mittel
 mean(fb26$lz, na.rm = TRUE)
 
-# Händische Varianzberechnung
-sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb26)-1)
-
 is.na(fb26$lz) |> sum()
 
-na.omit(fb26$lz) |> length() # mit Pipe
-length(na.omit(fb26$lz))     # ohne Pipe
+!is.na(fb26$lz) |> sum() # mit Pipe
+sum(!is.na(fb26$lz))     # ohne Pipe
 
 # Händische Varianzberechnung
-sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb26$lz)))
+sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2, na.rm = TRUE) / (sum(!is.na(fb26$lz)))
+
+# Händische Varianzberechnung
+sum((fb26$lz - mean(fb26$lz))^2) / (nrow(fb26))
 
 # R-interne Varianzberechnung
-var(fb26$lz, na.rm = TRUE)
+var(fb26$lz)
 
 # Umrechnung der Varianzen
-var(fb26$lz, na.rm = TRUE) * (nrow(fb26) - 1) / nrow(fb26)
+var(fb26$lz) * (nrow(fb26) - 1) / nrow(fb26)
 
 # Umrechnung der Varianzen
-var(fb26$lz, na.rm = TRUE) * (length(na.omit(fb26$lz)) - 1) / (length(na.omit(fb26$lz)))
-
-# Umrechnung der Varianzen
-var(fb26$lz, na.rm = TRUE) * (210 - 0 # Anzahl der NAs
-                              ) / 210
+var(fb26$lz, na.rm = TRUE) * (sum(!is.na(fb26$lz)) - 1) / (sum(!is.na(fb26$lz)))
 
 # Standardabweichung in R
-sd(fb26$lz, na.rm = TRUE) # Populationsschaetzer
+sd(fb26$lz) # Populationsschaetzer
 
 # Umrechnung der Standardabweichung
-sd(fb26$lz, na.rm = TRUE) * sqrt((210 - 1) / 210)
+sd(fb26$lz, na.rm = TRUE) * sqrt((sum(!is.na(fb26$lz)) - 1) / sum(!is.na(fb26$lz)))
 
 # Händische Berechnung der empirischen Standardabweichung
 (sum((fb26$lz - mean(fb26$lz, na.rm = TRUE))^2,
-    na.rm = TRUE) / (length(na.omit(fb26$lz)))) |> sqrt()
+    na.rm = TRUE) / (sum(!is.na(fb26$lz)))) |> sqrt()
 
 # Zentrierung
 lz_c <- fb26$lz - mean(fb26$lz, na.rm = TRUE)
@@ -115,7 +111,7 @@ gs_pre_data <- fb26[, c('mdbf1', 'mdbf4_r',
 fb26$gs_pre <- rowMeans(gs_pre_data)
 head(fb26$gs_pre)
 
-# Direkter Befehle
+# Direkter Befehl
 fb26$gs_pre  <- fb26[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
 head(fb26$gs_pre )
