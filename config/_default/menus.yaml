@@ -131,7 +131,7 @@ main:
 
   - name: "tigeR"
     pre: "<i class='fas fa-paw'></i>&ensp;"
-    url: 'https://tiger.uni-frankfurt.de/app/shinytigeR'
+    url: 'https://tiger.uni-frankfurt.de/app_direct/shinytigeR'
     weight: 700
   # - name: "Bayes"
   #   pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
